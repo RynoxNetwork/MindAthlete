@@ -7,6 +7,78 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		994ECF412E9B7027001C73C3 /* AIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIService.swift; sourceTree = "<group>"; };
+		994ECF422E9B7027001C73C3 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
+		994ECF432E9B7027001C73C3 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		994ECF442E9B7027001C73C3 /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
+		994ECF452E9B7027001C73C3 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		994ECF462E9B7027001C73C3 /* PurchaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseService.swift; sourceTree = "<group>"; };
+		994ECF482E9B7027001C73C3 /* AIServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIServiceTests.swift; sourceTree = "<group>"; };
+		994ECF492E9B7027001C73C3 /* AuthServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceTests.swift; sourceTree = "<group>"; };
+		994ECF4A2E9B7027001C73C3 /* DatabaseServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseServiceTests.swift; sourceTree = "<group>"; };
+		994ECF4B2E9B7027001C73C3 /* HomeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelTests.swift; sourceTree = "<group>"; };
+		994ECF4C2E9B7027001C73C3 /* SnaphotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnaphotTests.swift; sourceTree = "<group>"; };
+		994ECF4E2E9B7027001C73C3 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		994ECF4F2E9B7027001C73C3 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
+		994ECF502E9B7027001C73C3 /* EventCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCreationView.swift; sourceTree = "<group>"; };
+		994ECF512E9B7027001C73C3 /* EventListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListView.swift; sourceTree = "<group>"; };
+		994ECF532E9B7027001C73C3 /* CoachAIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachAIView.swift; sourceTree = "<group>"; };
+		994ECF542E9B7027001C73C3 /* CoachAIViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachAIViewModel.swift; sourceTree = "<group>"; };
+		994ECF552E9B7027001C73C3 /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
+		994ECF562E9B7027001C73C3 /* RecommendationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationDetailView.swift; sourceTree = "<group>"; };
+		994ECF582E9B7027001C73C3 /* DiaryChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryChartView.swift; sourceTree = "<group>"; };
+		994ECF592E9B7027001C73C3 /* DiaryHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryHistoryView.swift; sourceTree = "<group>"; };
+		994ECF5A2E9B7027001C73C3 /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
+		994ECF5B2E9B7027001C73C3 /* DiaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewModel.swift; sourceTree = "<group>"; };
+		994ECF5C2E9B7027001C73C3 /* MoodEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodEntryView.swift; sourceTree = "<group>"; };
+		994ECF5E2E9B7027001C73C3 /* HabitCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCreationView.swift; sourceTree = "<group>"; };
+		994ECF5F2E9B7027001C73C3 /* HabitDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailView.swift; sourceTree = "<group>"; };
+		994ECF602E9B7027001C73C3 /* HabitProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitProgressView.swift; sourceTree = "<group>"; };
+		994ECF612E9B7027001C73C3 /* HabitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsView.swift; sourceTree = "<group>"; };
+		994ECF622E9B7027001C73C3 /* HabitsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsViewModel.swift; sourceTree = "<group>"; };
+		994ECF642E9B7027001C73C3 /* CheckInCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInCard.swift; sourceTree = "<group>"; };
+		994ECF652E9B7027001C73C3 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		994ECF662E9B7027001C73C3 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		994ECF672E9B7027001C73C3 /* RecommendationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationCard.swift; sourceTree = "<group>"; };
+		994ECF682E9B7027001C73C3 /* WeeklyProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyProgressView.swift; sourceTree = "<group>"; };
+		994ECF6A2E9B7027001C73C3 /* ConsentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentView.swift; sourceTree = "<group>"; };
+		994ECF6B2E9B7027001C73C3 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		994ECF6C2E9B7027001C73C3 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		994ECF6D2E9B7027001C73C3 /* SportSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportSelectionView.swift; sourceTree = "<group>"; };
+		994ECF6F2E9B7027001C73C3 /* NotificationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsView.swift; sourceTree = "<group>"; };
+		994ECF702E9B7027001C73C3 /* PlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanView.swift; sourceTree = "<group>"; };
+		994ECF712E9B7027001C73C3 /* PrivacySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySettingsView.swift; sourceTree = "<group>"; };
+		994ECF722E9B7027001C73C3 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		994ECF732E9B7027001C73C3 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		994ECF752E9B7027001C73C3 /* BreathingSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathingSessionView.swift; sourceTree = "<group>"; };
+		994ECF762E9B7027001C73C3 /* FocusSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusSessionView.swift; sourceTree = "<group>"; };
+		994ECF772E9B7027001C73C3 /* MeditationSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeditationSessionView.swift; sourceTree = "<group>"; };
+		994ECF782E9B7027001C73C3 /* SessionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsView.swift; sourceTree = "<group>"; };
+		994ECF792E9B7027001C73C3 /* SessionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsViewModel.swift; sourceTree = "<group>"; };
+		994ECF7A2E9B7027001C73C3 /* SessionTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTimerView.swift; sourceTree = "<group>"; };
+		994ECF7D2E9B7027001C73C3 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		994ECF7E2E9B7027001C73C3 /* MAButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MAButton.swift; sourceTree = "<group>"; };
+		994ECF7F2E9B7027001C73C3 /* MACard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MACard.swift; sourceTree = "<group>"; };
+		994ECF802E9B7027001C73C3 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
+		994ECF812E9B7027001C73C3 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
+		994ECF832E9B7027001C73C3 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		994ECF842E9B7027001C73C3 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
+		994ECF852E9B7027001C73C3 /* NetworkModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModels.swift; sourceTree = "<group>"; };
+		994ECF872E9B7027001C73C3 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		994ECF892E9B7027001C73C3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		994ECF8A2E9B7027001C73C3 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		994ECF8B2E9B7027001C73C3 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		994ECF8E2E9B7027001C73C3 /* HabitDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDTO.swift; sourceTree = "<group>"; };
+		994ECF8F2E9B7027001C73C3 /* MoodDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodDTO.swift; sourceTree = "<group>"; };
+		994ECF902E9B7027001C73C3 /* RecommendationDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationDTO.swift; sourceTree = "<group>"; };
+		994ECF912E9B7027001C73C3 /* UserDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDTO.swift; sourceTree = "<group>"; };
+		994ECF932E9B7027001C73C3 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		994ECF942E9B7027001C73C3 /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
+		994ECF952E9B7027001C73C3 /* HabitLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitLog.swift; sourceTree = "<group>"; };
+		994ECF962E9B7027001C73C3 /* Mood.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mood.swift; sourceTree = "<group>"; };
+		994ECF972E9B7027001C73C3 /* Recommendation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recommendation.swift; sourceTree = "<group>"; };
+		994ECF982E9B7027001C73C3 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		994ECF992E9B7027001C73C3 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		997A89672E9B6D060057228A /* MindAthlete.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MindAthlete.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -29,9 +101,233 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		994ECF472E9B7027001C73C3 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				994ECF412E9B7027001C73C3 /* AIService.swift */,
+				994ECF422E9B7027001C73C3 /* AnalyticsService.swift */,
+				994ECF432E9B7027001C73C3 /* AuthService.swift */,
+				994ECF442E9B7027001C73C3 /* DatabaseService.swift */,
+				994ECF452E9B7027001C73C3 /* NotificationService.swift */,
+				994ECF462E9B7027001C73C3 /* PurchaseService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		994ECF4D2E9B7027001C73C3 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				994ECF482E9B7027001C73C3 /* AIServiceTests.swift */,
+				994ECF492E9B7027001C73C3 /* AuthServiceTests.swift */,
+				994ECF4A2E9B7027001C73C3 /* DatabaseServiceTests.swift */,
+				994ECF4B2E9B7027001C73C3 /* HomeViewModelTests.swift */,
+				994ECF4C2E9B7027001C73C3 /* SnaphotTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		994ECF522E9B7027001C73C3 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				994ECF4E2E9B7027001C73C3 /* CalendarView.swift */,
+				994ECF4F2E9B7027001C73C3 /* CalendarViewModel.swift */,
+				994ECF502E9B7027001C73C3 /* EventCreationView.swift */,
+				994ECF512E9B7027001C73C3 /* EventListView.swift */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		994ECF572E9B7027001C73C3 /* CoachAI */ = {
+			isa = PBXGroup;
+			children = (
+				994ECF532E9B7027001C73C3 /* CoachAIView.swift */,
+				994ECF542E9B7027001C73C3 /* CoachAIViewModel.swift */,
+				994ECF552E9B7027001C73C3 /* FeedbackView.swift */,
+				994ECF562E9B7027001C73C3 /* RecommendationDetailView.swift */,
+			);
+			path = CoachAI;
+			sourceTree = "<group>";
+		};
+		994ECF5D2E9B7027001C73C3 /* Diary */ = {
+			isa = PBXGroup;
+			children = (
+				994ECF582E9B7027001C73C3 /* DiaryChartView.swift */,
+				994ECF592E9B7027001C73C3 /* DiaryHistoryView.swift */,
+				994ECF5A2E9B7027001C73C3 /* DiaryView.swift */,
+				994ECF5B2E9B7027001C73C3 /* DiaryViewModel.swift */,
+				994ECF5C2E9B7027001C73C3 /* MoodEntryView.swift */,
+			);
+			path = Diary;
+			sourceTree = "<group>";
+		};
+		994ECF632E9B7027001C73C3 /* Habits */ = {
+			isa = PBXGroup;
+			children = (
+				994ECF5E2E9B7027001C73C3 /* HabitCreationView.swift */,
+				994ECF5F2E9B7027001C73C3 /* HabitDetailView.swift */,
+				994ECF602E9B7027001C73C3 /* HabitProgressView.swift */,
+				994ECF612E9B7027001C73C3 /* HabitsView.swift */,
+				994ECF622E9B7027001C73C3 /* HabitsViewModel.swift */,
+			);
+			path = Habits;
+			sourceTree = "<group>";
+		};
+		994ECF692E9B7027001C73C3 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				994ECF642E9B7027001C73C3 /* CheckInCard.swift */,
+				994ECF652E9B7027001C73C3 /* HomeView.swift */,
+				994ECF662E9B7027001C73C3 /* HomeViewModel.swift */,
+				994ECF672E9B7027001C73C3 /* RecommendationCard.swift */,
+				994ECF682E9B7027001C73C3 /* WeeklyProgressView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		994ECF6E2E9B7027001C73C3 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				994ECF6A2E9B7027001C73C3 /* ConsentView.swift */,
+				994ECF6B2E9B7027001C73C3 /* OnboardingView.swift */,
+				994ECF6C2E9B7027001C73C3 /* OnboardingViewModel.swift */,
+				994ECF6D2E9B7027001C73C3 /* SportSelectionView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		994ECF742E9B7027001C73C3 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				994ECF6F2E9B7027001C73C3 /* NotificationSettingsView.swift */,
+				994ECF702E9B7027001C73C3 /* PlanView.swift */,
+				994ECF712E9B7027001C73C3 /* PrivacySettingsView.swift */,
+				994ECF722E9B7027001C73C3 /* ProfileView.swift */,
+				994ECF732E9B7027001C73C3 /* ProfileViewModel.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		994ECF7B2E9B7027001C73C3 /* Sessions */ = {
+			isa = PBXGroup;
+			children = (
+				994ECF752E9B7027001C73C3 /* BreathingSessionView.swift */,
+				994ECF762E9B7027001C73C3 /* FocusSessionView.swift */,
+				994ECF772E9B7027001C73C3 /* MeditationSessionView.swift */,
+				994ECF782E9B7027001C73C3 /* SessionsView.swift */,
+				994ECF792E9B7027001C73C3 /* SessionsViewModel.swift */,
+				994ECF7A2E9B7027001C73C3 /* SessionTimerView.swift */,
+			);
+			path = Sessions;
+			sourceTree = "<group>";
+		};
+		994ECF7C2E9B7027001C73C3 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				994ECF522E9B7027001C73C3 /* Calendar */,
+				994ECF572E9B7027001C73C3 /* CoachAI */,
+				994ECF5D2E9B7027001C73C3 /* Diary */,
+				994ECF632E9B7027001C73C3 /* Habits */,
+				994ECF692E9B7027001C73C3 /* Home */,
+				994ECF6E2E9B7027001C73C3 /* Onboarding */,
+				994ECF742E9B7027001C73C3 /* Profile */,
+				994ECF7B2E9B7027001C73C3 /* Sessions */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		994ECF822E9B7027001C73C3 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				994ECF7D2E9B7027001C73C3 /* Colors.swift */,
+				994ECF7E2E9B7027001C73C3 /* MAButton.swift */,
+				994ECF7F2E9B7027001C73C3 /* MACard.swift */,
+				994ECF802E9B7027001C73C3 /* Spacing.swift */,
+				994ECF812E9B7027001C73C3 /* Typography.swift */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		994ECF862E9B7027001C73C3 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				994ECF832E9B7027001C73C3 /* APIError.swift */,
+				994ECF842E9B7027001C73C3 /* HTTPClient.swift */,
+				994ECF852E9B7027001C73C3 /* NetworkModels.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		994ECF882E9B7027001C73C3 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				994ECF872E9B7027001C73C3 /* AppState.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		994ECF8C2E9B7027001C73C3 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				994ECF892E9B7027001C73C3 /* Constants.swift */,
+				994ECF8A2E9B7027001C73C3 /* Extensions.swift */,
+				994ECF8B2E9B7027001C73C3 /* Helpers.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		994ECF8D2E9B7027001C73C3 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				994ECF822E9B7027001C73C3 /* DesignSystem */,
+				994ECF862E9B7027001C73C3 /* Networking */,
+				994ECF882E9B7027001C73C3 /* Store */,
+				994ECF8C2E9B7027001C73C3 /* Utilities */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		994ECF922E9B7027001C73C3 /* DTOs */ = {
+			isa = PBXGroup;
+			children = (
+				994ECF8E2E9B7027001C73C3 /* HabitDTO.swift */,
+				994ECF8F2E9B7027001C73C3 /* MoodDTO.swift */,
+				994ECF902E9B7027001C73C3 /* RecommendationDTO.swift */,
+				994ECF912E9B7027001C73C3 /* UserDTO.swift */,
+			);
+			path = DTOs;
+			sourceTree = "<group>";
+		};
+		994ECF9A2E9B7027001C73C3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				994ECF932E9B7027001C73C3 /* Event.swift */,
+				994ECF942E9B7027001C73C3 /* Habit.swift */,
+				994ECF952E9B7027001C73C3 /* HabitLog.swift */,
+				994ECF962E9B7027001C73C3 /* Mood.swift */,
+				994ECF972E9B7027001C73C3 /* Recommendation.swift */,
+				994ECF982E9B7027001C73C3 /* Session.swift */,
+				994ECF992E9B7027001C73C3 /* User.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		994ECF9B2E9B7027001C73C3 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				994ECF922E9B7027001C73C3 /* DTOs */,
+				994ECF9A2E9B7027001C73C3 /* Models */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
 		997A895E2E9B6D050057228A = {
 			isa = PBXGroup;
 			children = (
+				994ECF8D2E9B7027001C73C3 /* Core */,
+				994ECF9B2E9B7027001C73C3 /* Domain */,
+				994ECF7C2E9B7027001C73C3 /* Features */,
+				994ECF472E9B7027001C73C3 /* Services */,
+				994ECF4D2E9B7027001C73C3 /* Tests */,
 				997A89692E9B6D060057228A /* MindAthlete */,
 				997A89682E9B6D060057228A /* Products */,
 			);
