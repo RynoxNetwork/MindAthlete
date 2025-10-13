@@ -6,6 +6,94 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		994ECF9D2E9B80F4001C73C3 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF7D2E9B7027001C73C3 /* Colors.swift */; };
+		994ECF9E2E9B80F4001C73C3 /* MAButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF7E2E9B7027001C73C3 /* MAButton.swift */; };
+		994ECF9F2E9B80F4001C73C3 /* MACard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF7F2E9B7027001C73C3 /* MACard.swift */; };
+		994ECFA02E9B80F4001C73C3 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF802E9B7027001C73C3 /* Spacing.swift */; };
+		994ECFA12E9B80F4001C73C3 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF812E9B7027001C73C3 /* Typography.swift */; };
+		994ECFA22E9B80F4001C73C3 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF832E9B7027001C73C3 /* APIError.swift */; };
+		994ECFA32E9B80F4001C73C3 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF842E9B7027001C73C3 /* HTTPClient.swift */; };
+		994ECFA42E9B80F4001C73C3 /* NetworkModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF852E9B7027001C73C3 /* NetworkModels.swift */; };
+		994ECFA52E9B80F4001C73C3 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF872E9B7027001C73C3 /* AppState.swift */; };
+		994ECFA62E9B80F4001C73C3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF892E9B7027001C73C3 /* Constants.swift */; };
+		994ECFA72E9B80F4001C73C3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF8A2E9B7027001C73C3 /* Extensions.swift */; };
+		994ECFA82E9B80F4001C73C3 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF8B2E9B7027001C73C3 /* Helpers.swift */; };
+		994ECFA92E9B80F4001C73C3 /* HabitDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF8E2E9B7027001C73C3 /* HabitDTO.swift */; };
+		994ECFAA2E9B80F4001C73C3 /* MoodDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF8F2E9B7027001C73C3 /* MoodDTO.swift */; };
+		994ECFAB2E9B80F4001C73C3 /* RecommendationDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF902E9B7027001C73C3 /* RecommendationDTO.swift */; };
+		994ECFAC2E9B80F4001C73C3 /* UserDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF912E9B7027001C73C3 /* UserDTO.swift */; };
+		994ECFAD2E9B80F4001C73C3 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF932E9B7027001C73C3 /* Event.swift */; };
+		994ECFAE2E9B80F4001C73C3 /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF942E9B7027001C73C3 /* Habit.swift */; };
+		994ECFAF2E9B80F4001C73C3 /* HabitLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF952E9B7027001C73C3 /* HabitLog.swift */; };
+		994ECFB02E9B80F4001C73C3 /* Mood.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF962E9B7027001C73C3 /* Mood.swift */; };
+		994ECFB12E9B80F4001C73C3 /* Recommendation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF972E9B7027001C73C3 /* Recommendation.swift */; };
+		994ECFB22E9B80F4001C73C3 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF982E9B7027001C73C3 /* Session.swift */; };
+		994ECFB32E9B80F4001C73C3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF992E9B7027001C73C3 /* User.swift */; };
+		994ECFDA2E9B80F4001C73C3 /* AIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF412E9B7027001C73C3 /* AIService.swift */; };
+		994ECFDB2E9B80F4001C73C3 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF422E9B7027001C73C3 /* AnalyticsService.swift */; };
+		994ECFDC2E9B80F4001C73C3 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF432E9B7027001C73C3 /* AuthService.swift */; };
+		994ECFDD2E9B80F4001C73C3 /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF442E9B7027001C73C3 /* DatabaseService.swift */; };
+		994ECFDE2E9B80F4001C73C3 /* SupabaseConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF9C2E9B7CD9001C73C3 /* SupabaseConfiguration.swift */; };
+		994ECFDF2E9B80F4001C73C3 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF452E9B7027001C73C3 /* NotificationService.swift */; };
+		994ECFE02E9B80F4001C73C3 /* PurchaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF462E9B7027001C73C3 /* PurchaseService.swift */; };
+		994ECFF32E9BE5AA001C73C3 /* MAChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECFF22E9BE59C001C73C3 /* MAChip.swift */; };
+		994ECFF52E9BE5DB001C73C3 /* MASectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECFF42E9BE5D7001C73C3 /* MASectionHeader.swift */; };
+		994ECFF72E9BE74A001C73C3 /* RecommendationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECFF62E9BE740001C73C3 /* RecommendationResponse.swift */; };
+		994ED0122E9BFCEA001C73C3 /* AuthServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ED00E2E9BFCEA001C73C3 /* AuthServiceTests.swift */; };
+		994ED0132E9BFCEA001C73C3 /* AIServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ED00F2E9BFCEA001C73C3 /* AIServiceTests.swift */; };
+		994ED0142E9BFCEA001C73C3 /* DatabaseServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ED0102E9BFCEA001C73C3 /* DatabaseServiceTests.swift */; };
+		994ED0152E9BFCEA001C73C3 /* SnaphotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ED0112E9BFCEA001C73C3 /* SnaphotTests.swift */; };
+		994ED02C2E9C116F001C73C3 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF4E2E9B7027001C73C3 /* CalendarView.swift */; };
+		994ED02D2E9C116F001C73C3 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF4F2E9B7027001C73C3 /* CalendarViewModel.swift */; };
+		994ED02E2E9C116F001C73C3 /* EventCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF502E9B7027001C73C3 /* EventCreationView.swift */; };
+		994ED02F2E9C116F001C73C3 /* EventListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF512E9B7027001C73C3 /* EventListView.swift */; };
+		994ED0302E9C116F001C73C3 /* CoachAIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF532E9B7027001C73C3 /* CoachAIView.swift */; };
+		994ED0312E9C116F001C73C3 /* CoachAIViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF542E9B7027001C73C3 /* CoachAIViewModel.swift */; };
+		994ED0322E9C116F001C73C3 /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF552E9B7027001C73C3 /* FeedbackView.swift */; };
+		994ED0332E9C116F001C73C3 /* RecommendationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF562E9B7027001C73C3 /* RecommendationDetailView.swift */; };
+		994ED0342E9C116F001C73C3 /* DiaryChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF582E9B7027001C73C3 /* DiaryChartView.swift */; };
+		994ED0352E9C116F001C73C3 /* DiaryHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF592E9B7027001C73C3 /* DiaryHistoryView.swift */; };
+		994ED0362E9C116F001C73C3 /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF5A2E9B7027001C73C3 /* DiaryView.swift */; };
+		994ED0372E9C116F001C73C3 /* DiaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF5B2E9B7027001C73C3 /* DiaryViewModel.swift */; };
+		994ED0382E9C116F001C73C3 /* MoodEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF5C2E9B7027001C73C3 /* MoodEntryView.swift */; };
+		994ED0392E9C116F001C73C3 /* HabitCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF5E2E9B7027001C73C3 /* HabitCreationView.swift */; };
+		994ED03A2E9C116F001C73C3 /* HabitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF5F2E9B7027001C73C3 /* HabitDetailView.swift */; };
+		994ED03B2E9C116F001C73C3 /* HabitProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF602E9B7027001C73C3 /* HabitProgressView.swift */; };
+		994ED03C2E9C116F001C73C3 /* HabitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF612E9B7027001C73C3 /* HabitsView.swift */; };
+		994ED03D2E9C116F001C73C3 /* HabitsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF622E9B7027001C73C3 /* HabitsViewModel.swift */; };
+		994ED03E2E9C116F001C73C3 /* CheckInCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF642E9B7027001C73C3 /* CheckInCard.swift */; };
+		994ED03F2E9C116F001C73C3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF652E9B7027001C73C3 /* HomeView.swift */; };
+		994ED0402E9C116F001C73C3 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF662E9B7027001C73C3 /* HomeViewModel.swift */; };
+		994ED0412E9C116F001C73C3 /* RecommendationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF672E9B7027001C73C3 /* RecommendationCard.swift */; };
+		994ED0422E9C116F001C73C3 /* WeeklyProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF682E9B7027001C73C3 /* WeeklyProgressView.swift */; };
+		994ED0432E9C116F001C73C3 /* ConsentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF6A2E9B7027001C73C3 /* ConsentView.swift */; };
+		994ED0442E9C116F001C73C3 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF6B2E9B7027001C73C3 /* OnboardingView.swift */; };
+		994ED0452E9C116F001C73C3 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF6C2E9B7027001C73C3 /* OnboardingViewModel.swift */; };
+		994ED0462E9C116F001C73C3 /* SportSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF6D2E9B7027001C73C3 /* SportSelectionView.swift */; };
+		994ED0472E9C116F001C73C3 /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF6F2E9B7027001C73C3 /* NotificationSettingsView.swift */; };
+		994ED0482E9C116F001C73C3 /* PlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF702E9B7027001C73C3 /* PlanView.swift */; };
+		994ED0492E9C116F001C73C3 /* PrivacySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF712E9B7027001C73C3 /* PrivacySettingsView.swift */; };
+		994ED04A2E9C116F001C73C3 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF722E9B7027001C73C3 /* ProfileView.swift */; };
+		994ED04B2E9C116F001C73C3 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF732E9B7027001C73C3 /* ProfileViewModel.swift */; };
+		994ED04C2E9C116F001C73C3 /* BreathingSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF752E9B7027001C73C3 /* BreathingSessionView.swift */; };
+		994ED04D2E9C116F001C73C3 /* FocusSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF762E9B7027001C73C3 /* FocusSessionView.swift */; };
+		994ED04E2E9C116F001C73C3 /* MeditationSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF772E9B7027001C73C3 /* MeditationSessionView.swift */; };
+		994ED04F2E9C116F001C73C3 /* SessionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF782E9B7027001C73C3 /* SessionsView.swift */; };
+		994ED0502E9C116F001C73C3 /* SessionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF792E9B7027001C73C3 /* SessionsViewModel.swift */; };
+		994ED0512E9C116F001C73C3 /* SessionTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF7A2E9B7027001C73C3 /* SessionTimerView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		994ED0262E9C080F001C73C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 997A895F2E9B6D050057228A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 997A89662E9B6D060057228A;
+			remoteInfo = MindAthlete;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		994ECF412E9B7027001C73C3 /* AIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIService.swift; sourceTree = "<group>"; };
 		994ECF422E9B7027001C73C3 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
@@ -13,11 +101,6 @@
 		994ECF442E9B7027001C73C3 /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		994ECF452E9B7027001C73C3 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		994ECF462E9B7027001C73C3 /* PurchaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseService.swift; sourceTree = "<group>"; };
-		994ECF482E9B7027001C73C3 /* AIServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIServiceTests.swift; sourceTree = "<group>"; };
-		994ECF492E9B7027001C73C3 /* AuthServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceTests.swift; sourceTree = "<group>"; };
-		994ECF4A2E9B7027001C73C3 /* DatabaseServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseServiceTests.swift; sourceTree = "<group>"; };
-		994ECF4B2E9B7027001C73C3 /* HomeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelTests.swift; sourceTree = "<group>"; };
-		994ECF4C2E9B7027001C73C3 /* SnaphotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnaphotTests.swift; sourceTree = "<group>"; };
 		994ECF4E2E9B7027001C73C3 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		994ECF4F2E9B7027001C73C3 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		994ECF502E9B7027001C73C3 /* EventCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCreationView.swift; sourceTree = "<group>"; };
@@ -79,10 +162,24 @@
 		994ECF972E9B7027001C73C3 /* Recommendation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recommendation.swift; sourceTree = "<group>"; };
 		994ECF982E9B7027001C73C3 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		994ECF992E9B7027001C73C3 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		994ECF9C2E9B7CD9001C73C3 /* SupabaseConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseConfiguration.swift; sourceTree = "<group>"; };
+		994ECFF22E9BE59C001C73C3 /* MAChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MAChip.swift; sourceTree = "<group>"; };
+		994ECFF42E9BE5D7001C73C3 /* MASectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MASectionHeader.swift; sourceTree = "<group>"; };
+		994ECFF62E9BE740001C73C3 /* RecommendationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationResponse.swift; sourceTree = "<group>"; };
+		994ED00E2E9BFCEA001C73C3 /* AuthServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceTests.swift; sourceTree = "<group>"; };
+		994ED00F2E9BFCEA001C73C3 /* AIServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIServiceTests.swift; sourceTree = "<group>"; };
+		994ED0102E9BFCEA001C73C3 /* DatabaseServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseServiceTests.swift; sourceTree = "<group>"; };
+		994ED0112E9BFCEA001C73C3 /* SnaphotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnaphotTests.swift; sourceTree = "<group>"; };
+		994ED0202E9C080F001C73C3 /* MindAthleteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MindAthleteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		997A89672E9B6D060057228A /* MindAthlete.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MindAthlete.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		994ED0212E9C080F001C73C3 /* MindAthleteUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MindAthleteUITests;
+			sourceTree = "<group>";
+		};
 		997A89692E9B6D060057228A /* MindAthlete */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = MindAthlete;
@@ -91,6 +188,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		994ED01D2E9C080F001C73C3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		997A89642E9B6D060057228A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -108,6 +212,7 @@
 				994ECF422E9B7027001C73C3 /* AnalyticsService.swift */,
 				994ECF432E9B7027001C73C3 /* AuthService.swift */,
 				994ECF442E9B7027001C73C3 /* DatabaseService.swift */,
+				994ECF9C2E9B7CD9001C73C3 /* SupabaseConfiguration.swift */,
 				994ECF452E9B7027001C73C3 /* NotificationService.swift */,
 				994ECF462E9B7027001C73C3 /* PurchaseService.swift */,
 			);
@@ -117,11 +222,10 @@
 		994ECF4D2E9B7027001C73C3 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				994ECF482E9B7027001C73C3 /* AIServiceTests.swift */,
-				994ECF492E9B7027001C73C3 /* AuthServiceTests.swift */,
-				994ECF4A2E9B7027001C73C3 /* DatabaseServiceTests.swift */,
-				994ECF4B2E9B7027001C73C3 /* HomeViewModelTests.swift */,
-				994ECF4C2E9B7027001C73C3 /* SnaphotTests.swift */,
+				994ED00F2E9BFCEA001C73C3 /* AIServiceTests.swift */,
+				994ED00E2E9BFCEA001C73C3 /* AuthServiceTests.swift */,
+				994ED0102E9BFCEA001C73C3 /* DatabaseServiceTests.swift */,
+				994ED0112E9BFCEA001C73C3 /* SnaphotTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -238,6 +342,8 @@
 		994ECF822E9B7027001C73C3 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
+				994ECFF42E9BE5D7001C73C3 /* MASectionHeader.swift */,
+				994ECFF22E9BE59C001C73C3 /* MAChip.swift */,
 				994ECF7D2E9B7027001C73C3 /* Colors.swift */,
 				994ECF7E2E9B7027001C73C3 /* MAButton.swift */,
 				994ECF7F2E9B7027001C73C3 /* MACard.swift */,
@@ -289,6 +395,7 @@
 		994ECF922E9B7027001C73C3 /* DTOs */ = {
 			isa = PBXGroup;
 			children = (
+				994ECFF62E9BE740001C73C3 /* RecommendationResponse.swift */,
 				994ECF8E2E9B7027001C73C3 /* HabitDTO.swift */,
 				994ECF8F2E9B7027001C73C3 /* MoodDTO.swift */,
 				994ECF902E9B7027001C73C3 /* RecommendationDTO.swift */,
@@ -329,6 +436,7 @@
 				994ECF472E9B7027001C73C3 /* Services */,
 				994ECF4D2E9B7027001C73C3 /* Tests */,
 				997A89692E9B6D060057228A /* MindAthlete */,
+				994ED0212E9C080F001C73C3 /* MindAthleteUITests */,
 				997A89682E9B6D060057228A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -337,6 +445,7 @@
 			isa = PBXGroup;
 			children = (
 				997A89672E9B6D060057228A /* MindAthlete.app */,
+				994ED0202E9C080F001C73C3 /* MindAthleteUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -344,6 +453,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		994ED01F2E9C080F001C73C3 /* MindAthleteUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 994ED02A2E9C080F001C73C3 /* Build configuration list for PBXNativeTarget "MindAthleteUITests" */;
+			buildPhases = (
+				994ED01C2E9C080F001C73C3 /* Sources */,
+				994ED01D2E9C080F001C73C3 /* Frameworks */,
+				994ED01E2E9C080F001C73C3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				994ED0272E9C080F001C73C3 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				994ED0212E9C080F001C73C3 /* MindAthleteUITests */,
+			);
+			name = MindAthleteUITests;
+			packageProductDependencies = (
+			);
+			productName = MindAthleteUITests;
+			productReference = 994ED0202E9C080F001C73C3 /* MindAthleteUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		997A89662E9B6D060057228A /* MindAthlete */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 997A89722E9B6D070057228A /* Build configuration list for PBXNativeTarget "MindAthlete" */;
@@ -376,6 +508,10 @@
 				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
+					994ED01F2E9C080F001C73C3 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 997A89662E9B6D060057228A;
+					};
 					997A89662E9B6D060057228A = {
 						CreatedOnToolsVersion = 26.0.1;
 					};
@@ -396,11 +532,19 @@
 			projectRoot = "";
 			targets = (
 				997A89662E9B6D060057228A /* MindAthlete */,
+				994ED01F2E9C080F001C73C3 /* MindAthleteUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		994ED01E2E9C080F001C73C3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		997A89652E9B6D060057228A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -411,16 +555,146 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		997A89632E9B6D060057228A /* Sources */ = {
+		994ED01C2E9C080F001C73C3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		997A89632E9B6D060057228A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				994ED02C2E9C116F001C73C3 /* CalendarView.swift in Sources */,
+				994ED02D2E9C116F001C73C3 /* CalendarViewModel.swift in Sources */,
+				994ED02E2E9C116F001C73C3 /* EventCreationView.swift in Sources */,
+				994ED02F2E9C116F001C73C3 /* EventListView.swift in Sources */,
+				994ED0302E9C116F001C73C3 /* CoachAIView.swift in Sources */,
+				994ED0312E9C116F001C73C3 /* CoachAIViewModel.swift in Sources */,
+				994ED0322E9C116F001C73C3 /* FeedbackView.swift in Sources */,
+				994ED0332E9C116F001C73C3 /* RecommendationDetailView.swift in Sources */,
+				994ED0342E9C116F001C73C3 /* DiaryChartView.swift in Sources */,
+				994ED0352E9C116F001C73C3 /* DiaryHistoryView.swift in Sources */,
+				994ED0362E9C116F001C73C3 /* DiaryView.swift in Sources */,
+				994ED0372E9C116F001C73C3 /* DiaryViewModel.swift in Sources */,
+				994ED0382E9C116F001C73C3 /* MoodEntryView.swift in Sources */,
+				994ED0392E9C116F001C73C3 /* HabitCreationView.swift in Sources */,
+				994ED03A2E9C116F001C73C3 /* HabitDetailView.swift in Sources */,
+				994ED03B2E9C116F001C73C3 /* HabitProgressView.swift in Sources */,
+				994ED03C2E9C116F001C73C3 /* HabitsView.swift in Sources */,
+				994ED03D2E9C116F001C73C3 /* HabitsViewModel.swift in Sources */,
+				994ED03E2E9C116F001C73C3 /* CheckInCard.swift in Sources */,
+				994ED03F2E9C116F001C73C3 /* HomeView.swift in Sources */,
+				994ED0402E9C116F001C73C3 /* HomeViewModel.swift in Sources */,
+				994ED0412E9C116F001C73C3 /* RecommendationCard.swift in Sources */,
+				994ED0422E9C116F001C73C3 /* WeeklyProgressView.swift in Sources */,
+				994ED0432E9C116F001C73C3 /* ConsentView.swift in Sources */,
+				994ED0442E9C116F001C73C3 /* OnboardingView.swift in Sources */,
+				994ED0452E9C116F001C73C3 /* OnboardingViewModel.swift in Sources */,
+				994ED0462E9C116F001C73C3 /* SportSelectionView.swift in Sources */,
+				994ED0472E9C116F001C73C3 /* NotificationSettingsView.swift in Sources */,
+				994ED0482E9C116F001C73C3 /* PlanView.swift in Sources */,
+				994ED0492E9C116F001C73C3 /* PrivacySettingsView.swift in Sources */,
+				994ED04A2E9C116F001C73C3 /* ProfileView.swift in Sources */,
+				994ED04B2E9C116F001C73C3 /* ProfileViewModel.swift in Sources */,
+				994ED04C2E9C116F001C73C3 /* BreathingSessionView.swift in Sources */,
+				994ED04D2E9C116F001C73C3 /* FocusSessionView.swift in Sources */,
+				994ED04E2E9C116F001C73C3 /* MeditationSessionView.swift in Sources */,
+				994ED04F2E9C116F001C73C3 /* SessionsView.swift in Sources */,
+				994ED0502E9C116F001C73C3 /* SessionsViewModel.swift in Sources */,
+				994ED0512E9C116F001C73C3 /* SessionTimerView.swift in Sources */,
+				994ED0122E9BFCEA001C73C3 /* AuthServiceTests.swift in Sources */,
+				994ED0132E9BFCEA001C73C3 /* AIServiceTests.swift in Sources */,
+				994ED0142E9BFCEA001C73C3 /* DatabaseServiceTests.swift in Sources */,
+				994ED0152E9BFCEA001C73C3 /* SnaphotTests.swift in Sources */,
+				994ECF9D2E9B80F4001C73C3 /* Colors.swift in Sources */,
+				994ECF9E2E9B80F4001C73C3 /* MAButton.swift in Sources */,
+				994ECF9F2E9B80F4001C73C3 /* MACard.swift in Sources */,
+				994ECFA02E9B80F4001C73C3 /* Spacing.swift in Sources */,
+				994ECFA12E9B80F4001C73C3 /* Typography.swift in Sources */,
+				994ECFA22E9B80F4001C73C3 /* APIError.swift in Sources */,
+				994ECFA32E9B80F4001C73C3 /* HTTPClient.swift in Sources */,
+				994ECFA42E9B80F4001C73C3 /* NetworkModels.swift in Sources */,
+				994ECFA52E9B80F4001C73C3 /* AppState.swift in Sources */,
+				994ECFA62E9B80F4001C73C3 /* Constants.swift in Sources */,
+				994ECFA72E9B80F4001C73C3 /* Extensions.swift in Sources */,
+				994ECFA82E9B80F4001C73C3 /* Helpers.swift in Sources */,
+				994ECFA92E9B80F4001C73C3 /* HabitDTO.swift in Sources */,
+				994ECFAA2E9B80F4001C73C3 /* MoodDTO.swift in Sources */,
+				994ECFAB2E9B80F4001C73C3 /* RecommendationDTO.swift in Sources */,
+				994ECFAC2E9B80F4001C73C3 /* UserDTO.swift in Sources */,
+				994ECFF32E9BE5AA001C73C3 /* MAChip.swift in Sources */,
+				994ECFAD2E9B80F4001C73C3 /* Event.swift in Sources */,
+				994ECFAE2E9B80F4001C73C3 /* Habit.swift in Sources */,
+				994ECFAF2E9B80F4001C73C3 /* HabitLog.swift in Sources */,
+				994ECFB02E9B80F4001C73C3 /* Mood.swift in Sources */,
+				994ECFB12E9B80F4001C73C3 /* Recommendation.swift in Sources */,
+				994ECFB22E9B80F4001C73C3 /* Session.swift in Sources */,
+				994ECFB32E9B80F4001C73C3 /* User.swift in Sources */,
+				994ECFDA2E9B80F4001C73C3 /* AIService.swift in Sources */,
+				994ECFDB2E9B80F4001C73C3 /* AnalyticsService.swift in Sources */,
+				994ECFDC2E9B80F4001C73C3 /* AuthService.swift in Sources */,
+				994ECFDD2E9B80F4001C73C3 /* DatabaseService.swift in Sources */,
+				994ECFDE2E9B80F4001C73C3 /* SupabaseConfiguration.swift in Sources */,
+				994ECFDF2E9B80F4001C73C3 /* NotificationService.swift in Sources */,
+				994ECFE02E9B80F4001C73C3 /* PurchaseService.swift in Sources */,
+				994ECFF72E9BE74A001C73C3 /* RecommendationResponse.swift in Sources */,
+				994ECFF52E9BE5DB001C73C3 /* MASectionHeader.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		994ED0272E9C080F001C73C3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 997A89662E9B6D060057228A /* MindAthlete */;
+			targetProxy = 994ED0262E9C080F001C73C3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		994ED0282E9C080F001C73C3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = THGV4KQ4HV;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.MindAthleteUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MindAthlete;
+			};
+			name = Debug;
+		};
+		994ED0292E9C080F001C73C3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = THGV4KQ4HV;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.MindAthleteUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MindAthlete;
+			};
+			name = Release;
+		};
 		997A89702E9B6D070057228A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -609,6 +883,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		994ED02A2E9C080F001C73C3 /* Build configuration list for PBXNativeTarget "MindAthleteUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				994ED0282E9C080F001C73C3 /* Debug */,
+				994ED0292E9C080F001C73C3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		997A89622E9B6D050057228A /* Build configuration list for PBXProject "MindAthlete" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
