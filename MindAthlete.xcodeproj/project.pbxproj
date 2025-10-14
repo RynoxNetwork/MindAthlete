@@ -566,6 +566,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				994ECFF52E9BE5DB001C73C3 /* MASectionHeader.swift in Sources */,
+				994ECFF32E9BE5AA001C73C3 /* MAChip.swift in Sources */,
+				994ECFA02E9B80F4001C73C3 /* Spacing.swift in Sources */,
+				994ECF9E2E9B80F4001C73C3 /* MAButton.swift in Sources */,
+				994ECF9F2E9B80F4001C73C3 /* MACard.swift in Sources */,
+				994ECF9D2E9B80F4001C73C3 /* Colors.swift in Sources */,
+				994ECFA12E9B80F4001C73C3 /* Typography.swift in Sources */,
 				994ED02C2E9C116F001C73C3 /* CalendarView.swift in Sources */,
 				994ED02D2E9C116F001C73C3 /* CalendarViewModel.swift in Sources */,
 				994ED02E2E9C116F001C73C3 /* EventCreationView.swift in Sources */,
@@ -608,11 +615,6 @@
 				994ED0132E9BFCEA001C73C3 /* AIServiceTests.swift in Sources */,
 				994ED0142E9BFCEA001C73C3 /* DatabaseServiceTests.swift in Sources */,
 				994ED0152E9BFCEA001C73C3 /* SnaphotTests.swift in Sources */,
-				994ECF9D2E9B80F4001C73C3 /* Colors.swift in Sources */,
-				994ECF9E2E9B80F4001C73C3 /* MAButton.swift in Sources */,
-				994ECF9F2E9B80F4001C73C3 /* MACard.swift in Sources */,
-				994ECFA02E9B80F4001C73C3 /* Spacing.swift in Sources */,
-				994ECFA12E9B80F4001C73C3 /* Typography.swift in Sources */,
 				994ECFA22E9B80F4001C73C3 /* APIError.swift in Sources */,
 				994ECFA32E9B80F4001C73C3 /* HTTPClient.swift in Sources */,
 				994ECFA42E9B80F4001C73C3 /* NetworkModels.swift in Sources */,
@@ -624,7 +626,6 @@
 				994ECFAA2E9B80F4001C73C3 /* MoodDTO.swift in Sources */,
 				994ECFAB2E9B80F4001C73C3 /* RecommendationDTO.swift in Sources */,
 				994ECFAC2E9B80F4001C73C3 /* UserDTO.swift in Sources */,
-				994ECFF32E9BE5AA001C73C3 /* MAChip.swift in Sources */,
 				994ECFAD2E9B80F4001C73C3 /* Event.swift in Sources */,
 				994ECFAE2E9B80F4001C73C3 /* Habit.swift in Sources */,
 				994ECFAF2E9B80F4001C73C3 /* HabitLog.swift in Sources */,
@@ -640,7 +641,6 @@
 				994ECFDF2E9B80F4001C73C3 /* NotificationService.swift in Sources */,
 				994ECFE02E9B80F4001C73C3 /* PurchaseService.swift in Sources */,
 				994ECFF72E9BE74A001C73C3 /* RecommendationResponse.swift in Sources */,
-				994ECFF52E9BE5DB001C73C3 /* MASectionHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
