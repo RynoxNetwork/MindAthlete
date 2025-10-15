@@ -83,7 +83,11 @@
 		994ED0502E9C116F001C73C3 /* SessionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF792E9B7027001C73C3 /* SessionsViewModel.swift */; };
 		994ED0512E9C116F001C73C3 /* SessionTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF7A2E9B7027001C73C3 /* SessionTimerView.swift */; };
 		998E852B2E9F5E9300A3A367 /* SupabaseClientProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998E852A2E9F5E8600A3A367 /* SupabaseClientProvider.swift */; };
+		99A1B2C12F9D123400000002 /* SupabaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A1B2C02F9D123400000001 /* SupabaseAuthService.swift */; };
+		99A1B2C32F9D123400000004 /* SupabaseDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A1B2C22F9D123400000003 /* SupabaseDatabaseService.swift */; };
+		99A1B2C52F9D123400000006 /* SupabaseEmailAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A1B2C42F9D123400000005 /* SupabaseEmailAuthView.swift */; };
 		998E852E2E9F5FBA00A3A367 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 998E852D2E9F5FBA00A3A367 /* Supabase */; };
+		998E85312E9F61E400A3A367 /* DebugConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998E85302E9F61DD00A3A367 /* DebugConnectView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -174,7 +178,11 @@
 		994ED0112E9BFCEA001C73C3 /* SnaphotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnaphotTests.swift; sourceTree = "<group>"; };
 		994ED0202E9C080F001C73C3 /* MindAthleteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MindAthleteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		997A89672E9B6D060057228A /* MindAthlete.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MindAthlete.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		998E852A2E9F5E8600A3A367 /* SupabaseClientProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseClientProvider.swift; sourceTree = "<group>"; };
+		998E852A2E9F5E8600A3A367 /* SupabaseClientProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAthlete/Services/SupabaseClientProvider.swift; sourceTree = SOURCE_ROOT; };
+		998E85302E9F61DD00A3A367 /* DebugConnectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAthlete/Debug/DebugConnectView.swift; sourceTree = SOURCE_ROOT; };
+		99A1B2C02F9D123400000001 /* SupabaseAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAthlete/Services/SupabaseAuthService.swift; sourceTree = SOURCE_ROOT; };
+		99A1B2C22F9D123400000003 /* SupabaseDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAthlete/Services/SupabaseDatabaseService.swift; sourceTree = SOURCE_ROOT; };
+		99A1B2C42F9D123400000005 /* SupabaseEmailAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Onboarding/SupabaseEmailAuthView.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -212,6 +220,9 @@
 		994ECF472E9B7027001C73C3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				998E85302E9F61DD00A3A367 /* DebugConnectView.swift */,
+				99A1B2C02F9D123400000001 /* SupabaseAuthService.swift */,
+				99A1B2C22F9D123400000003 /* SupabaseDatabaseService.swift */,
 				994ECF412E9B7027001C73C3 /* AIService.swift */,
 				994ECF422E9B7027001C73C3 /* AnalyticsService.swift */,
 				994ECF432E9B7027001C73C3 /* AuthService.swift */,
@@ -219,6 +230,7 @@
 				994ECF9C2E9B7CD9001C73C3 /* SupabaseConfiguration.swift */,
 				994ECF452E9B7027001C73C3 /* NotificationService.swift */,
 				994ECF462E9B7027001C73C3 /* PurchaseService.swift */,
+				998E852A2E9F5E8600A3A367 /* SupabaseClientProvider.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -299,6 +311,7 @@
 				994ECF6B2E9B7027001C73C3 /* OnboardingView.swift */,
 				994ECF6C2E9B7027001C73C3 /* OnboardingViewModel.swift */,
 				994ECF6D2E9B7027001C73C3 /* SportSelectionView.swift */,
+				99A1B2C42F9D123400000005 /* SupabaseEmailAuthView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -434,7 +447,6 @@
 		997A895E2E9B6D050057228A = {
 			isa = PBXGroup;
 			children = (
-				998E852A2E9F5E8600A3A367 /* SupabaseClientProvider.swift */,
 				994ECF8D2E9B7027001C73C3 /* Core */,
 				994ECF9B2E9B7027001C73C3 /* Domain */,
 				994ECF7C2E9B7027001C73C3 /* Features */,
@@ -608,6 +620,7 @@
 				994ED03B2E9C116F001C73C3 /* HabitProgressView.swift in Sources */,
 				994ED03C2E9C116F001C73C3 /* HabitsView.swift in Sources */,
 				994ED03D2E9C116F001C73C3 /* HabitsViewModel.swift in Sources */,
+				998E85312E9F61E400A3A367 /* DebugConnectView.swift in Sources */,
 				994ED03E2E9C116F001C73C3 /* CheckInCard.swift in Sources */,
 				994ED03F2E9C116F001C73C3 /* HomeView.swift in Sources */,
 				994ED0402E9C116F001C73C3 /* HomeViewModel.swift in Sources */,
@@ -617,6 +630,7 @@
 				994ED0442E9C116F001C73C3 /* OnboardingView.swift in Sources */,
 				994ED0452E9C116F001C73C3 /* OnboardingViewModel.swift in Sources */,
 				994ED0462E9C116F001C73C3 /* SportSelectionView.swift in Sources */,
+				99A1B2C52F9D123400000006 /* SupabaseEmailAuthView.swift in Sources */,
 				994ED0472E9C116F001C73C3 /* NotificationSettingsView.swift in Sources */,
 				994ED0482E9C116F001C73C3 /* PlanView.swift in Sources */,
 				994ED0492E9C116F001C73C3 /* PrivacySettingsView.swift in Sources */,
@@ -638,7 +652,9 @@
 				994ECFA52E9B80F4001C73C3 /* AppState.swift in Sources */,
 				994ECFA62E9B80F4001C73C3 /* Constants.swift in Sources */,
 				994ECFA72E9B80F4001C73C3 /* Extensions.swift in Sources */,
+				99A1B2C12F9D123400000002 /* SupabaseAuthService.swift in Sources */,
 				998E852B2E9F5E9300A3A367 /* SupabaseClientProvider.swift in Sources */,
+				99A1B2C32F9D123400000004 /* SupabaseDatabaseService.swift in Sources */,
 				994ECFA82E9B80F4001C73C3 /* Helpers.swift in Sources */,
 				994ECFA92E9B80F4001C73C3 /* HabitDTO.swift in Sources */,
 				994ECFAA2E9B80F4001C73C3 /* MoodDTO.swift in Sources */,

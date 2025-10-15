@@ -6,13 +6,22 @@ struct RootView: View {
 
     var body: some View {
         Group {
-            if appState.hasCompletedOnboarding, let _ = appState.currentUser {
+            if let _ = appState.currentUser, appState.hasCompletedOnboarding {
                 mainTabView
+            } else if appState.hasCompletedOnboarding {
+                SupabaseEmailAuthView { user in
+                    appState.currentUser = user
+                    environment.analyticsService.track(
+                        event: AnalyticsEvent(
+                            name: "auth_success",
+                            parameters: ["provider": "supabase_email"]
+                        )
+                    )
+                }
             } else {
                 OnboardingView(viewModel: OnboardingViewModel(authService: environment.authService, analytics: environment.analyticsService)) {
                     Task {
                         await environment.authService.configure()
-                        appState.currentUser = .mock
                         appState.hasCompletedOnboarding = true
                     }
                 }
