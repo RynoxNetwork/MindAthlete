@@ -82,6 +82,8 @@
 		994ED04F2E9C116F001C73C3 /* SessionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF782E9B7027001C73C3 /* SessionsView.swift */; };
 		994ED0502E9C116F001C73C3 /* SessionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF792E9B7027001C73C3 /* SessionsViewModel.swift */; };
 		994ED0512E9C116F001C73C3 /* SessionTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF7A2E9B7027001C73C3 /* SessionTimerView.swift */; };
+		998E852B2E9F5E9300A3A367 /* SupabaseClientProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998E852A2E9F5E8600A3A367 /* SupabaseClientProvider.swift */; };
+		998E852E2E9F5FBA00A3A367 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 998E852D2E9F5FBA00A3A367 /* Supabase */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -172,6 +174,7 @@
 		994ED0112E9BFCEA001C73C3 /* SnaphotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnaphotTests.swift; sourceTree = "<group>"; };
 		994ED0202E9C080F001C73C3 /* MindAthleteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MindAthleteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		997A89672E9B6D060057228A /* MindAthlete.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MindAthlete.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		998E852A2E9F5E8600A3A367 /* SupabaseClientProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseClientProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -199,6 +202,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				998E852E2E9F5FBA00A3A367 /* Supabase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,6 +434,7 @@
 		997A895E2E9B6D050057228A = {
 			isa = PBXGroup;
 			children = (
+				998E852A2E9F5E8600A3A367 /* SupabaseClientProvider.swift */,
 				994ECF8D2E9B7027001C73C3 /* Core */,
 				994ECF9B2E9B7027001C73C3 /* Domain */,
 				994ECF7C2E9B7027001C73C3 /* Features */,
@@ -437,6 +442,7 @@
 				994ECF4D2E9B7027001C73C3 /* Tests */,
 				997A89692E9B6D060057228A /* MindAthlete */,
 				994ED0212E9C080F001C73C3 /* MindAthleteUITests */,
+				998E852C2E9F5FAA00A3A367 /* Frameworks */,
 				997A89682E9B6D060057228A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -448,6 +454,13 @@
 				994ED0202E9C080F001C73C3 /* MindAthleteUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		998E852C2E9F5FAA00A3A367 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -493,6 +506,7 @@
 			);
 			name = MindAthlete;
 			packageProductDependencies = (
+				998E852D2E9F5FBA00A3A367 /* Supabase */,
 			);
 			productName = MindAthlete;
 			productReference = 997A89672E9B6D060057228A /* MindAthlete.app */;
@@ -526,6 +540,9 @@
 			);
 			mainGroup = 997A895E2E9B6D050057228A;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				998E85292E9F5DC100A3A367 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 997A89682E9B6D060057228A /* Products */;
 			projectDirPath = "";
@@ -621,6 +638,7 @@
 				994ECFA52E9B80F4001C73C3 /* AppState.swift in Sources */,
 				994ECFA62E9B80F4001C73C3 /* Constants.swift in Sources */,
 				994ECFA72E9B80F4001C73C3 /* Extensions.swift in Sources */,
+				998E852B2E9F5E9300A3A367 /* SupabaseClientProvider.swift in Sources */,
 				994ECFA82E9B80F4001C73C3 /* Helpers.swift in Sources */,
 				994ECFA92E9B80F4001C73C3 /* HabitDTO.swift in Sources */,
 				994ECFAA2E9B80F4001C73C3 /* MoodDTO.swift in Sources */,
@@ -911,6 +929,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		998E85292E9F5DC100A3A367 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase-community/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		998E852D2E9F5FBA00A3A367 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 998E85292E9F5DC100A3A367 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 997A895F2E9B6D050057228A /* Project object */;
 }
