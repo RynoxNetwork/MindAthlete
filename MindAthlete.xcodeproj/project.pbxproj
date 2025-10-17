@@ -82,12 +82,18 @@
 		994ED04F2E9C116F001C73C3 /* SessionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF782E9B7027001C73C3 /* SessionsView.swift */; };
 		994ED0502E9C116F001C73C3 /* SessionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF792E9B7027001C73C3 /* SessionsViewModel.swift */; };
 		994ED0512E9C116F001C73C3 /* SessionTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF7A2E9B7027001C73C3 /* SessionTimerView.swift */; };
-		998E852B2E9F5E9300A3A367 /* SupabaseClientProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998E852A2E9F5E8600A3A367 /* SupabaseClientProvider.swift */; };
-		99A1B2C12F9D123400000002 /* SupabaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A1B2C02F9D123400000001 /* SupabaseAuthService.swift */; };
-		99A1B2C32F9D123400000004 /* SupabaseDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A1B2C22F9D123400000003 /* SupabaseDatabaseService.swift */; };
-		99A1B2C52F9D123400000006 /* SupabaseEmailAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A1B2C42F9D123400000005 /* SupabaseEmailAuthView.swift */; };
+		99521C0B2EA1590600731097 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 99521C0A2EA1590600731097 /* GoogleSignIn */; };
+		99521C0D2EA1590600731097 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 99521C0C2EA1590600731097 /* GoogleSignInSwift */; };
+		998E852B2E9F5E9300A3A367 /* MindAthlete/Services/SupabaseClientProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998E852A2E9F5E8600A3A367 /* MindAthlete/Services/SupabaseClientProvider.swift */; };
 		998E852E2E9F5FBA00A3A367 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 998E852D2E9F5FBA00A3A367 /* Supabase */; };
-		998E85312E9F61E400A3A367 /* DebugConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998E85302E9F61DD00A3A367 /* DebugConnectView.swift */; };
+		998E85312E9F61E400A3A367 /* MindAthlete/Debug/DebugConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998E85302E9F61DD00A3A367 /* MindAthlete/Debug/DebugConnectView.swift */; };
+		99A1B2C12F9D123400000002 /* MindAthlete/Services/SupabaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A1B2C02F9D123400000001 /* MindAthlete/Services/SupabaseAuthService.swift */; };
+		99A1B2C32F9D123400000004 /* MindAthlete/Services/SupabaseDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A1B2C22F9D123400000003 /* MindAthlete/Services/SupabaseDatabaseService.swift */; };
+		99A1B2C52F9D123400000006 /* Features/Onboarding/SupabaseEmailAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A1B2C42F9D123400000005 /* Features/Onboarding/SupabaseEmailAuthView.swift */; };
+		99A1B2C72F9D169C00000008 /* MindAthlete/Services/GoogleAuthBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A1B2C62F9D169C00000007 /* MindAthlete/Services/GoogleAuthBridge.swift */; };
+		99B3EAA12F9D4AA100000009 /* Features/Auth/ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B3EAA02F9D4AA100000008 /* Features/Auth/ForgotPasswordView.swift */; };
+		99B3EAA32F9D4AA10000000B /* Features/Auth/NewPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B3EAA22F9D4AA10000000A /* Features/Auth/NewPasswordView.swift */; };
+		99B3EAA52F9D4AA10000000D /* Data/UserProfilesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B3EAA42F9D4AA10000000C /* Data/UserProfilesRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -178,12 +184,26 @@
 		994ED0112E9BFCEA001C73C3 /* SnaphotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnaphotTests.swift; sourceTree = "<group>"; };
 		994ED0202E9C080F001C73C3 /* MindAthleteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MindAthleteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		997A89672E9B6D060057228A /* MindAthlete.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MindAthlete.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		998E852A2E9F5E8600A3A367 /* SupabaseClientProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAthlete/Services/SupabaseClientProvider.swift; sourceTree = SOURCE_ROOT; };
-		998E85302E9F61DD00A3A367 /* DebugConnectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAthlete/Debug/DebugConnectView.swift; sourceTree = SOURCE_ROOT; };
-		99A1B2C02F9D123400000001 /* SupabaseAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAthlete/Services/SupabaseAuthService.swift; sourceTree = SOURCE_ROOT; };
-		99A1B2C22F9D123400000003 /* SupabaseDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAthlete/Services/SupabaseDatabaseService.swift; sourceTree = SOURCE_ROOT; };
-		99A1B2C42F9D123400000005 /* SupabaseEmailAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Onboarding/SupabaseEmailAuthView.swift; sourceTree = SOURCE_ROOT; };
+		998E852A2E9F5E8600A3A367 /* MindAthlete/Services/SupabaseClientProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAthlete/Services/SupabaseClientProvider.swift; sourceTree = SOURCE_ROOT; };
+		998E85302E9F61DD00A3A367 /* MindAthlete/Debug/DebugConnectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAthlete/Debug/DebugConnectView.swift; sourceTree = SOURCE_ROOT; };
+		99A1B2C02F9D123400000001 /* MindAthlete/Services/SupabaseAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAthlete/Services/SupabaseAuthService.swift; sourceTree = SOURCE_ROOT; };
+		99A1B2C22F9D123400000003 /* MindAthlete/Services/SupabaseDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAthlete/Services/SupabaseDatabaseService.swift; sourceTree = SOURCE_ROOT; };
+		99A1B2C42F9D123400000005 /* Features/Onboarding/SupabaseEmailAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Onboarding/SupabaseEmailAuthView.swift; sourceTree = SOURCE_ROOT; };
+		99A1B2C62F9D169C00000007 /* MindAthlete/Services/GoogleAuthBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAthlete/Services/GoogleAuthBridge.swift; sourceTree = SOURCE_ROOT; };
+		99B3EAA02F9D4AA100000008 /* Features/Auth/ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Auth/ForgotPasswordView.swift; sourceTree = SOURCE_ROOT; };
+		99B3EAA22F9D4AA10000000A /* Features/Auth/NewPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Auth/NewPasswordView.swift; sourceTree = SOURCE_ROOT; };
+		99B3EAA42F9D4AA10000000C /* Data/UserProfilesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/UserProfilesRepository.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		99521C102EA1710100731097 /* Exceptions for "MindAthlete" folder in "MindAthlete" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 997A89662E9B6D060057228A /* MindAthlete */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		994ED0212E9C080F001C73C3 /* MindAthleteUITests */ = {
@@ -193,6 +213,9 @@
 		};
 		997A89692E9B6D060057228A /* MindAthlete */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				99521C102EA1710100731097 /* Exceptions for "MindAthlete" folder in "MindAthlete" target */,
+			);
 			path = MindAthlete;
 			sourceTree = "<group>";
 		};
@@ -210,7 +233,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99521C0D2EA1590600731097 /* GoogleSignInSwift in Frameworks */,
 				998E852E2E9F5FBA00A3A367 /* Supabase in Frameworks */,
+				99521C0B2EA1590600731097 /* GoogleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,9 +245,10 @@
 		994ECF472E9B7027001C73C3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				998E85302E9F61DD00A3A367 /* DebugConnectView.swift */,
-				99A1B2C02F9D123400000001 /* SupabaseAuthService.swift */,
-				99A1B2C22F9D123400000003 /* SupabaseDatabaseService.swift */,
+				998E85302E9F61DD00A3A367 /* MindAthlete/Debug/DebugConnectView.swift */,
+				99A1B2C02F9D123400000001 /* MindAthlete/Services/SupabaseAuthService.swift */,
+				99A1B2C22F9D123400000003 /* MindAthlete/Services/SupabaseDatabaseService.swift */,
+				99A1B2C62F9D169C00000007 /* MindAthlete/Services/GoogleAuthBridge.swift */,
 				994ECF412E9B7027001C73C3 /* AIService.swift */,
 				994ECF422E9B7027001C73C3 /* AnalyticsService.swift */,
 				994ECF432E9B7027001C73C3 /* AuthService.swift */,
@@ -230,7 +256,7 @@
 				994ECF9C2E9B7CD9001C73C3 /* SupabaseConfiguration.swift */,
 				994ECF452E9B7027001C73C3 /* NotificationService.swift */,
 				994ECF462E9B7027001C73C3 /* PurchaseService.swift */,
-				998E852A2E9F5E8600A3A367 /* SupabaseClientProvider.swift */,
+				998E852A2E9F5E8600A3A367 /* MindAthlete/Services/SupabaseClientProvider.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -311,7 +337,7 @@
 				994ECF6B2E9B7027001C73C3 /* OnboardingView.swift */,
 				994ECF6C2E9B7027001C73C3 /* OnboardingViewModel.swift */,
 				994ECF6D2E9B7027001C73C3 /* SportSelectionView.swift */,
-				99A1B2C42F9D123400000005 /* SupabaseEmailAuthView.swift */,
+				99A1B2C42F9D123400000005 /* Features/Onboarding/SupabaseEmailAuthView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -326,6 +352,15 @@
 				994ECF732E9B7027001C73C3 /* ProfileViewModel.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		99B3EAA62F9D4AA10000000E /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				99B3EAA02F9D4AA100000008 /* Features/Auth/ForgotPasswordView.swift */,
+				99B3EAA22F9D4AA10000000A /* Features/Auth/NewPasswordView.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		994ECF7B2E9B7027001C73C3 /* Sessions */ = {
@@ -350,6 +385,7 @@
 				994ECF632E9B7027001C73C3 /* Habits */,
 				994ECF692E9B7027001C73C3 /* Home */,
 				994ECF6E2E9B7027001C73C3 /* Onboarding */,
+				99B3EAA62F9D4AA10000000E /* Auth */,
 				994ECF742E9B7027001C73C3 /* Profile */,
 				994ECF7B2E9B7027001C73C3 /* Sessions */,
 			);
@@ -444,11 +480,20 @@
 			path = Domain;
 			sourceTree = "<group>";
 		};
+		99B3EAA72F9D4AA10000000F /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				99B3EAA42F9D4AA10000000C /* Data/UserProfilesRepository.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		997A895E2E9B6D050057228A = {
 			isa = PBXGroup;
 			children = (
 				994ECF8D2E9B7027001C73C3 /* Core */,
 				994ECF9B2E9B7027001C73C3 /* Domain */,
+				99B3EAA72F9D4AA10000000F /* Data */,
 				994ECF7C2E9B7027001C73C3 /* Features */,
 				994ECF472E9B7027001C73C3 /* Services */,
 				994ECF4D2E9B7027001C73C3 /* Tests */,
@@ -519,6 +564,8 @@
 			name = MindAthlete;
 			packageProductDependencies = (
 				998E852D2E9F5FBA00A3A367 /* Supabase */,
+				99521C0A2EA1590600731097 /* GoogleSignIn */,
+				99521C0C2EA1590600731097 /* GoogleSignInSwift */,
 			);
 			productName = MindAthlete;
 			productReference = 997A89672E9B6D060057228A /* MindAthlete.app */;
@@ -554,6 +601,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				998E85292E9F5DC100A3A367 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+				99521C092EA1590600731097 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 997A89682E9B6D060057228A /* Products */;
@@ -620,7 +668,7 @@
 				994ED03B2E9C116F001C73C3 /* HabitProgressView.swift in Sources */,
 				994ED03C2E9C116F001C73C3 /* HabitsView.swift in Sources */,
 				994ED03D2E9C116F001C73C3 /* HabitsViewModel.swift in Sources */,
-				998E85312E9F61E400A3A367 /* DebugConnectView.swift in Sources */,
+				998E85312E9F61E400A3A367 /* MindAthlete/Debug/DebugConnectView.swift in Sources */,
 				994ED03E2E9C116F001C73C3 /* CheckInCard.swift in Sources */,
 				994ED03F2E9C116F001C73C3 /* HomeView.swift in Sources */,
 				994ED0402E9C116F001C73C3 /* HomeViewModel.swift in Sources */,
@@ -630,7 +678,9 @@
 				994ED0442E9C116F001C73C3 /* OnboardingView.swift in Sources */,
 				994ED0452E9C116F001C73C3 /* OnboardingViewModel.swift in Sources */,
 				994ED0462E9C116F001C73C3 /* SportSelectionView.swift in Sources */,
-				99A1B2C52F9D123400000006 /* SupabaseEmailAuthView.swift in Sources */,
+				99A1B2C52F9D123400000006 /* Features/Onboarding/SupabaseEmailAuthView.swift in Sources */,
+				99B3EAA12F9D4AA100000009 /* Features/Auth/ForgotPasswordView.swift in Sources */,
+				99B3EAA32F9D4AA10000000B /* Features/Auth/NewPasswordView.swift in Sources */,
 				994ED0472E9C116F001C73C3 /* NotificationSettingsView.swift in Sources */,
 				994ED0482E9C116F001C73C3 /* PlanView.swift in Sources */,
 				994ED0492E9C116F001C73C3 /* PrivacySettingsView.swift in Sources */,
@@ -652,9 +702,11 @@
 				994ECFA52E9B80F4001C73C3 /* AppState.swift in Sources */,
 				994ECFA62E9B80F4001C73C3 /* Constants.swift in Sources */,
 				994ECFA72E9B80F4001C73C3 /* Extensions.swift in Sources */,
-				99A1B2C12F9D123400000002 /* SupabaseAuthService.swift in Sources */,
-				998E852B2E9F5E9300A3A367 /* SupabaseClientProvider.swift in Sources */,
-				99A1B2C32F9D123400000004 /* SupabaseDatabaseService.swift in Sources */,
+				99A1B2C12F9D123400000002 /* MindAthlete/Services/SupabaseAuthService.swift in Sources */,
+				998E852B2E9F5E9300A3A367 /* MindAthlete/Services/SupabaseClientProvider.swift in Sources */,
+				99A1B2C32F9D123400000004 /* MindAthlete/Services/SupabaseDatabaseService.swift in Sources */,
+				99B3EAA52F9D4AA10000000D /* Data/UserProfilesRepository.swift in Sources */,
+				99A1B2C72F9D169C00000008 /* MindAthlete/Services/GoogleAuthBridge.swift in Sources */,
 				994ECFA82E9B80F4001C73C3 /* Helpers.swift in Sources */,
 				994ECFA92E9B80F4001C73C3 /* HabitDTO.swift in Sources */,
 				994ECFAA2E9B80F4001C73C3 /* MoodDTO.swift in Sources */,
@@ -855,11 +907,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MindAthlete/MindAthlete.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = THGV4KQ4HV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MindAthlete/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -887,11 +941,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MindAthlete/MindAthlete.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = THGV4KQ4HV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MindAthlete/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -947,6 +1003,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		99521C092EA1590600731097 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 		998E85292E9F5DC100A3A367 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/supabase-community/supabase-swift";
@@ -958,6 +1022,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		99521C0A2EA1590600731097 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 99521C092EA1590600731097 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		99521C0C2EA1590600731097 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 99521C092EA1590600731097 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
 		998E852D2E9F5FBA00A3A367 /* Supabase */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 998E85292E9F5DC100A3A367 /* XCRemoteSwiftPackageReference "supabase-swift" */;

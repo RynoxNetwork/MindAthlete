@@ -2,15 +2,16 @@ import Supabase
 import SwiftUI
 
 struct SupabaseEmailAuthView: View {
-    @StateObject private var supaAuth = SupabaseAuthService()
+    @ObservedObject var supaAuth: SupabaseAuthService
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var isProcessing: Bool = false
     @State private var alertMessage: String?
     @State private var statusMessage: String?
+    @State private var isShowingForgotPassword = false
     @FocusState private var focusedField: Field?
 
-    let onAuthenticated: (User) -> Void
+    let onAuthenticated: (Supabase.User?, String) -> Void
 
     private enum Field {
         case email
@@ -56,6 +57,41 @@ struct SupabaseEmailAuthView: View {
                         Task { await handleAuthentication(.signIn) }
                     }
                     .disabled(isProcessing)
+
+                    Button("¿Olvidaste tu contraseña?") {
+                        isShowingForgotPassword = true
+                    }
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(MAColorPalette.primary)
+                    .padding(.top, MASpacing.sm)
+
+#if canImport(GoogleSignIn)
+                    HStack {
+                        Rectangle()
+                            .fill(Color.gray.opacity(0.3))
+                            .frame(height: 1)
+                        Text("o continúa con")
+                            .font(.footnote)
+                            .foregroundColor(MAColorPalette.textSecondary)
+                        Rectangle()
+                            .fill(Color.gray.opacity(0.3))
+                            .frame(height: 1)
+                    }
+
+                    Button {
+                        startGoogleSignIn()
+                    } label: {
+                        HStack {
+                            Image(systemName: "g.circle.fill")
+                            Text(isProcessing ? "Conectando..." : "Google")
+                                .fontWeight(.semibold)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, MASpacing.sm)
+                    }
+                    .buttonStyle(.bordered)
+                    .disabled(isProcessing)
+#endif
                 }
             }
             .padding(MASpacing.xl)
@@ -72,6 +108,11 @@ struct SupabaseEmailAuthView: View {
         }, message: {
             if let alertMessage { Text(alertMessage) }
         })
+        .sheet(isPresented: $isShowingForgotPassword) {
+            ForgotPasswordView(auth: supaAuth) {
+                isShowingForgotPassword = false
+            }
+        }
     }
 
     private enum AuthAction {
@@ -98,26 +139,10 @@ struct SupabaseEmailAuthView: View {
                 statusMessage = "Sesión iniciada correctamente."
             }
             focusedField = nil
-            setAuthenticatedUserIfAvailable()
+            onAuthenticated(supaAuth.user, "supabase_email")
         } catch {
             alertMessage = error.localizedDescription
         }
-    }
-
-    private func setAuthenticatedUserIfAvailable() {
-        guard let supabaseUser = supaAuth.supaUser else {
-            return
-        }
-
-        let user = User(
-            id: supabaseUser.id.uuidString,
-            email: supabaseUser.email ?? email,
-            sport: nil,
-            university: nil,
-            consent: false,
-            createdAt: supabaseUser.createdAt ?? Date()
-        )
-        onAuthenticated(user)
     }
 
     private var isValidInput: Bool {
@@ -131,4 +156,26 @@ struct SupabaseEmailAuthView: View {
             set: { if !$0 { alertMessage = nil } }
         )
     }
+
+#if canImport(GoogleSignIn)
+    private func startGoogleSignIn() {
+        guard !isProcessing else { return }
+        isProcessing = true
+        GoogleAuthBridge.signIn { idToken, accessToken in
+            Task {
+                do {
+                    try await supaAuth.signInWithGoogle(idToken: idToken, accessToken: accessToken)
+                    statusMessage = "Sesión iniciada con Google ✅"
+                    onAuthenticated(supaAuth.user, "supabase_google")
+                } catch {
+                    alertMessage = error.localizedDescription
+                }
+                isProcessing = false
+            }
+        } onError: { error in
+            alertMessage = error.localizedDescription
+            isProcessing = false
+        }
+    }
+#endif
 }

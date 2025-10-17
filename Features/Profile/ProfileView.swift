@@ -2,9 +2,11 @@ import SwiftUI
 
 struct ProfileView: View {
     @StateObject var viewModel: ProfileViewModel
+    let onSignOut: () -> Void
 
-    init(viewModel: ProfileViewModel) {
+    init(viewModel: ProfileViewModel, onSignOut: @escaping () -> Void = {}) {
         _viewModel = StateObject(wrappedValue: viewModel)
+        self.onSignOut = onSignOut
     }
 
     var body: some View {
@@ -38,7 +40,10 @@ struct ProfileView: View {
 
             Section {
                 Button("Cerrar sesión") {
-                    Task { await viewModel.signOut() }
+                    Task {
+                        await viewModel.signOut()
+                        onSignOut()
+                    }
                 }
                 .foregroundColor(.red)
             }
