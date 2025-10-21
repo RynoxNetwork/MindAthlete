@@ -2,6 +2,8 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject var viewModel: HomeViewModel
+    @State private var didAppear = false
+    @State private var checkInBounceTrigger = 0
 
     // MARK: - Brand Colors (local helpers)
     private let brandTurquoise = Color(red: 27/255, green: 166/255, blue: 166/255) // #1BA6A6
@@ -23,30 +25,45 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ScrollView(.vertical, showsIndicators: true) {
-                LazyVStack(spacing: MASpacing.lg) {
+                LazyVStack(spacing: 16) {
                     if let hero = viewModel.hero {
                         heroHeader(hero)
+                            .opacity(didAppear ? 1 : 0)
+                            .offset(y: didAppear ? 0 : 8)
+                            .animation(.spring(response: 0.35, dampingFraction: 0.9).delay(0.00), value: didAppear)
                             .transition(.move(edge: .top).combined(with: .opacity))
                     }
 
                     checkInCard
                         .cardStyle()
+                        .opacity(didAppear ? 1 : 0)
+                        .offset(y: didAppear ? 0 : 8)
+                        .animation(.spring(response: 0.35, dampingFraction: 0.9).delay(0.05), value: didAppear)
 
                     agendaCard
                         .cardStyle()
+                        .opacity(didAppear ? 1 : 0)
+                        .offset(y: didAppear ? 0 : 8)
+                        .animation(.spring(response: 0.35, dampingFraction: 0.9).delay(0.10), value: didAppear)
 
                     recommendationCard
                         .cardStyle()
+                        .opacity(didAppear ? 1 : 0)
+                        .offset(y: didAppear ? 0 : 8)
+                        .animation(.spring(response: 0.35, dampingFraction: 0.9).delay(0.15), value: didAppear)
 
                     habitsCard
                         .cardStyle()
+                        .opacity(didAppear ? 1 : 0)
+                        .offset(y: didAppear ? 0 : 8)
+                        .animation(.spring(response: 0.35, dampingFraction: 0.9).delay(0.20), value: didAppear)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, MASpacing.lg)
-                .padding(.top, MASpacing.lg)
                 .padding(.bottom, MASpacing.xl)
             }
             .scrollBounceBehavior(.always)
+            .coordinateSpace(name: "homeScroll")
             .background(
                 ZStack {
                     Color.maBackground.ignoresSafeArea()
@@ -55,14 +72,48 @@ struct HomeView: View {
                 }
             )
             .navigationTitle("Hoy")
-            .navigationBarTitleDisplayMode(.large)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(.visible, for: .navigationBar)
             .toolbar { toolbarContent }
             .safeAreaInset(edge: .top) {
-                topInfoBar
+                HStack(spacing: 12) {
+                    Label(todayString, systemImage: "calendar")
+                        .font(.system(.subheadline, design: .rounded))
+                        .foregroundStyle(.secondary)
+
+                    Spacer()
+
+                    Button(action: { /* quick action: e.g., open weekly summary */ }) {
+                        HStack(spacing: 6) {
+                            Image(systemName: "sparkles")
+                            Text("Resumen")
+                        }
+                        .font(.caption)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .background(
+                            Capsule().fill(.thinMaterial)
+                        )
+                        .overlay(
+                            Capsule().stroke(brandTurquoise.opacity(0.35), lineWidth: 1)
+                        )
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Ver resumen")
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 8)
+                .background(.ultraThinMaterial)
+                .overlay(
+                    Divider()
+                        .opacity(0.6), alignment: .bottom
+                )
+                .transition(.opacity)
             }
             .task {
                 await viewModel.load()
             }
+            .onAppear { didAppear = true }
             .animation(.easeInOut(duration: 0.2), value: viewModel.habitsProgress?.completionPercent ?? 0)
             .animation(.easeInOut(duration: 0.2), value: viewModel.isLoading)
         }
@@ -70,71 +121,121 @@ struct HomeView: View {
 
     // MARK: - Hero Header
     private func heroHeader(_ hero: HomeViewModel.HeroContent) -> some View {
-        ZStack(alignment: .leading) {
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .fill(
-                    LinearGradient(
-                        colors: [brandTurquoise.opacity(0.85), brandOrange.opacity(0.85)],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
+        GeometryReader { proxy in
+            // Compute a subtle parallax based on scroll position
+            let minY = proxy.frame(in: .named("homeScroll")).minY
+            let parallax = min(max(minY / 100, -0.5), 0.5) // clamp
+
+            ZStack(alignment: .leading) {
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .fill(
+                        LinearGradient(
+                            colors: [brandTurquoise.opacity(0.85), brandOrange.opacity(0.85)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
                     )
-                )
-                .overlay(
-                    Circle()
-                        .strokeBorder(.white.opacity(0.15), lineWidth: 2)
-                        .blur(radius: 2)
-                        .offset(x: 120, y: -40)
-                )
-                .shadow(color: brandTurquoise.opacity(0.25), radius: 16, x: 0, y: 8)
+                    .overlay(
+                        Circle()
+                            .strokeBorder(.white.opacity(0.15), lineWidth: 2)
+                            .blur(radius: 2)
+                            .offset(x: 120, y: -40)
+                    )
+                    .shadow(color: brandTurquoise.opacity(0.25), radius: 16, x: 0, y: 8)
 
-            HStack(alignment: .center, spacing: MASpacing.md) {
-                ZStack {
-                    Circle()
-                        .fill(.ultraThinMaterial)
-                        .frame(width: 54, height: 54)
-                    Image(systemName: "bolt.heart.fill")
-                        .font(.system(size: 26, weight: .bold))
-                        .foregroundStyle(.white)
-                        .shadow(radius: 2)
-                }
+                HStack(alignment: .center, spacing: MASpacing.md) {
+                    ZStack {
+                        Circle()
+                            .fill(.ultraThinMaterial)
+                            .frame(width: 54, height: 54)
+                        Image(systemName: "bolt.heart.fill")
+                            .font(.system(size: 26, weight: .bold))
+                            .foregroundStyle(.white)
+                            .shadow(radius: 2)
+                    }
 
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(hero.greeting)
-                        .font(.system(.subheadline, design: .rounded))
-                        .foregroundStyle(.white.opacity(0.9))
-                    Text(hero.quote)
-                        .font(.system(.title3, design: .rounded))
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.white)
-                        .lineLimit(2)
-                    Rectangle()
-                        .fill(.white.opacity(0.2))
-                        .frame(height: 2)
-                        .padding(.trailing, MASpacing.xl)
+                    VStack(alignment: .leading, spacing: 6) {
+                        // Concise subtitle above the quote
+                        Text(hero.greeting)
+                            .font(.system(.subheadline, design: .rounded))
+                            .foregroundStyle(.white.opacity(0.9))
+
+                        ViewThatFits(in: .vertical) {
+                            // Multiline variant
+                            Text(hero.quote)
+                                .font(.title3.weight(.semibold))
+                                .lineSpacing(2)
+                                .multilineTextAlignment(.leading)
+                                .lineLimit(nil)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .layoutPriority(1)
+                                .minimumScaleFactor(0.9)
+                                .foregroundStyle(.white)
+
+                            // Scroll fallback with fade masks
+                            ScrollView(.vertical, showsIndicators: false) {
+                                Text(hero.quote)
+                                    .font(.title3.weight(.semibold))
+                                    .lineSpacing(2)
+                                    .multilineTextAlignment(.leading)
+                                    .lineLimit(nil)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .layoutPriority(1)
+                                    .minimumScaleFactor(0.9)
+                                    .foregroundStyle(.white)
+                                    .padding(.vertical, 4)
+                            }
+                            .mask(
+                                LinearGradient(stops: [
+                                    .init(color: .clear, location: 0.0),
+                                    .init(color: .black,  location: 0.08),
+                                    .init(color: .black,  location: 0.92),
+                                    .init(color: .clear, location: 1.0)
+                                ], startPoint: .top, endPoint: .bottom)
+                            )
+                        }
+
+                        Rectangle()
+                            .fill(.white.opacity(0.2))
+                            .frame(height: 2)
+                            .padding(.trailing, MASpacing.xl)
+                    }
+                    Spacer()
                 }
-                Spacer()
+                .padding(MASpacing.lg)
             }
-            .padding(MASpacing.lg)
+            .scaleEffect(1 + parallax * 0.02)
+            .offset(y: parallax * 8)
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("MindAthlete, entrena tu mente y mejora tu rendimiento")
         }
         .frame(maxWidth: .infinity)
-        .frame(height: 120)
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel("MindAthlete, entrena tu mente y mejora tu rendimiento")
+        .frame(height: 136) // fixed height within 120–140
+        .transition(.opacity.combined(with: .move(edge: .top)))
     }
 
     // MARK: - Cards
     private var checkInCard: some View {
         MACard(title: "¿Cómo te sientes?") {
             VStack(alignment: .leading, spacing: MASpacing.md) {
-                labelWithIcon(text: "Registra tu mood y energía para entrenar tu autoconocimiento.", systemImage: "face.smiling")
+                HStack(alignment: .top, spacing: 8) {
+                    Image(systemName: "face.smiling")
+                        .foregroundStyle(.secondary)
+                        .symbolEffect(.bounce, value: checkInBounceTrigger)
+                    MATypography.body("Registra tu mood y energía para entrenar tu autoconocimiento.")
+                }
                 if viewModel.hasCheckInToday {
                     Label("Registro hecho", systemImage: "checkmark.circle.fill")
                         .font(.caption)
                         .foregroundStyle(brandTurquoise)
                 }
                 MAButton("Registrar check-in") {
+                    checkInBounceTrigger += 1
                     // Navigate to diary check-in flow
                 }
+                .sensoryFeedback(.selection, trigger: checkInBounceTrigger)
+                .contentShape(Rectangle())
+                .padding(.vertical, 8)
                 .accessibilityLabel("Registrar check-in de ánimo")
             }
         }
@@ -159,8 +260,7 @@ struct HomeView: View {
 
                     VStack(alignment: .leading, spacing: MASpacing.xs) {
                         Text("Huecos libres")
-                            .font(.system(.subheadline, design: .rounded))
-                            .fontWeight(.semibold)
+                            .font(.title3.weight(.semibold))
                             .foregroundStyle(neutral900)
                         if agenda.freeSlots.isEmpty {
                             MATypography.caption("Tu día está completo. Busca 90 segundos entre actividades para un reset rápido.")
@@ -325,6 +425,7 @@ struct HomeView: View {
             Text(time)
                 .font(.caption)
                 .fontWeight(.semibold)
+                .monospacedDigit()
                 .foregroundStyle(.white)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 4)

@@ -109,8 +109,8 @@ final class HomeViewModel: ObservableObject {
             let context = CoachContext(
                 todayEvents: sortedEvents,
                 freeBlocks: freeSlotsRaw.map { TimeIntervalBlock(start: $0.start, end: $0.end) },
-                latestPOMS: nil,
-                idep: nil,
+                latestPOMS: (nil as POMSResult?),
+                idep: (nil as IDEPResult?),
                 sleepPrefs: sleepPrefs.map { row in
                     SleepPrefs(
                         targetWakeTime: row.target_wake_time.flatMap { parseTimeComponents($0) },
@@ -120,7 +120,7 @@ final class HomeViewModel: ObservableObject {
                 },
                 energy: latestMood(moods: moods)?.energy,
                 stress: latestMood(moods: moods)?.stress,
-                upcomingGoal: nil
+                upcomingGoal: (nil as Goal?)
             )
 
             if let reco = buildDailyRecommendation(context: context, slots: freeSlotsRaw) {
@@ -357,3 +357,4 @@ final class HomeViewModel: ObservableObject {
         analytics.track(event: AnalyticsEvent(name: "daily_reco_clicked", parameters: ["user_id": userId]))
     }
 }
+

@@ -67,58 +67,69 @@ struct RootView: View {
             ))
             .tabItem { Label("Inicio", systemImage: "house.fill") }
 
-            DiaryView(viewModel: DiaryViewModel(
+            SessionsView(viewModel: SessionsViewModel(
                 userId: appState.currentUser?.id ?? "mock-user",
                 database: environment.databaseService,
                 analytics: environment.analyticsService
             ))
-            .tabItem { Label("Diario", systemImage: "book.fill") }
+            .tabItem { Label("Sesiones", systemImage: "waveform.path.ecg") }
+
+            ScheduleTabView()
+                .tabItem { Label("Agenda", systemImage: "calendar") }
 
             HabitsView(viewModel: HabitsViewModel(
                 userId: appState.currentUser?.id ?? "mock-user",
                 database: environment.databaseService,
                 analytics: environment.analyticsService
             ))
-            .tabItem { Label("Hábitos", systemImage: "checkmark.circle.fill") }
+            .tabItem { Label("Hábitos", systemImage: "checkmark.circle") }
 
-            SessionsView(viewModel: SessionsViewModel(
-                userId: appState.currentUser?.id ?? "mock-user",
-                database: environment.databaseService,
-                analytics: environment.analyticsService
-            ))
-            .tabItem { Label("Sesiones", systemImage: "waveform") }
+            NavigationStack {
+                List {
+                    NavigationLink {
+                        CoachAIView(viewModel: CoachAIViewModel(
+                            userId: appState.currentUser?.id ?? "mock-user",
+                            aiService: environment.aiService,
+                            analytics: environment.analyticsService
+                        ))
+                    } label: {
+                        Label("Coach", systemImage: "sparkles")
+                    }
 
-            CoachAIView(viewModel: CoachAIViewModel(
-                userId: appState.currentUser?.id ?? "mock-user",
-                aiService: environment.aiService,
-                analytics: environment.analyticsService
-            ))
-            .tabItem { Label("Coach", systemImage: "sparkles") }
+                    NavigationLink {
+                        CalendarView(viewModel: CalendarViewModel(
+                            userId: appState.currentUser?.id ?? "mock-user",
+                            database: environment.databaseService,
+                            analytics: environment.analyticsService
+                        ))
+                    } label: {
+                        Label("Calendario", systemImage: "calendar")
+                    }
 
-            CalendarView(viewModel: CalendarViewModel(
-                userId: appState.currentUser?.id ?? "mock-user",
-                database: environment.databaseService,
-                analytics: environment.analyticsService
-            ))
-            .tabItem { Label("Calendario", systemImage: "calendar") }
-
-            if let user = appState.currentUser {
-                ProfileView(
-                    viewModel: ProfileViewModel(
-                        user: user,
-                        authService: environment.authService,
-                        analytics: environment.analyticsService
-                    ),
-                    onSignOut: {
-                        Task {
-                            await supabaseAuth.signOut()
-                            appState.currentUser = nil
-                            gateState = .needsAuth
+                    if let user = appState.currentUser {
+                        NavigationLink {
+                            ProfileView(
+                                viewModel: ProfileViewModel(
+                                    user: user,
+                                    authService: environment.authService,
+                                    analytics: environment.analyticsService
+                                ),
+                                onSignOut: {
+                                    Task {
+                                        await supabaseAuth.signOut()
+                                        appState.currentUser = nil
+                                        gateState = .needsAuth
+                                    }
+                                }
+                            )
+                        } label: {
+                            Label("Perfil", systemImage: "person.crop.circle")
                         }
                     }
-                )
-                .tabItem { Label("Perfil", systemImage: "person.crop.circle") }
+                }
+                .navigationTitle("More")
             }
+            .tabItem { Label("More", systemImage: "ellipsis.circle") }
         }
         .tint(MAColorPalette.primary)
     }

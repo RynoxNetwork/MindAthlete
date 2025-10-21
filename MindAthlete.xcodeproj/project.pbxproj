@@ -91,12 +91,26 @@
 		99A1B2C32F9D123400000004 /* MindAthlete/Services/SupabaseDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A1B2C22F9D123400000003 /* MindAthlete/Services/SupabaseDatabaseService.swift */; };
 		99A1B2C52F9D123400000006 /* Features/Onboarding/SupabaseEmailAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A1B2C42F9D123400000005 /* Features/Onboarding/SupabaseEmailAuthView.swift */; };
 		99A1B2C72F9D169C00000008 /* MindAthlete/Services/GoogleAuthBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A1B2C62F9D169C00000007 /* MindAthlete/Services/GoogleAuthBridge.swift */; };
-		99C5A9F52F9D86B300000009 /* MindAthlete/Services/QuoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C5A9F42F9D86B300000008 /* MindAthlete/Services/QuoteService.swift */; };
+		99A8780E2EA7CC1900AA3A76 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A8780D2EA7CC1800AA3A76 /* ScheduleView.swift */; };
+		99A878102EA7CC3D00AA3A76 /* ScheduleHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A8780F2EA7CC3D00AA3A76 /* ScheduleHeader.swift */; };
+		99A878122EA7CC4500AA3A76 /* ScheduleView 2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A878112EA7CC4500AA3A76 /* ScheduleView 2.swift */; };
+		99A878142EA7D13900AA3A76 /* HabitsDemoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A878132EA7D13900AA3A76 /* HabitsDemoViewModel.swift */; };
+		99A878162EA7D14000AA3A76 /* DashboardHeaderDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A878152EA7D14000AA3A76 /* DashboardHeaderDemo.swift */; };
+		99A878182EA7D14600AA3A76 /* HabitCardDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A878172EA7D14600AA3A76 /* HabitCardDemo.swift */; };
+		99A8781A2EA7D14800AA3A76 /* NewHabitSheetDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A878192EA7D14800AA3A76 /* NewHabitSheetDemo.swift */; };
+		99A8781C2EA7D15100AA3A76 /* HabitDetailDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A8781B2EA7D15100AA3A76 /* HabitDetailDemoView.swift */; };
+		99A8781E2EA7D15D00AA3A76 /* HabitsDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A8781D2EA7D15D00AA3A76 /* HabitsDemoView.swift */; };
+		99A878202EA7D16200AA3A76 /* SectionHeaderShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A8781F2EA7D16200AA3A76 /* SectionHeaderShared.swift */; };
+		9AFB10012FA2345600000001 /* Features/Habits/DashboardHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB10002FA2345600000001 /* Features/Habits/DashboardHeader.swift */; };
+		9AFB10032FA2345600000002 /* Features/Habits/HabitCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB10022FA2345600000002 /* Features/Habits/HabitCard.swift */; };
+		9AFB10052FA2345600000003 /* Features/Habits/NewHabitSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB10042FA2345600000003 /* Features/Habits/NewHabitSheet.swift */; };
+		99A8789E2EA7D67700AA3A76 /* BrandPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A8789D2EA7D67700AA3A76 /* BrandPalette.swift */; };
 		99B3EAA12F9D4AA100000009 /* Features/Auth/ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B3EAA02F9D4AA100000008 /* Features/Auth/ForgotPasswordView.swift */; };
 		99B3EAA32F9D4AA10000000B /* Features/Auth/NewPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B3EAA22F9D4AA10000000A /* Features/Auth/NewPasswordView.swift */; };
 		99B3EAA52F9D4AA10000000D /* Data/UserProfilesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B3EAA42F9D4AA10000000C /* Data/UserProfilesRepository.swift */; };
 		99C5A9F12F9D803A00000005 /* MindAthlete/Services/AgendaProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C5A9F02F9D803A00000004 /* MindAthlete/Services/AgendaProtocols.swift */; };
 		99C5A9F32F9D803A00000007 /* MindAthlete/Services/SupabaseAgendaServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C5A9F22F9D803A00000006 /* MindAthlete/Services/SupabaseAgendaServices.swift */; };
+		99C5A9F52F9D86B300000009 /* MindAthlete/Services/QuoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C5A9F42F9D86B300000008 /* MindAthlete/Services/QuoteService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -193,6 +207,20 @@
 		99A1B2C22F9D123400000003 /* MindAthlete/Services/SupabaseDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAthlete/Services/SupabaseDatabaseService.swift; sourceTree = SOURCE_ROOT; };
 		99A1B2C42F9D123400000005 /* Features/Onboarding/SupabaseEmailAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Onboarding/SupabaseEmailAuthView.swift; sourceTree = SOURCE_ROOT; };
 		99A1B2C62F9D169C00000007 /* MindAthlete/Services/GoogleAuthBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAthlete/Services/GoogleAuthBridge.swift; sourceTree = SOURCE_ROOT; };
+		99A8780D2EA7CC1800AA3A76 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
+		99A8780F2EA7CC3D00AA3A76 /* ScheduleHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleHeader.swift; sourceTree = "<group>"; };
+		99A878112EA7CC4500AA3A76 /* ScheduleView 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScheduleView 2.swift"; sourceTree = "<group>"; };
+		99A878132EA7D13900AA3A76 /* HabitsDemoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsDemoViewModel.swift; sourceTree = "<group>"; };
+		99A878152EA7D14000AA3A76 /* DashboardHeaderDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardHeaderDemo.swift; sourceTree = "<group>"; };
+		99A878172EA7D14600AA3A76 /* HabitCardDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCardDemo.swift; sourceTree = "<group>"; };
+		99A878192EA7D14800AA3A76 /* NewHabitSheetDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHabitSheetDemo.swift; sourceTree = "<group>"; };
+		99A8781B2EA7D15100AA3A76 /* HabitDetailDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailDemoView.swift; sourceTree = "<group>"; };
+		99A8781D2EA7D15D00AA3A76 /* HabitsDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsDemoView.swift; sourceTree = "<group>"; };
+		99A8781F2EA7D16200AA3A76 /* SectionHeaderShared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderShared.swift; sourceTree = "<group>"; };
+		9AFB10002FA2345600000001 /* DashboardHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardHeader.swift; sourceTree = "<group>"; };
+		9AFB10022FA2345600000002 /* HabitCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCard.swift; sourceTree = "<group>"; };
+		9AFB10042FA2345600000003 /* NewHabitSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHabitSheet.swift; sourceTree = "<group>"; };
+		99A8789D2EA7D67700AA3A76 /* BrandPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandPalette.swift; sourceTree = "<group>"; };
 		99B3EAA02F9D4AA100000008 /* Features/Auth/ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Auth/ForgotPasswordView.swift; sourceTree = SOURCE_ROOT; };
 		99B3EAA22F9D4AA10000000A /* Features/Auth/NewPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Auth/NewPasswordView.swift; sourceTree = SOURCE_ROOT; };
 		99B3EAA42F9D4AA10000000C /* Data/UserProfilesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/UserProfilesRepository.swift; sourceTree = SOURCE_ROOT; };
@@ -320,9 +348,12 @@
 			children = (
 				994ECF5E2E9B7027001C73C3 /* HabitCreationView.swift */,
 				994ECF5F2E9B7027001C73C3 /* HabitDetailView.swift */,
+				9AFB10002FA2345600000001 /* DashboardHeader.swift */,
+				9AFB10022FA2345600000002 /* HabitCard.swift */,
 				994ECF602E9B7027001C73C3 /* HabitProgressView.swift */,
 				994ECF612E9B7027001C73C3 /* HabitsView.swift */,
 				994ECF622E9B7027001C73C3 /* HabitsViewModel.swift */,
+				9AFB10042FA2345600000003 /* NewHabitSheet.swift */,
 			);
 			path = Habits;
 			sourceTree = "<group>";
@@ -335,6 +366,17 @@
 				994ECF662E9B7027001C73C3 /* HomeViewModel.swift */,
 				994ECF672E9B7027001C73C3 /* RecommendationCard.swift */,
 				994ECF682E9B7027001C73C3 /* WeeklyProgressView.swift */,
+				99A8780D2EA7CC1800AA3A76 /* ScheduleView.swift */,
+				99A8780F2EA7CC3D00AA3A76 /* ScheduleHeader.swift */,
+				99A878112EA7CC4500AA3A76 /* ScheduleView 2.swift */,
+				99A878132EA7D13900AA3A76 /* HabitsDemoViewModel.swift */,
+				99A878152EA7D14000AA3A76 /* DashboardHeaderDemo.swift */,
+				99A878172EA7D14600AA3A76 /* HabitCardDemo.swift */,
+				99A878192EA7D14800AA3A76 /* NewHabitSheetDemo.swift */,
+				99A8781B2EA7D15100AA3A76 /* HabitDetailDemoView.swift */,
+				99A8781D2EA7D15D00AA3A76 /* HabitsDemoView.swift */,
+				99A8781F2EA7D16200AA3A76 /* SectionHeaderShared.swift */,
+				99A8789D2EA7D67700AA3A76 /* BrandPalette.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -677,6 +719,10 @@
 				994ED03B2E9C116F001C73C3 /* HabitProgressView.swift in Sources */,
 				994ED03C2E9C116F001C73C3 /* HabitsView.swift in Sources */,
 				994ED03D2E9C116F001C73C3 /* HabitsViewModel.swift in Sources */,
+				9AFB10012FA2345600000001 /* Features/Habits/DashboardHeader.swift in Sources */,
+				9AFB10032FA2345600000002 /* Features/Habits/HabitCard.swift in Sources */,
+				9AFB10052FA2345600000003 /* Features/Habits/NewHabitSheet.swift in Sources */,
+				99A878122EA7CC4500AA3A76 /* ScheduleView 2.swift in Sources */,
 				998E85312E9F61E400A3A367 /* MindAthlete/Debug/DebugConnectView.swift in Sources */,
 				994ED03E2E9C116F001C73C3 /* CheckInCard.swift in Sources */,
 				994ED03F2E9C116F001C73C3 /* HomeView.swift in Sources */,
@@ -694,16 +740,21 @@
 				994ED0482E9C116F001C73C3 /* PlanView.swift in Sources */,
 				994ED0492E9C116F001C73C3 /* PrivacySettingsView.swift in Sources */,
 				994ED04A2E9C116F001C73C3 /* ProfileView.swift in Sources */,
+				99A878102EA7CC3D00AA3A76 /* ScheduleHeader.swift in Sources */,
 				994ED04B2E9C116F001C73C3 /* ProfileViewModel.swift in Sources */,
 				994ED04C2E9C116F001C73C3 /* BreathingSessionView.swift in Sources */,
 				994ED04D2E9C116F001C73C3 /* FocusSessionView.swift in Sources */,
+				99A878162EA7D14000AA3A76 /* DashboardHeaderDemo.swift in Sources */,
+				99A878202EA7D16200AA3A76 /* SectionHeaderShared.swift in Sources */,
 				994ED04E2E9C116F001C73C3 /* MeditationSessionView.swift in Sources */,
+				99A8781A2EA7D14800AA3A76 /* NewHabitSheetDemo.swift in Sources */,
 				994ED04F2E9C116F001C73C3 /* SessionsView.swift in Sources */,
 				994ED0502E9C116F001C73C3 /* SessionsViewModel.swift in Sources */,
 				994ED0512E9C116F001C73C3 /* SessionTimerView.swift in Sources */,
 				994ED0122E9BFCEA001C73C3 /* AuthServiceTests.swift in Sources */,
 				994ED0132E9BFCEA001C73C3 /* AIServiceTests.swift in Sources */,
 				994ED0142E9BFCEA001C73C3 /* DatabaseServiceTests.swift in Sources */,
+				99A8781C2EA7D15100AA3A76 /* HabitDetailDemoView.swift in Sources */,
 				994ED0152E9BFCEA001C73C3 /* SnaphotTests.swift in Sources */,
 				994ECFA22E9B80F4001C73C3 /* APIError.swift in Sources */,
 				994ECFA32E9B80F4001C73C3 /* HTTPClient.swift in Sources */,
@@ -711,7 +762,9 @@
 				994ECFA52E9B80F4001C73C3 /* AppState.swift in Sources */,
 				994ECFA62E9B80F4001C73C3 /* Constants.swift in Sources */,
 				994ECFA72E9B80F4001C73C3 /* Extensions.swift in Sources */,
+				99A878142EA7D13900AA3A76 /* HabitsDemoViewModel.swift in Sources */,
 				99A1B2C12F9D123400000002 /* MindAthlete/Services/SupabaseAuthService.swift in Sources */,
+				99A8789E2EA7D67700AA3A76 /* BrandPalette.swift in Sources */,
 				998E852B2E9F5E9300A3A367 /* MindAthlete/Services/SupabaseClientProvider.swift in Sources */,
 				99A1B2C32F9D123400000004 /* MindAthlete/Services/SupabaseDatabaseService.swift in Sources */,
 				99C5A9F12F9D803A00000005 /* MindAthlete/Services/AgendaProtocols.swift in Sources */,
@@ -724,13 +777,16 @@
 				994ECFAA2E9B80F4001C73C3 /* MoodDTO.swift in Sources */,
 				994ECFAB2E9B80F4001C73C3 /* RecommendationDTO.swift in Sources */,
 				994ECFAC2E9B80F4001C73C3 /* UserDTO.swift in Sources */,
+				99A878182EA7D14600AA3A76 /* HabitCardDemo.swift in Sources */,
 				994ECFAD2E9B80F4001C73C3 /* Event.swift in Sources */,
 				994ECFAE2E9B80F4001C73C3 /* Habit.swift in Sources */,
 				994ECFAF2E9B80F4001C73C3 /* HabitLog.swift in Sources */,
 				994ECFB02E9B80F4001C73C3 /* Mood.swift in Sources */,
 				994ECFB12E9B80F4001C73C3 /* Recommendation.swift in Sources */,
+				99A8780E2EA7CC1900AA3A76 /* ScheduleView.swift in Sources */,
 				994ECFB22E9B80F4001C73C3 /* Session.swift in Sources */,
 				994ECFB32E9B80F4001C73C3 /* User.swift in Sources */,
+				99A8781E2EA7D15D00AA3A76 /* HabitsDemoView.swift in Sources */,
 				994ECFDA2E9B80F4001C73C3 /* AIService.swift in Sources */,
 				994ECFDB2E9B80F4001C73C3 /* AnalyticsService.swift in Sources */,
 				994ECFDC2E9B80F4001C73C3 /* AuthService.swift in Sources */,
