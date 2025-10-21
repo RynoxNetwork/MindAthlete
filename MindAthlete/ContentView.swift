@@ -62,8 +62,7 @@ struct RootView: View {
         TabView {
             HomeView(viewModel: HomeViewModel(
                 userId: appState.currentUser?.id ?? "mock-user",
-                aiService: environment.aiService,
-                database: environment.databaseService,
+                userName: appState.currentUser?.email,
                 analytics: environment.analyticsService
             ))
             .tabItem { Label("Inicio", systemImage: "house.fill") }
@@ -218,7 +217,7 @@ struct RootView: View {
 
     private func mapDomainUser(from profile: UserProfile) -> User {
         User(
-            id: profile.id.uuidString,
+            id: profile.user_id.uuidString,
             email: profile.email,
             sport: nil,
             university: profile.university,

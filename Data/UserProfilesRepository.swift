@@ -3,17 +3,13 @@ import Supabase
 
 struct UserProfile: Codable, Identifiable, Equatable {
     let id: UUID
+    let user_id: UUID
     var email: String
     var display_name: String?
     var university: String?
     var consent: Bool
     var created_at: Date
     var updated_at: Date
-}
-
-private struct UserProfileUpsert: Encodable {
-    let id: UUID
-    let email: String
 }
 
 @MainActor
@@ -35,10 +31,10 @@ final class UserProfilesRepository {
     func upsertMyProfile(email: String) async throws {
         let session = try await client.auth.session
         let uid = session.user.id
-        let payload = UserProfileUpsert(id: uid, email: email)
+        let payload = UserProfileUpsertPayload(user_id: uid, email: email)
         _ = try await client.database
             .from("user_profiles")
-            .upsert(payload, onConflict: "id", returning: .minimal)
+            .upsert(payload, onConflict: "user_id", returning: .minimal)
             .execute()
     }
 
@@ -51,4 +47,9 @@ final class UserProfilesRepository {
             .eq("id", value: uid)
             .execute()
     }
+}
+
+private struct UserProfileUpsertPayload: Encodable {
+    let user_id: UUID
+    let email: String
 }

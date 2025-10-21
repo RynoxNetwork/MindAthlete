@@ -24,13 +24,20 @@ struct HomeView: View {
         NavigationStack {
             ScrollView(.vertical, showsIndicators: true) {
                 LazyVStack(spacing: MASpacing.lg) {
-                    heroHeader
-                        .transition(.move(edge: .top).combined(with: .opacity))
+                    if let hero = viewModel.hero {
+                        heroHeader(hero)
+                            .transition(.move(edge: .top).combined(with: .opacity))
+                    }
 
                     checkInCard
                         .cardStyle()
+
+                    agendaCard
+                        .cardStyle()
+
                     recommendationCard
                         .cardStyle()
+
                     habitsCard
                         .cardStyle()
                 }
@@ -56,13 +63,13 @@ struct HomeView: View {
             .task {
                 await viewModel.load()
             }
-            .animation(.easeInOut(duration: 0.2), value: viewModel.habits)
+            .animation(.easeInOut(duration: 0.2), value: viewModel.habitsProgress?.completionPercent ?? 0)
             .animation(.easeInOut(duration: 0.2), value: viewModel.isLoading)
         }
     }
 
     // MARK: - Hero Header
-    private var heroHeader: some View {
+    private func heroHeader(_ hero: HomeViewModel.HeroContent) -> some View {
         ZStack(alignment: .leading) {
             RoundedRectangle(cornerRadius: 20, style: .continuous)
                 .fill(
@@ -92,14 +99,18 @@ struct HomeView: View {
                 }
 
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("Bienvenido de vuelta")
+                    Text(hero.greeting)
                         .font(.system(.subheadline, design: .rounded))
                         .foregroundStyle(.white.opacity(0.9))
-                    Text("Entrena tu mente. Mejora tu rendimiento.")
+                    Text(hero.quote)
                         .font(.system(.title3, design: .rounded))
                         .fontWeight(.semibold)
                         .foregroundStyle(.white)
                         .lineLimit(2)
+                    Rectangle()
+                        .fill(.white.opacity(0.2))
+                        .frame(height: 2)
+                        .padding(.trailing, MASpacing.xl)
                 }
                 Spacer()
             }
@@ -116,6 +127,11 @@ struct HomeView: View {
         MACard(title: "¿Cómo te sientes?") {
             VStack(alignment: .leading, spacing: MASpacing.md) {
                 labelWithIcon(text: "Registra tu mood y energía para entrenar tu autoconocimiento.", systemImage: "face.smiling")
+                if viewModel.hasCheckInToday {
+                    Label("Registro hecho", systemImage: "checkmark.circle.fill")
+                        .font(.caption)
+                        .foregroundStyle(brandTurquoise)
+                }
                 MAButton("Registrar check-in") {
                     // Navigate to diary check-in flow
                 }
@@ -125,41 +141,69 @@ struct HomeView: View {
         .overlayTopAccent(color: brandTurquoise)
     }
 
+    private var agendaCard: some View {
+        MACard(title: "Hoy en tu agenda") {
+            if let agenda = viewModel.agendaPreview {
+                VStack(alignment: .leading, spacing: MASpacing.sm) {
+                    if agenda.items.isEmpty {
+                        MATypography.body("No tienes eventos hoy. Aprovecha para sumar un micro entrenamiento mental.")
+                    } else {
+                        HStack(spacing: MASpacing.xs) {
+                            ForEach(agenda.items) { item in
+                                eventChip(time: item.timeRange, title: item.title, systemImage: item.iconName)
+                            }
+                        }
+                    }
+
+                    Divider().padding(.vertical, MASpacing.sm)
+
+                    VStack(alignment: .leading, spacing: MASpacing.xs) {
+                        Text("Huecos libres")
+                            .font(.system(.subheadline, design: .rounded))
+                            .fontWeight(.semibold)
+                            .foregroundStyle(neutral900)
+                        if agenda.freeSlots.isEmpty {
+                            MATypography.caption("Tu día está completo. Busca 90 segundos entre actividades para un reset rápido.")
+                        } else {
+                            HStack(spacing: MASpacing.xs) {
+                                ForEach(agenda.freeSlots) { slot in
+                                    MAChip("\(slot.label)", style: .filled)
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                HStack(spacing: MASpacing.sm) {
+                    ProgressView()
+                    Text("Analizando tu día...")
+                        .font(.system(.subheadline, design: .rounded))
+                        .foregroundStyle(neutral500)
+                }
+            }
+        }
+        .overlayTopAccent(color: brandTurquoise.opacity(0.8))
+    }
+
     private var recommendationCard: some View {
         MACard(title: "Recomendación de hoy") {
-            if let recommendation = viewModel.todaysRecommendation {
+            if let recommendation = viewModel.recommendation {
                 VStack(alignment: .leading, spacing: MASpacing.md) {
                     HStack(spacing: MASpacing.xs) {
                         Image(systemName: "lightbulb.fill")
                             .foregroundStyle(brandOrange)
-                        Text("Sugerencias para ti")
+                        Text("Para hoy a las \(Self.agendaTimeFormatter.string(from: recommendation.scheduledAt))")
                             .font(.system(.subheadline, design: .rounded))
                             .foregroundStyle(neutral500)
                     }
 
-                    ForEach(recommendation.recommendations, id: \.self) { tip in
-                        MATypography.body("• \(tip)")
-                            .transition(.opacity)
-                    }
+                    Text(recommendation.title)
+                        .font(.system(.headline, design: .rounded))
+                        .foregroundStyle(neutral900)
+                    MATypography.body(recommendation.body)
 
-                    if let preCompetition = recommendation.preCompetition {
-                        VStack(alignment: .leading, spacing: MASpacing.xs) {
-                            Text("Pre-competencia")
-                                .font(.system(.subheadline, design: .rounded))
-                                .fontWeight(.semibold)
-                                .foregroundColor(brandTurquoise)
-                            MATypography.body(preCompetition)
-                        }
-                        .transition(.opacity)
-                    }
-
-                    HStack(spacing: MASpacing.sm) {
-                        MAButton("Me ayudó", style: .secondary) {
-                            // feedback positive
-                        }
-                        MAButton("No hoy", style: .tertiary) {
-                            // feedback negative
-                        }
+                    MAButton(recommendation.actionTitle, style: .secondary) {
+                        viewModel.trackRecommendationTap()
                     }
                 }
             } else if viewModel.isLoading {
@@ -187,40 +231,30 @@ struct HomeView: View {
 
     private var habitsCard: some View {
         MACard(title: "Progreso de hábitos") {
-            if viewModel.habits.isEmpty {
-                VStack(alignment: .leading, spacing: MASpacing.sm) {
-                    MATypography.body("Aún no tienes hábitos activos. Crea uno para consolidar tu rutina.")
-                    MAButton("Crear hábito", style: .secondary) {
-                        // navigate to habits setup
+            if let progress = viewModel.habitsProgress {
+                VStack(alignment: .leading, spacing: MASpacing.md) {
+                    HStack(spacing: MASpacing.sm) {
+                        Label("Racha: \(progress.streak)d", systemImage: "flame.fill")
+                            .font(.system(.subheadline, design: .rounded))
+                            .foregroundStyle(brandOrange)
+                        Spacer()
+                        Text("\(Int(progress.completionPercent * 100))% del mes")
+                            .font(.system(.subheadline, design: .rounded))
+                            .foregroundStyle(neutral500)
+                    }
+                    ProgressView(value: progress.completionPercent)
+                        .progressViewStyle(.linear)
+                        .tint(brandTurquoise)
+                    MATypography.body(progress.message)
+                    MAButton("Ver todos", style: .tertiary) {
+                        // navigate to habits
                     }
                 }
             } else {
                 VStack(alignment: .leading, spacing: MASpacing.sm) {
-                    ForEach(viewModel.habits) { habit in
-                        HStack(spacing: MASpacing.md) {
-                            ZStack {
-                                Circle()
-                                    .fill(brandTurquoise.opacity(habit.active ? 0.15 : 0.07))
-                                    .frame(width: 36, height: 36)
-                                Image(systemName: habit.active ? "checkmark.circle.fill" : "pause.circle")
-                                    .foregroundStyle(habit.active ? brandTurquoise : neutral500)
-                            }
-
-                            VStack(alignment: .leading, spacing: MASpacing.xs) {
-                                Text(habit.name)
-                                    .font(.system(.headline, design: .rounded))
-                                    .foregroundColor(MAColorPalette.textPrimary)
-                                MATypography.caption("Meta semanal: \(habit.targetPerWeek)x")
-                            }
-                            Spacer()
-                            MAChip(habit.active ? "Act." : "Pausado", style: habit.active ? .filled : .outlined)
-                                .accessibilityLabel(habit.active ? "Hábito activo" : "Hábito pausado")
-                            Image(systemName: "chevron.right")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                        .padding(.vertical, 6)
-                        Divider()
+                    MATypography.body("Configura tus hábitos para comenzar a rastrear tu progreso diario.")
+                    MAButton("Crear hábito", style: .secondary) {
+                        // navigate
                     }
                 }
             }
@@ -278,6 +312,40 @@ struct HomeView: View {
         )
         .transition(.opacity)
     }
+
+    // MARK: - Helpers
+    private static let agendaTimeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        return formatter
+    }()
+
+    private func eventChip(time: String, title: String, systemImage: String?) -> some View {
+        HStack(spacing: MASpacing.xs) {
+            Text(time)
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundStyle(.white)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(Capsule().fill(brandTurquoise))
+
+            HStack(spacing: MASpacing.xs) {
+                if let systemImage {
+                    Image(systemName: systemImage)
+                        .font(.caption)
+                        .foregroundStyle(neutral500)
+                }
+                Text(title)
+                    .font(.caption)
+                    .foregroundStyle(neutral500)
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 4)
+            .background(Capsule().stroke(neutral500.opacity(0.2)))
+        }
+    }
+
 }
 
 // MARK: - Small helpers

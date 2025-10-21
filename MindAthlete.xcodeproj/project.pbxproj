@@ -91,9 +91,12 @@
 		99A1B2C32F9D123400000004 /* MindAthlete/Services/SupabaseDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A1B2C22F9D123400000003 /* MindAthlete/Services/SupabaseDatabaseService.swift */; };
 		99A1B2C52F9D123400000006 /* Features/Onboarding/SupabaseEmailAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A1B2C42F9D123400000005 /* Features/Onboarding/SupabaseEmailAuthView.swift */; };
 		99A1B2C72F9D169C00000008 /* MindAthlete/Services/GoogleAuthBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A1B2C62F9D169C00000007 /* MindAthlete/Services/GoogleAuthBridge.swift */; };
+		99C5A9F52F9D86B300000009 /* MindAthlete/Services/QuoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C5A9F42F9D86B300000008 /* MindAthlete/Services/QuoteService.swift */; };
 		99B3EAA12F9D4AA100000009 /* Features/Auth/ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B3EAA02F9D4AA100000008 /* Features/Auth/ForgotPasswordView.swift */; };
 		99B3EAA32F9D4AA10000000B /* Features/Auth/NewPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B3EAA22F9D4AA10000000A /* Features/Auth/NewPasswordView.swift */; };
 		99B3EAA52F9D4AA10000000D /* Data/UserProfilesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B3EAA42F9D4AA10000000C /* Data/UserProfilesRepository.swift */; };
+		99C5A9F12F9D803A00000005 /* MindAthlete/Services/AgendaProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C5A9F02F9D803A00000004 /* MindAthlete/Services/AgendaProtocols.swift */; };
+		99C5A9F32F9D803A00000007 /* MindAthlete/Services/SupabaseAgendaServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C5A9F22F9D803A00000006 /* MindAthlete/Services/SupabaseAgendaServices.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -193,6 +196,9 @@
 		99B3EAA02F9D4AA100000008 /* Features/Auth/ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Auth/ForgotPasswordView.swift; sourceTree = SOURCE_ROOT; };
 		99B3EAA22F9D4AA10000000A /* Features/Auth/NewPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Auth/NewPasswordView.swift; sourceTree = SOURCE_ROOT; };
 		99B3EAA42F9D4AA10000000C /* Data/UserProfilesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/UserProfilesRepository.swift; sourceTree = SOURCE_ROOT; };
+		99C5A9F02F9D803A00000004 /* MindAthlete/Services/AgendaProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAthlete/Services/AgendaProtocols.swift; sourceTree = SOURCE_ROOT; };
+		99C5A9F22F9D803A00000006 /* MindAthlete/Services/SupabaseAgendaServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAthlete/Services/SupabaseAgendaServices.swift; sourceTree = SOURCE_ROOT; };
+		99C5A9F42F9D86B300000008 /* MindAthlete/Services/QuoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAthlete/Services/QuoteService.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -249,6 +255,9 @@
 				99A1B2C02F9D123400000001 /* MindAthlete/Services/SupabaseAuthService.swift */,
 				99A1B2C22F9D123400000003 /* MindAthlete/Services/SupabaseDatabaseService.swift */,
 				99A1B2C62F9D169C00000007 /* MindAthlete/Services/GoogleAuthBridge.swift */,
+				99C5A9F02F9D803A00000004 /* MindAthlete/Services/AgendaProtocols.swift */,
+				99C5A9F22F9D803A00000006 /* MindAthlete/Services/SupabaseAgendaServices.swift */,
+				99C5A9F42F9D86B300000008 /* MindAthlete/Services/QuoteService.swift */,
 				994ECF412E9B7027001C73C3 /* AIService.swift */,
 				994ECF422E9B7027001C73C3 /* AnalyticsService.swift */,
 				994ECF432E9B7027001C73C3 /* AuthService.swift */,
@@ -352,15 +361,6 @@
 				994ECF732E9B7027001C73C3 /* ProfileViewModel.swift */,
 			);
 			path = Profile;
-			sourceTree = "<group>";
-		};
-		99B3EAA62F9D4AA10000000E /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				99B3EAA02F9D4AA100000008 /* Features/Auth/ForgotPasswordView.swift */,
-				99B3EAA22F9D4AA10000000A /* Features/Auth/NewPasswordView.swift */,
-			);
-			path = Auth;
 			sourceTree = "<group>";
 		};
 		994ECF7B2E9B7027001C73C3 /* Sessions */ = {
@@ -480,14 +480,6 @@
 			path = Domain;
 			sourceTree = "<group>";
 		};
-		99B3EAA72F9D4AA10000000F /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				99B3EAA42F9D4AA10000000C /* Data/UserProfilesRepository.swift */,
-			);
-			path = Data;
-			sourceTree = "<group>";
-		};
 		997A895E2E9B6D050057228A = {
 			isa = PBXGroup;
 			children = (
@@ -518,6 +510,23 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		99B3EAA62F9D4AA10000000E /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				99B3EAA02F9D4AA100000008 /* Features/Auth/ForgotPasswordView.swift */,
+				99B3EAA22F9D4AA10000000A /* Features/Auth/NewPasswordView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		99B3EAA72F9D4AA10000000F /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				99B3EAA42F9D4AA10000000C /* Data/UserProfilesRepository.swift */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -705,6 +714,9 @@
 				99A1B2C12F9D123400000002 /* MindAthlete/Services/SupabaseAuthService.swift in Sources */,
 				998E852B2E9F5E9300A3A367 /* MindAthlete/Services/SupabaseClientProvider.swift in Sources */,
 				99A1B2C32F9D123400000004 /* MindAthlete/Services/SupabaseDatabaseService.swift in Sources */,
+				99C5A9F12F9D803A00000005 /* MindAthlete/Services/AgendaProtocols.swift in Sources */,
+				99C5A9F32F9D803A00000007 /* MindAthlete/Services/SupabaseAgendaServices.swift in Sources */,
+				99C5A9F52F9D86B300000009 /* MindAthlete/Services/QuoteService.swift in Sources */,
 				99B3EAA52F9D4AA10000000D /* Data/UserProfilesRepository.swift in Sources */,
 				99A1B2C72F9D169C00000008 /* MindAthlete/Services/GoogleAuthBridge.swift in Sources */,
 				994ECFA82E9B80F4001C73C3 /* Helpers.swift in Sources */,
