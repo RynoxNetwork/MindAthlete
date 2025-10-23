@@ -205,3 +205,11 @@ CREATE INDEX IF NOT EXISTS idx_session_completions_user_id ON session_completion
 CREATE INDEX IF NOT EXISTS idx_ai_recommendations_user_id ON ai_recommendations(user_id);
 CREATE INDEX IF NOT EXISTS idx_analytics_events_user_id ON analytics_events(user_id);
 CREATE INDEX IF NOT EXISTS idx_analytics_events_timestamp ON analytics_events(timestamp);
+
+-- Update assessments instrument constraint to include Self-Esteem
+ALTER TABLE IF EXISTS assessments
+    DROP CONSTRAINT IF EXISTS assessments_instrument_check;
+
+ALTER TABLE IF EXISTS assessments
+    ADD CONSTRAINT assessments_instrument_check
+    CHECK (instrument IN ('POMS', 'IDEP', 'BREVE', 'SELF_ESTEEM'));

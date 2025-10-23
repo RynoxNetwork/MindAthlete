@@ -6,6 +6,7 @@ protocol NotificationServiceProtocol {
     func requestAuthorization() async -> Bool
     func scheduleDailyCheckIn(at hour: Int, minute: Int) async
     func schedulePreCompetitionReminder(for event: Event) async
+    func scheduleSuggestionReminder(title: String, body: String, at date: Date) async
 }
 
 final class NotificationService: NotificationServiceProtocol {
@@ -44,6 +45,20 @@ final class NotificationService: NotificationServiceProtocol {
 
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerComponents, repeats: false)
         let request = UNNotificationRequest(identifier: "pre_competition_\(event.id)", content: content, trigger: trigger)
+
+        try? await UNUserNotificationCenter.current().add(request)
+    }
+
+    func scheduleSuggestionReminder(title: String, body: String, at date: Date) async {
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.body = body
+        content.sound = .default
+
+        let triggerComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: date)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerComponents, repeats: false)
+        let identifier = "agenda_suggestion_\(UUID().uuidString)"
+        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
 
         try? await UNUserNotificationCenter.current().add(request)
     }

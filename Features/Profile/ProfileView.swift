@@ -34,6 +34,12 @@ struct ProfileView: View {
                 Toggle("Recordatorio pre-competencia", isOn: .constant(true))
             }
 
+            Section(header: Text("Accesibilidad")) {
+                NavigationLink("Colores de agenda") {
+                    AgendaColorSettingsView(store: AgendaColorStore())
+                }
+            }
+
             Section(header: Text("Suscripción")) {
                 Button("Ver planes (RevenueCat)") {}
             }

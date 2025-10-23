@@ -51,6 +51,8 @@ final class HomeViewModel: ObservableObject {
     @Published var recommendation: DailyRecommendationViewData?
     @Published var habitsProgress: HabitsProgressViewData?
     @Published var isLoading: Bool = false
+    @Published private var latestAssessments: [AssessmentInstrument: Date] = [:]
+    @Published private var subscriptionTier: SubscriptionTier = .free
 
     private let userId: String
     private let userName: String?
@@ -88,17 +90,24 @@ final class HomeViewModel: ObservableObject {
         analytics.track(event: AnalyticsEvent(name: "home_quote_shown", parameters: ["quote": heroContent.quote]))
 
         do {
+            async let entitlementsTask = databaseService.listEntitlements()
+            async let assessmentsTask = databaseService.listAssessments()
             async let moodsTask = databaseService.fetchMoods()
             async let habitsTask = databaseService.listHabits()
             async let habitLogsTask = databaseService.listHabitLogs(for: nil)
             async let eventsTask = calendarService.listEvents(from: startOfDay, to: endOfDay)
             async let sleepPrefsTask = databaseService.getSleepPreferences()
 
+            let entitlements = try await entitlementsTask
+            subscriptionTier = determineTier(from: entitlements)
+
             let moods = try await moodsTask
             let habits = try await habitsTask
             let habitLogs = try await habitLogsTask
             let events = try await eventsTask
             let sleepPrefs = try await sleepPrefsTask
+            let assessments = try await assessmentsTask
+            latestAssessments = mapLatestAssessments(from: assessments)
             hasCheckInToday = didCheckInToday(moods: moods, calendar: calendar)
 
             let sortedEvents = events.sorted { $0.start < $1.start }
@@ -139,6 +148,60 @@ final class HomeViewModel: ObservableObject {
         } catch {
             analytics.track(event: AnalyticsEvent(name: "home_load_failed", parameters: ["error": error.localizedDescription]))
         }
+    }
+
+    var pendingTests: [AssessmentInstrument] {
+        let statuses = testStatuses
+        return AssessmentInstrument.allCases.filter { instrument in
+            guard let status = statuses[instrument] else { return false }
+            switch status {
+            case .neverTaken:
+                return true
+            case .available(let lastTaken):
+                if subscriptionTier == .premium {
+                    return lastTaken == nil
+                }
+                return true
+            case .lockedUntil:
+                return true
+            }
+        }
+    }
+
+    var testStatuses: [AssessmentInstrument: AssessmentStatus] {
+        let calendar = Calendar.current
+        let now = Date()
+        var result: [AssessmentInstrument: AssessmentStatus] = [:]
+        for instrument in AssessmentInstrument.allCases {
+            let status = AssessmentEligibility.status(
+                for: instrument,
+                lastTaken: latestAssessments[instrument],
+                tier: subscriptionTier,
+                referenceDate: now,
+                calendar: calendar
+            )
+            result[instrument] = status
+        }
+        return result
+    }
+
+    func trackHomeTestsCTA() {
+        analytics.track(
+            event: AnalyticsEvent(
+                name: "test_cta_home_clicked",
+                parameters: [
+                    "pending": pendingTests.count,
+                    "tier": subscriptionTier.rawValue
+                ]
+            )
+        )
+    }
+
+    func makeTestsOverviewViewModel() -> TestsOverviewViewModel {
+        TestsOverviewViewModel(
+            databaseService: databaseService,
+            analytics: analytics
+        )
     }
 
     // MARK: - Builders
@@ -356,5 +419,21 @@ final class HomeViewModel: ObservableObject {
     func trackRecommendationTap() {
         analytics.track(event: AnalyticsEvent(name: "daily_reco_clicked", parameters: ["user_id": userId]))
     }
-}
 
+    private func determineTier(from entitlements: [EntitlementRow]) -> SubscriptionTier {
+        entitlements.contains(where: { $0.active && $0.product.lowercased().contains("premium") }) ? .premium : .free
+    }
+
+    private func mapLatestAssessments(from rows: [AssessmentRow]) -> [AssessmentInstrument: Date] {
+        rows.reduce(into: [AssessmentInstrument: Date]()) { result, row in
+            guard let instrument = AssessmentInstrument(rawValue: row.instrument) else { return }
+            if let existing = result[instrument] {
+                if row.taken_at > existing {
+                    result[instrument] = row.taken_at
+                }
+            } else {
+                result[instrument] = row.taken_at
+            }
+        }
+    }
+}

@@ -74,7 +74,17 @@ struct RootView: View {
             ))
             .tabItem { Label("Sesiones", systemImage: "waveform.path.ecg") }
 
-            ScheduleTabView()
+            ScheduleTabView(
+                viewModel: AgendaViewModel(
+                    userId: appState.currentUser?.id ?? "mock-user",
+                    calendarService: SupabaseCalendarService(),
+                    database: SupabaseDatabaseService(),
+                    aiService: environment.aiService,
+                    analytics: environment.analyticsService,
+                    notificationService: environment.notificationService,
+                    colorStore: AgendaColorStore()
+                )
+            )
                 .tabItem { Label("Agenda", systemImage: "calendar") }
 
             HabitsView(viewModel: HabitsViewModel(
@@ -104,6 +114,12 @@ struct RootView: View {
                         ))
                     } label: {
                         Label("Calendario", systemImage: "calendar")
+                    }
+
+                    NavigationLink {
+                        TestsOverviewStandaloneContainer(analytics: environment.analyticsService)
+                    } label: {
+                        Label("Autoevaluaciones", systemImage: "chart.bar.doc.horizontal")
                     }
 
                     if let user = appState.currentUser {
@@ -234,6 +250,26 @@ struct RootView: View {
             university: profile.university,
             consent: profile.consent,
             createdAt: profile.created_at
+        )
+    }
+}
+
+private struct TestsOverviewStandaloneContainer: View {
+    @StateObject private var viewModel: TestsOverviewViewModel
+
+    init(analytics: AnalyticsServiceProtocol) {
+        _viewModel = StateObject(wrappedValue: TestsOverviewViewModel(
+            databaseService: SupabaseDatabaseService(),
+            analytics: analytics
+        ))
+    }
+
+    var body: some View {
+        TestsOverviewView(
+            viewModel: viewModel,
+            onAssessmentCompleted: {
+                Task { await viewModel.refresh() }
+            }
         )
     }
 }

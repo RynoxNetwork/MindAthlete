@@ -13,6 +13,7 @@ public struct MAButton: View {
         case primary
         case secondary
         case tertiary
+        case outline
     }
 
     private let title: String
@@ -32,7 +33,7 @@ public struct MAButton: View {
                 .fontWeight(.semibold)
                 .padding(.vertical, MASpacing.sm)
                 .padding(.horizontal, MASpacing.lg)
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: .infinity, minHeight: 52)
         }
         .buttonStyle(MAButtonStyle(style: style))
         .accessibilityAddTraits(.isButton)
@@ -41,17 +42,20 @@ public struct MAButton: View {
 
 struct MAButtonStyle: ButtonStyle {
     let style: MAButton.Style
+    @Environment(\.isEnabled) private var isEnabled: Bool
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .background(backgroundColor(isPressed: configuration.isPressed))
             .foregroundColor(foregroundColor)
-            .cornerRadius(14)
+            .cornerRadius(24)
             .overlay(
-                RoundedRectangle(cornerRadius: 14)
-                    .stroke(borderColor, lineWidth: style == .tertiary ? 1 : 0)
+                RoundedRectangle(cornerRadius: 24)
+                    .stroke(borderColor, lineWidth: borderWidth)
             )
+            .scaleEffect(configuration.isPressed ? 0.98 : 1)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
+            .opacity(isEnabled ? 1 : 0.6)
     }
 
     private var foregroundColor: Color {
@@ -62,6 +66,8 @@ struct MAButtonStyle: ButtonStyle {
             return MAColorPalette.primary
         case .tertiary:
             return MAColorPalette.textPrimary
+        case .outline:
+            return MAColorPalette.primary
         }
     }
 
@@ -73,6 +79,8 @@ struct MAButtonStyle: ButtonStyle {
             return isPressed ? MAColorPalette.primary100 : MAColorPalette.primary.opacity(0.12)
         case .tertiary:
             return Color.clear
+        case .outline:
+            return isPressed ? MAColorPalette.primary.opacity(0.06) : Color.maSurface
         }
     }
 
@@ -84,6 +92,19 @@ struct MAButtonStyle: ButtonStyle {
             return MAColorPalette.primary
         case .tertiary:
             return MAColorPalette.surfaceAlt
+        case .outline:
+            return MAColorPalette.primary
+        }
+    }
+
+    private var borderWidth: CGFloat {
+        switch style {
+        case .outline:
+            return 2
+        case .secondary, .primary:
+            return 0
+        case .tertiary:
+            return 1
         }
     }
 }

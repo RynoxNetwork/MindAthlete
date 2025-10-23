@@ -1,15 +1,23 @@
+import Foundation
 import SwiftUI
 
 struct HomeView: View {
     @StateObject var viewModel: HomeViewModel
     @State private var didAppear = false
     @State private var checkInBounceTrigger = 0
+    @State private var showTestsOverview = false
+    @State private var testsCtaTrigger = 0
 
     // MARK: - Brand Colors (local helpers)
     private let brandTurquoise = Color(red: 27/255, green: 166/255, blue: 166/255) // #1BA6A6
     private let brandOrange    = Color(red: 241/255, green: 143/255, blue: 1/255)  // #F18F01
     private let neutral900     = Color(red: 15/255, green: 23/255, blue: 42/255)   // #0F172A
     private let neutral500     = Color(red: 71/255, green: 85/255, blue: 105/255)  // #475569
+    private let testsRelativeFormatter: RelativeDateTimeFormatter = {
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .full
+        return formatter
+    }()
 
     private var todayString: String {
         let df = DateFormatter()
@@ -24,8 +32,17 @@ struct HomeView: View {
 
     var body: some View {
         NavigationStack {
+            NavigationLink(isActive: $showTestsOverview) {
+                TestsOverviewContainer(homeViewModel: viewModel) {
+                    Task { await viewModel.load() }
+                }
+            } label: {
+                EmptyView()
+            }
+            .hidden()
+
             ScrollView(.vertical, showsIndicators: true) {
-                LazyVStack(spacing: 16) {
+                LazyVStack(spacing: MASpacing.xl) {
                     if let hero = viewModel.hero {
                         heroHeader(hero)
                             .opacity(didAppear ? 1 : 0)
@@ -33,6 +50,8 @@ struct HomeView: View {
                             .animation(.spring(response: 0.35, dampingFraction: 0.9).delay(0.00), value: didAppear)
                             .transition(.move(edge: .top).combined(with: .opacity))
                     }
+
+                    testsReminderCard
 
                     checkInCard
                         .cardStyle()
@@ -242,6 +261,65 @@ struct HomeView: View {
         .overlayTopAccent(color: brandTurquoise)
     }
 
+    @ViewBuilder
+    private var testsReminderCard: some View {
+        if viewModel.pendingTests.isEmpty {
+            EmptyView()
+        } else {
+            let statuses = viewModel.testStatuses
+            let pending = viewModel.pendingTests
+            let actionable = pending.filter { instrument in
+                guard let status = statuses[instrument] else { return false }
+                return status.isActionable
+            }
+            let lockedDates = pending.compactMap { instrument -> Date? in
+                guard let status = statuses[instrument] else { return nil }
+                if case .lockedUntil(let date) = status { return date }
+                return nil
+            }
+            let nextLockedDate = lockedDates.min()
+            let isCTAEnabled = !actionable.isEmpty
+            MACard {
+                VStack(alignment: .leading, spacing: MASpacing.md) {
+                    VStack(alignment: .leading, spacing: MASpacing.xs) {
+                        Text("Completa tus chequeos mentales")
+                            .font(.system(.title3, design: .rounded).weight(.semibold))
+                            .foregroundStyle(neutral900)
+                        Text("Ayúdanos a personalizar tus recomendaciones. Realiza los tests POMS, IDEP y Autoestima.")
+                            .font(.system(.body, design: .rounded))
+                            .foregroundStyle(neutral500)
+                    }
+
+                    let pendingList = pending.map { $0.shortTitle }.joined(separator: ", ")
+                    if !pendingList.isEmpty {
+                        Text("Pendientes: \(pendingList)")
+                            .font(.system(.footnote, design: .rounded).weight(.medium))
+                            .foregroundStyle(brandOrange)
+                    }
+
+                    if !isCTAEnabled, let lockedDate = nextLockedDate {
+                        let relative = testsRelativeFormatter.localizedString(for: lockedDate, relativeTo: Date())
+                        Text("Disponible \(relative)")
+                            .font(.system(.footnote, design: .rounded))
+                            .foregroundStyle(neutral500)
+                    }
+
+                    MAButton("Realizar tests", style: .outline) {
+                        guard isCTAEnabled else { return }
+                        testsCtaTrigger += 1
+                        viewModel.trackHomeTestsCTA()
+                        showTestsOverview = true
+                    }
+                    .disabled(!isCTAEnabled)
+                    .sensoryFeedback(.selection, trigger: testsCtaTrigger)
+                }
+            }
+            .overlayTopAccent(color: brandTurquoise)
+            .cardStyle()
+            .transition(.opacity.combined(with: .move(edge: .top)))
+        }
+    }
+
     private var agendaCard: some View {
         MACard(title: "Hoy en tu agenda") {
             if let agenda = viewModel.agendaPreview {
@@ -447,6 +525,25 @@ struct HomeView: View {
         }
     }
 
+}
+
+private struct TestsOverviewContainer: View {
+    @ObservedObject var homeViewModel: HomeViewModel
+    let onCompleted: () -> Void
+    @StateObject private var testsViewModel: TestsOverviewViewModel
+
+    init(homeViewModel: HomeViewModel, onCompleted: @escaping () -> Void) {
+        self.homeViewModel = homeViewModel
+        self.onCompleted = onCompleted
+        _testsViewModel = StateObject(wrappedValue: homeViewModel.makeTestsOverviewViewModel())
+    }
+
+    var body: some View {
+        TestsOverviewView(
+            viewModel: testsViewModel,
+            onAssessmentCompleted: onCompleted
+        )
+    }
 }
 
 // MARK: - Small helpers
