@@ -206,6 +206,24 @@ CREATE INDEX IF NOT EXISTS idx_ai_recommendations_user_id ON ai_recommendations(
 CREATE INDEX IF NOT EXISTS idx_analytics_events_user_id ON analytics_events(user_id);
 CREATE INDEX IF NOT EXISTS idx_analytics_events_timestamp ON analytics_events(timestamp);
 
+-- Agenda events recurrence support
+ALTER TABLE public.events
+  ADD COLUMN IF NOT EXISTS frequency TEXT CHECK (frequency IN ('none','daily','weekly','biweekly','monthly')) DEFAULT 'none';
+
+ALTER TABLE public.events
+  ADD COLUMN IF NOT EXISTS repeat_days TEXT[] DEFAULT '{}';
+
+ALTER TABLE public.events
+  ADD COLUMN IF NOT EXISTS end_date TIMESTAMPTZ;
+
+ALTER TABLE public.events
+  ADD COLUMN IF NOT EXISTS override_parent_id UUID REFERENCES public.events(id) ON DELETE CASCADE;
+
+ALTER TABLE public.events
+  ADD COLUMN IF NOT EXISTS is_override BOOLEAN NOT NULL DEFAULT FALSE;
+
+CREATE INDEX IF NOT EXISTS idx_events_override_parent ON public.events(override_parent_id);
+
 -- Update assessments instrument constraint to include Self-Esteem
 ALTER TABLE IF EXISTS assessments
     DROP CONSTRAINT IF EXISTS assessments_instrument_check;

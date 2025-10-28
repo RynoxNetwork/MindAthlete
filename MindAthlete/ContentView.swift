@@ -63,7 +63,8 @@ struct RootView: View {
             HomeView(viewModel: HomeViewModel(
                 userId: appState.currentUser?.id ?? "mock-user",
                 userName: appState.currentUser?.email,
-                analytics: environment.analyticsService
+                analytics: environment.analyticsService,
+                aiService: environment.aiService
             ))
             .tabItem { Label("Inicio", systemImage: "house.fill") }
 

@@ -22,31 +22,73 @@ final class SupabaseCalendarService: CalendarService {
       kind: event.kind,
       startsAt: event.start,
       endsAt: event.end,
-      notes: event.notes
+      notes: event.notes,
+      frequency: event.recurrence?.frequency.rawValue ?? "none",
+      repeatDays: event.recurrence?.repeatDays,
+      endDate: event.recurrence?.endDate,
+      overrideParentId: event.overrideParentId,
+      isOverride: event.isOverride
     )
-    return AgendaEvent(id: row.id, title: row.title, start: row.starts_at, end: row.ends_at ?? row.starts_at.addingTimeInterval(3600), kind: row.kind, notes: row.notes, source: "local")
+    return mapRow(row, source: "local")
+  }
+
+  func createEventOccurrences(for masterId: UUID, occurrences: [AgendaEvent]) async throws -> [AgendaEvent] {
+    guard !occurrences.isEmpty else { return [] }
+    let sessionUser = try await db.currentUserId()
+    let inserts = occurrences.map { occurrence -> EventInsert in
+      EventInsert(
+        user_id: sessionUser,
+        title: occurrence.title,
+        kind: occurrence.kind,
+        starts_at: occurrence.start,
+        ends_at: occurrence.end,
+        notes: occurrence.notes,
+        frequency: "none",
+        repeat_days: [],
+        end_date: nil,
+        override_parent_id: masterId,
+        is_override: occurrence.isOverride
+      )
+    }
+    let rows = try await db.createEvents(inserts)
+    return rows.map { mapRow($0, source: "local") }
   }
 
   func listEvents(from: Date, to: Date) async throws -> [AgendaEvent] {
     let local = try await db.listEvents().filter { $0.starts_at >= from && $0.starts_at <= to }
     // External calendars se normalizarán en el futuro.
-    return local.map {
-      AgendaEvent(
-        id: $0.id,
-        title: $0.title,
-        start: $0.starts_at,
-        end: $0.ends_at ?? $0.starts_at.addingTimeInterval(3600),
-        kind: $0.kind,
-        notes: $0.notes,
-        source: "local"
-      )
-    }
+    return local.map { mapRow($0, source: "local") }
   }
 
   func computeAvailability(from: Date, to: Date, minBlock: TimeInterval) async throws -> [TimeIntervalBlock] {
     let events = try await listEvents(from: from, to: to)
     let availability = computeFreeBusy(events: events, dayBounds: (from, to))
     return availability.filter { $0.duration >= minBlock }
+  }
+
+  private func mapRow(_ row: EventRow, source: String) -> AgendaEvent {
+    let recurrence: AgendaRecurrence?
+    if let frequencyRaw = row.frequency, let frequency = AgendaRecurrenceFrequency(rawValue: frequencyRaw), frequency != .none {
+      recurrence = AgendaRecurrence(
+        frequency: frequency,
+        repeatDays: row.repeat_days ?? [],
+        endDate: row.end_date
+      )
+    } else {
+      recurrence = nil
+    }
+    return AgendaEvent(
+      id: row.id,
+      title: row.title,
+      start: row.starts_at,
+      end: row.ends_at ?? row.starts_at.addingTimeInterval(3600),
+      kind: row.kind,
+      notes: row.notes,
+      source: source,
+      recurrence: recurrence,
+      overrideParentId: row.override_parent_id,
+      isOverride: row.is_override ?? false
+    )
   }
 }
 

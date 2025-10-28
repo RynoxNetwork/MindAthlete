@@ -68,12 +68,12 @@ enum AgendaCategory: String, CaseIterable, Identifiable {
 
     var defaultHex: String {
         switch self {
-        case .personal: return "#E26A2C"
-        case .training: return "#0E8C86"
-        case .work: return "#B8821D"
-        case .client: return "#5F6BD4"
-        case .study: return "#3E9A4F"
-        case .recovery: return "#1BA6A6"
+        case .personal: return "#63C174"
+        case .training: return "#1BA6A6"
+        case .work: return "#F2C94C"
+        case .client: return "#4E9CFF"
+        case .study: return "#8B6FF2"
+        case .recovery: return "#76C7C5"
         case .other: return "#475569"
         }
     }
@@ -102,6 +102,47 @@ enum AgendaCategory: String, CaseIterable, Identifiable {
 
     static var primary: [AgendaCategory] {
         [.personal, .training, .work, .client, .study]
+    }
+}
+
+enum AgendaWeekday: String, CaseIterable, Identifiable {
+    case monday = "Mon"
+    case tuesday = "Tue"
+    case wednesday = "Wed"
+    case thursday = "Thu"
+    case friday = "Fri"
+    case saturday = "Sat"
+    case sunday = "Sun"
+
+    var id: String { rawValue }
+
+    var displayName: String {
+        switch self {
+        case .monday: return "Lun"
+        case .tuesday: return "Mar"
+        case .wednesday: return "Mié"
+        case .thursday: return "Jue"
+        case .friday: return "Vie"
+        case .saturday: return "Sáb"
+        case .sunday: return "Dom"
+        }
+    }
+
+    var calendarValue: Int {
+        switch self {
+        case .sunday: return 1
+        case .monday: return 2
+        case .tuesday: return 3
+        case .wednesday: return 4
+        case .thursday: return 5
+        case .friday: return 6
+        case .saturday: return 7
+        }
+    }
+
+    static func from(date: Date, calendar: Calendar = .current) -> AgendaWeekday {
+        let weekday = calendar.component(.weekday, from: date)
+        return AgendaWeekday.allCases.first { $0.calendarValue == weekday } ?? .monday
     }
 }
 
@@ -229,6 +270,9 @@ struct AgendaEventViewData: Identifiable, Equatable {
     let source: AgendaScheduleSource
     let trainingType: String?
     let studyFocus: String?
+    let recurrence: AgendaRecurrence?
+    let isOverride: Bool
+    let recurrenceSummary: String?
 }
 
 struct AgendaDaySection: Identifiable, Equatable {
@@ -284,6 +328,97 @@ struct AgendaSuggestionViewData: Identifiable, Equatable {
     }
 }
 
+struct AgendaRecurrenceEngine {
+    static func generateOccurrences(master: AgendaEvent, recurrence: AgendaRecurrence, calendar: Calendar, horizonMonths: Int, notes: String) -> [AgendaEvent] {
+        guard recurrence.isRecurring else { return [] }
+        let horizon = recurrence.endDate ?? calendar.date(byAdding: .month, value: horizonMonths, to: master.start) ?? master.start
+        guard horizon > master.start else { return [] }
+
+        let duration = max(60, Int(master.end.timeIntervalSince(master.start)))
+        var dates: [Date] = []
+
+        switch recurrence.frequency {
+        case .daily:
+            var next = calendar.date(byAdding: .day, value: 1, to: master.start) ?? master.start
+            while next <= horizon {
+                dates.append(next)
+                guard let candidate = calendar.date(byAdding: .day, value: 1, to: next) else { break }
+                next = candidate
+            }
+        case .weekly, .biweekly:
+            let repeatSetRaw = Set((recurrence.repeatDays.isEmpty ? [weekdayKey(for: master.start, calendar: calendar)] : recurrence.repeatDays))
+            let repeatWeekdays = repeatSetRaw.compactMap { AgendaWeekday(rawValue: $0) }
+            let repeatSet = Set(repeatWeekdays.isEmpty ? [AgendaWeekday.from(date: master.start, calendar: calendar)] : repeatWeekdays)
+            let baseWeekStart = startOfWeek(for: master.start, calendar: calendar)
+            var cursor = calendar.startOfDay(for: master.start)
+            guard let firstStep = calendar.date(byAdding: .day, value: 1, to: cursor) else { return [] }
+            cursor = firstStep
+            while cursor <= horizon {
+                let currentWeekStart = startOfWeek(for: cursor, calendar: calendar)
+                let weeksBetween = calendar.dateComponents([.weekOfYear], from: baseWeekStart, to: currentWeekStart).weekOfYear ?? 0
+                if recurrence.frequency == .biweekly && weeksBetween % 2 != 0 {
+                    guard let nextDay = calendar.date(byAdding: .day, value: 1, to: cursor) else { break }
+                    cursor = nextDay
+                    continue
+                }
+                let weekday = AgendaWeekday.from(date: cursor, calendar: calendar)
+                if repeatSet.contains(weekday) {
+                    if let candidate = combine(date: cursor, withTimeFrom: master.start, calendar: calendar), candidate > master.start, candidate <= horizon {
+                        dates.append(candidate)
+                    }
+                }
+                guard let nextDay = calendar.date(byAdding: .day, value: 1, to: cursor) else { break }
+                cursor = nextDay
+            }
+        case .monthly:
+            var monthOffset = 1
+            while let candidate = calendar.date(byAdding: .month, value: monthOffset, to: master.start) {
+                if candidate > horizon { break }
+                dates.append(candidate)
+                monthOffset += 1
+            }
+        case .none:
+            break
+        }
+
+        let uniqueDates = Array(Set(dates)).sorted()
+        return uniqueDates.map { startDate in
+            AgendaEvent(
+                id: UUID(),
+                title: master.title,
+                start: startDate,
+                end: startDate.addingTimeInterval(TimeInterval(duration)),
+                kind: master.kind,
+                notes: notes,
+                source: master.source,
+                recurrence: nil,
+                overrideParentId: master.id,
+                isOverride: false
+            )
+        }
+    }
+
+    private static func weekdayKey(for date: Date, calendar: Calendar) -> String {
+        AgendaWeekday.from(date: date, calendar: calendar).rawValue
+    }
+
+    private static func startOfWeek(for date: Date, calendar: Calendar) -> Date {
+        if let start = calendar.dateInterval(of: .weekOfYear, for: date)?.start {
+            return start
+        }
+        return calendar.startOfDay(for: date)
+    }
+
+    private static func combine(date: Date, withTimeFrom reference: Date, calendar: Calendar) -> Date? {
+        let timeComponents = calendar.dateComponents([.hour, .minute, .second], from: reference)
+        var components = calendar.dateComponents([.year, .month, .day], from: date)
+        components.hour = timeComponents.hour
+        components.minute = timeComponents.minute
+        components.second = timeComponents.second
+        return calendar.date(from: components)
+    }
+}
+
 struct AgendaEventDraft: Identifiable {
     let id = UUID()
     var category: AgendaCategory?
@@ -293,6 +428,11 @@ struct AgendaEventDraft: Identifiable {
     var notes: String
     var trainingType: String
     var studyFocus: String
+    var recurrenceEnabled: Bool
+    var recurrenceFrequency: AgendaRecurrenceFrequency
+    var repeatDays: Set<AgendaWeekday>
+    var recurrenceHasEndDate: Bool
+    var recurrenceEndDate: Date
 
     init(
         category: AgendaCategory? = nil,
@@ -301,7 +441,12 @@ struct AgendaEventDraft: Identifiable {
         end: Date = Date().addingTimeInterval(3600),
         notes: String = "",
         trainingType: String = "",
-        studyFocus: String = ""
+        studyFocus: String = "",
+        recurrenceEnabled: Bool = false,
+        recurrenceFrequency: AgendaRecurrenceFrequency = .none,
+        repeatDays: Set<AgendaWeekday> = [],
+        recurrenceHasEndDate: Bool = false,
+        recurrenceEndDate: Date? = nil
     ) {
         self.category = category
         self.title = title
@@ -310,16 +455,93 @@ struct AgendaEventDraft: Identifiable {
         self.notes = notes
         self.trainingType = trainingType
         self.studyFocus = studyFocus
+        self.recurrenceEnabled = recurrenceEnabled
+        self.recurrenceFrequency = recurrenceFrequency
+        self.repeatDays = repeatDays
+        self.recurrenceHasEndDate = recurrenceHasEndDate
+        self.recurrenceEndDate = recurrenceEndDate ?? end
     }
 
     var sanitizedTitle: String {
         title.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
+    var duration: TimeInterval {
+        max(0, end.timeIntervalSince(start))
+    }
+
+    var recurrence: AgendaRecurrence? {
+        guard recurrenceEnabled else { return nil }
+        var days: [String] = []
+        if recurrenceFrequency == .weekly || recurrenceFrequency == .biweekly {
+            if repeatDays.isEmpty {
+                days = [AgendaWeekday.from(date: start).rawValue]
+            } else {
+                days = repeatDays.sorted { $0.calendarValue < $1.calendarValue }.map(\.rawValue)
+            }
+        }
+        let endDate = recurrenceHasEndDate ? max(recurrenceEndDate, start) : nil
+        return AgendaRecurrence(
+            frequency: recurrenceFrequency,
+            repeatDays: days,
+            endDate: endDate
+        )
+    }
+
+    var recurrenceSummary: String {
+        guard let recurrence else { return "No se repite" }
+        switch recurrence.frequency {
+        case .none:
+            return "No se repite"
+        case .daily:
+            return "Repite diariamente"
+        case .weekly:
+            let days = formattedRepeatDays
+            return days.isEmpty ? "Repite semanalmente" : "Repite semanalmente \(days)"
+        case .biweekly:
+            let days = formattedRepeatDays
+            return days.isEmpty ? "Repite cada 2 semanas" : "Repite cada 2 semanas \(days)"
+        case .monthly:
+            return "Repite cada mes"
+        }
+    }
+
+    private var formattedRepeatDays: String {
+        let days: [AgendaWeekday]
+        if repeatDays.isEmpty {
+            days = [AgendaWeekday.from(date: start)]
+        } else {
+            days = repeatDays.sorted { $0.calendarValue < $1.calendarValue }
+        }
+        let labels = days.map(\.displayName)
+        return labels.isEmpty ? "" : "los \(labels.joined(separator: ", "))"
+    }
+
     var isValid: Bool {
         guard category != nil else { return false }
         guard !sanitizedTitle.isEmpty else { return false }
-        return end > start
+        guard end > start else { return false }
+
+        if recurrenceEnabled {
+            switch recurrenceFrequency {
+            case .weekly, .biweekly:
+                if repeatDays.isEmpty { return true }
+            default:
+                break
+            }
+            if recurrenceHasEndDate, recurrenceEndDate < start {
+                return false
+            }
+        }
+        return true
+    }
+
+    mutating func toggleRepeatDay(_ day: AgendaWeekday) {
+        if repeatDays.contains(day) {
+            repeatDays.remove(day)
+        } else {
+            repeatDays.insert(day)
+        }
     }
 }
 
@@ -339,6 +561,7 @@ final class AgendaViewModel: ObservableObject {
     @Published private(set) var connectCardVisible = true
     @Published private(set) var linkedSources: Set<AgendaScheduleSource> = []
     @Published private(set) var palette: [AgendaCategory: AgendaCategoryColor] = [:]
+    @Published private(set) var eventsByDate: [Date: [AgendaEvent]] = [:]
     @Published var presentedError: AgendaError?
 
     let colorStore: AgendaColorStore
@@ -359,10 +582,12 @@ final class AgendaViewModel: ObservableObject {
     private var lastSuggestionIds: Set<UUID> = []
     private var currentRange: ClosedRange<Date>?
     private var didLoad = false
+    private var lastMultipleEventsTrackedDate: Date?
 
     private let metadataPrefix = "[MA_META]"
     private let metadataSuffix = "[/MA_META]"
     private let calendar = Calendar.current
+    private let recurrenceGenerationHorizonMonths = 3
     private lazy var timeFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "es_ES")
@@ -461,6 +686,7 @@ final class AgendaViewModel: ObservableObject {
 
             let events = try await eventsTask
             rawEvents = events.sorted { $0.start < $1.start }
+            rebuildEventsByDate()
 
             if let availability = try await availabilityTask {
                 availabilityBlocks = availability.map { TimeIntervalBlock(start: $0.start_at, end: $0.end_at) }
@@ -505,7 +731,8 @@ final class AgendaViewModel: ObservableObject {
     func makeDraft(for date: Date) -> AgendaEventDraft {
         let start = calendar.date(bySettingHour: 9, minute: 0, second: 0, of: date) ?? date
         let end = calendar.date(byAdding: .minute, value: 60, to: start) ?? start.addingTimeInterval(3600)
-        return AgendaEventDraft(category: nil, title: "", start: start, end: end)
+        let defaultEnd = calendar.date(byAdding: .month, value: 1, to: end) ?? end
+        return AgendaEventDraft(category: nil, title: "", start: start, end: end, recurrenceEndDate: defaultEnd)
     }
 
     func saveManualEvent(_ draft: AgendaEventDraft) async -> Bool {
@@ -516,6 +743,7 @@ final class AgendaViewModel: ObservableObject {
 
         let metadata = metadataDictionary(from: draft)
         let notes = encodeNotes(userNotes: draft.notes, metadata: metadata)
+        let recurrence = draft.recurrence
         let event = AgendaEvent(
             id: UUID(),
             title: draft.sanitizedTitle,
@@ -523,12 +751,21 @@ final class AgendaViewModel: ObservableObject {
             end: draft.end,
             kind: draft.category?.databaseKind,
             notes: notes,
-            source: "local"
+            source: "local",
+            recurrence: recurrence,
+            overrideParentId: nil,
+            isOverride: false
         )
 
         if isPreview {
-            rawEvents.append(event)
+            var created = [event]
+            if let recurrence, recurrence.isRecurring {
+                let generated = generateOccurrences(master: event, recurrence: recurrence, notes: notes)
+                created.append(contentsOf: generated)
+            }
+            rawEvents.append(contentsOf: created)
             rawEvents.sort { $0.start < $1.start }
+            rebuildEventsByDate()
             updateConnectCardVisibility()
             computeSections()
             computeSuggestions()
@@ -537,13 +774,29 @@ final class AgendaViewModel: ObservableObject {
 
         do {
             let created = try await calendarService.createLocalEvent(event)
-            rawEvents.append(created)
+            var createdEvents: [AgendaEvent] = [created]
+
+            if let recurrence, recurrence.isRecurring {
+                let generated = generateOccurrences(master: created, recurrence: recurrence, notes: notes)
+                if !generated.isEmpty {
+                    let stored = try await calendarService.createEventOccurrences(for: created.id, occurrences: generated)
+                    createdEvents.append(contentsOf: stored)
+                    analytics.track(event: AnalyticsEvent(name: "agenda_recurring_event_created", parameters: [
+                        "frequency": recurrence.frequency.rawValue,
+                        "occurrences": stored.count + 1
+                    ]))
+                }
+            }
+
+            rawEvents.append(contentsOf: createdEvents)
             rawEvents.sort { $0.start < $1.start }
+            rebuildEventsByDate()
             updateConnectCardVisibility()
             computeSections()
             computeSuggestions()
             analytics.track(event: AnalyticsEvent(name: "agenda_event_created", parameters: [
-                "category": draft.category?.rawValue ?? "unknown"
+                "category": draft.category?.rawValue ?? "unknown",
+                "recurring": recurrence?.isRecurring ?? false
             ]))
             analytics.track(event: AnalyticsEvent(name: "agenda_category_assigned", parameters: [
                 "category": draft.category?.rawValue ?? "unknown"
@@ -631,15 +884,38 @@ final class AgendaViewModel: ObservableObject {
             sections = []
             return
         }
+        var grouped = eventsByDate
+        if grouped.isEmpty {
+            var temp: [Date: [AgendaEvent]] = [:]
+            for event in rawEvents {
+                let key = calendar.startOfDay(for: event.start)
+                temp[key, default: []].append(event)
+            }
+            for key in temp.keys {
+                temp[key]?.sort { $0.start < $1.start }
+            }
+            grouped = temp
+            eventsByDate = temp
+        }
         var newSections: [AgendaDaySection] = []
         for day in weekDays {
-            let eventsForDay = rawEvents
-                .filter { calendar.isDate($0.start, inSameDayAs: day) }
-                .sorted { $0.start < $1.start }
-                .map { makeViewData(from: $0) }
+            let key = calendar.startOfDay(for: day)
+            let eventsForDay = (grouped[key] ?? []).map { makeViewData(from: $0) }
             newSections.append(AgendaDaySection(date: day, events: eventsForDay))
         }
         sections = newSections
+
+        if let todaySection = newSections.first(where: { calendar.isDate($0.date, inSameDayAs: selectedDate) }),
+           todaySection.events.count > 1 {
+            let key = calendar.startOfDay(for: selectedDate)
+            if lastMultipleEventsTrackedDate != key {
+                analytics.track(event: AnalyticsEvent(name: "agenda_multiple_events_shown", parameters: [
+                    "count": todaySection.events.count,
+                    "mode": mode.rawValue
+                ]))
+                lastMultipleEventsTrackedDate = key
+            }
+        }
     }
 
     private func computeSuggestions() {
@@ -702,6 +978,28 @@ final class AgendaViewModel: ObservableObject {
         }
     }
 
+    private func rebuildEventsByDate() {
+        var grouped: [Date: [AgendaEvent]] = [:]
+        for event in rawEvents {
+            let key = calendar.startOfDay(for: event.start)
+            grouped[key, default: []].append(event)
+        }
+        for key in grouped.keys {
+            grouped[key]?.sort { $0.start < $1.start }
+        }
+        eventsByDate = grouped
+    }
+
+    private func generateOccurrences(master: AgendaEvent, recurrence: AgendaRecurrence, notes: String) -> [AgendaEvent] {
+        AgendaRecurrenceEngine.generateOccurrences(
+            master: master,
+            recurrence: recurrence,
+            calendar: calendar,
+            horizonMonths: recurrenceGenerationHorizonMonths,
+            notes: notes
+        )
+    }
+
     private func freeSlots(for date: Date) -> [AgendaFreeSlotViewData] {
         let startOfDay = calendar.startOfDay(for: date)
         let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)?.addingTimeInterval(-60) ?? startOfDay.addingTimeInterval(86340)
@@ -715,9 +1013,7 @@ final class AgendaViewModel: ObservableObject {
         if !matchingAvailability.isEmpty {
             blocks = matchingAvailability
         } else {
-            let dayEvents = rawEvents
-                .filter { calendar.isDate($0.start, inSameDayAs: date) }
-                .sorted { $0.start < $1.start }
+            let dayEvents = eventsByDate[startOfDay] ?? []
 
             var computed: [TimeIntervalBlock] = []
             var cursor = startOfDay
@@ -884,6 +1180,7 @@ final class AgendaViewModel: ObservableObject {
         let metadata = decoded.metadata
         let category = resolveCategory(from: event, metadata: metadata)
         let source = AgendaScheduleSource(provider: event.source)
+        let summary = recurrenceDescription(for: event)
         return AgendaEventViewData(
             id: event.id,
             title: event.title,
@@ -893,8 +1190,44 @@ final class AgendaViewModel: ObservableObject {
             category: category,
             source: source,
             trainingType: metadata["training_type"],
-            studyFocus: metadata["study_focus"]
+            studyFocus: metadata["study_focus"],
+            recurrence: event.recurrence,
+            isOverride: event.isOverride,
+            recurrenceSummary: summary
         )
+    }
+
+    private func recurrenceDescription(for event: AgendaEvent) -> String? {
+        guard let recurrence = event.recurrence, recurrence.isRecurring else { return nil }
+        let suffix: String
+        if let end = recurrence.endDate {
+            let formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "es_ES")
+            formatter.dateStyle = .medium
+            suffix = " hasta \(formatter.string(from: end))"
+        } else {
+            suffix = ""
+        }
+        switch recurrence.frequency {
+        case .daily:
+            return "Repite diariamente\(suffix)"
+        case .weekly:
+            return "Repite semanalmente \(formatRepeatDays(recurrence.repeatDays, fallback: event.start))\(suffix)"
+        case .biweekly:
+            return "Repite cada 2 semanas \(formatRepeatDays(recurrence.repeatDays, fallback: event.start))\(suffix)"
+        case .monthly:
+            return "Repite cada mes\(suffix)"
+        case .none:
+            return nil
+        }
+    }
+
+    private func formatRepeatDays(_ raw: [String], fallback: Date) -> String {
+        let weekdays = raw.compactMap { AgendaWeekday(rawValue: $0) }
+        let ordered = weekdays.isEmpty ? [AgendaWeekday.from(date: fallback)] : weekdays.sorted { $0.calendarValue < $1.calendarValue }
+        let labels = ordered.map(\.displayName)
+        guard !labels.isEmpty else { return "" }
+        return "los \(labels.joined(separator: ", "))"
     }
 
     private func updateConnectCardVisibility() {
@@ -925,7 +1258,12 @@ final class AgendaViewModel: ObservableObject {
             end: calendar.date(byAdding: .hour, value: 13, to: base)!,
             kind: "entreno",
             notes: encodeNotes(userNotes: "Serie principal 5x5.", metadata: ["category": AgendaCategory.training.rawValue, "training_type": "Fuerza"]),
-            source: "local"
+            source: "local",
+            recurrence: AgendaRecurrence(
+                frequency: .weekly,
+                repeatDays: [AgendaWeekday.tuesday.rawValue, AgendaWeekday.thursday.rawValue],
+                endDate: calendar.date(byAdding: .weekOfYear, value: 6, to: base)
+            )
         )
         let event3 = AgendaEvent(
             id: UUID(),
@@ -936,7 +1274,13 @@ final class AgendaViewModel: ObservableObject {
             notes: encodeNotes(userNotes: "Preparar feedback.", metadata: ["category": AgendaCategory.client.rawValue]),
             source: "local"
         )
-        rawEvents = [event1, event2, event3]
+        var previewEvents = [event1, event2, event3]
+        if let recurrence = event2.recurrence {
+            let generated = generateOccurrences(master: event2, recurrence: recurrence, notes: event2.notes ?? "")
+            previewEvents.append(contentsOf: generated)
+        }
+        rawEvents = previewEvents.sorted { $0.start < $1.start }
+        rebuildEventsByDate()
         availabilityBlocks = [
             TimeIntervalBlock(start: calendar.date(byAdding: .hour, value: 7, to: base)!, end: calendar.date(byAdding: .hour, value: 8, to: base)!),
             TimeIntervalBlock(start: calendar.date(byAdding: .hour, value: 18, to: base)!, end: calendar.date(byAdding: .hour, value: 19, to: base)!)
@@ -963,52 +1307,49 @@ struct ScheduleTabView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                header
-                ScrollView {
-                    LazyVStack(spacing: MASpacing.lg, pinnedViews: []) {
-                        if viewModel.connectCardVisible {
-                            AgendaConnectCard(
-                                onGoogle: {
-                                    Task {
-                                        await viewModel.linkCalendar(.google)
-                                    }
-                                },
-                                onNotion: {
-                                    Task {
-                                        await viewModel.linkCalendar(.notion)
-                                    }
-                                },
-                                onCreate: {
-                                    builderDraft = viewModel.makeDraft(for: viewModel.selectedDate)
-                                    showingBuilder = true
-                                }
-                            )
-                            .padding(.horizontal, MASpacing.lg)
-                        }
+            ScrollView {
+                LazyVStack(alignment: .leading, spacing: MASpacing.xl, pinnedViews: []) {
+                    headerSection
 
-                        if viewModel.mode == .day {
-                            dayView
-                        } else {
-                            weekView
-                        }
-
-                        if !viewModel.suggestions.isEmpty {
-                            suggestionsSection
-                        }
+                    if viewModel.connectCardVisible {
+                        AgendaConnectCard(
+                            onGoogle: {
+                                Task { await viewModel.linkCalendar(.google) }
+                            },
+                            onNotion: {
+                                Task { await viewModel.linkCalendar(.notion) }
+                            },
+                            onCreate: {
+                                builderDraft = viewModel.makeDraft(for: viewModel.selectedDate)
+                                showingBuilder = true
+                            }
+                        )
                     }
-                    .padding(.bottom, MASpacing.xl)
+
+                    if viewModel.mode == .day {
+                        dayView
+                    } else {
+                        weekView
+                    }
+
+                    if !viewModel.suggestions.isEmpty {
+                        suggestionsSection
+                    }
                 }
-                .background(Color.maBackground)
+                .padding(.horizontal, MASpacing.lg)
+                .padding(.top, MASpacing.sm)
+                .padding(.bottom, MASpacing.xl)
             }
             .background(Color.maBackground.ignoresSafeArea())
-            .navigationTitle("Agenda")
+            .navigationTitle("")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         showingColorSettings = true
                     } label: {
-                        Image(systemName: "paintpalette")
+                        Image(systemName: "paintpalette.fill")
+                            .foregroundColor(MAColorPalette.primary)
                     }
                     .accessibilityLabel("Colores de categorías")
                 }
@@ -1043,8 +1384,12 @@ struct ScheduleTabView: View {
         }
     }
 
-    private var header: some View {
-        VStack(spacing: MASpacing.md) {
+    private var headerSection: some View {
+        VStack(alignment: .leading, spacing: MASpacing.lg) {
+            Text("Agenda")
+                .font(.system(.largeTitle, design: .rounded).bold())
+                .foregroundColor(MAColorPalette.textPrimary)
+
             Picker("Modo", selection: Binding(
                 get: { viewModel.mode },
                 set: { viewModel.setMode($0) }
@@ -1054,7 +1399,6 @@ struct ScheduleTabView: View {
                 }
             }
             .pickerStyle(.segmented)
-            .padding(.horizontal, MASpacing.lg)
 
             VStack(alignment: .leading, spacing: MASpacing.xs) {
                 Text(viewModel.selectedDate, format: .dateTime.weekday(.wide))
@@ -1064,8 +1408,6 @@ struct ScheduleTabView: View {
                     .font(.system(.subheadline, design: .rounded))
                     .foregroundColor(MAColorPalette.textSecondary)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, MASpacing.lg)
 
             AgendaDateStrip(
                 dates: viewModel.weekDays,
@@ -1075,10 +1417,14 @@ struct ScheduleTabView: View {
                     viewModel.setSelectedDate(date)
                 }
             }
-            .padding(.horizontal, MASpacing.lg)
+
+            if viewModel.mode == .day {
+                MAButton("Añadir evento") {
+                    builderDraft = viewModel.makeDraft(for: viewModel.selectedDate)
+                    showingBuilder = true
+                }
+            }
         }
-        .padding(.vertical, MASpacing.lg)
-        .background(Color.maBackground)
     }
 
     private var dayView: some View {
@@ -1114,7 +1460,6 @@ struct ScheduleTabView: View {
                 }
             }
         }
-        .padding(.horizontal, MASpacing.lg)
     }
 
     private var weekView: some View {
@@ -1132,10 +1477,22 @@ struct ScheduleTabView: View {
                             }
                         }
                     }
+                    Button {
+                        builderDraft = viewModel.makeDraft(for: section.date)
+                        showingBuilder = true
+                    } label: {
+                        HStack(spacing: MASpacing.xs) {
+                            Image(systemName: "plus.circle.fill")
+                            Text("Añadir evento")
+                                .font(.system(.footnote, design: .rounded).bold())
+                        }
+                        .foregroundColor(MAColorPalette.accent)
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.top, MASpacing.sm)
                 }
             }
         }
-        .padding(.horizontal, MASpacing.lg)
     }
 
     private var suggestionsSection: some View {
@@ -1143,7 +1500,6 @@ struct ScheduleTabView: View {
             Text("Sugerencias")
                 .font(.system(.title3, design: .rounded).bold())
                 .foregroundColor(MAColorPalette.textPrimary)
-                .padding(.horizontal, MASpacing.lg)
 
             VStack(spacing: MASpacing.md) {
                 ForEach(viewModel.suggestions) { suggestion in
@@ -1156,7 +1512,6 @@ struct ScheduleTabView: View {
                     )
                 }
             }
-            .padding(.horizontal, MASpacing.lg)
         }
     }
 }
@@ -1258,11 +1613,19 @@ private struct AgendaEventCard: View {
     var body: some View {
         MACard {
             VStack(alignment: .leading, spacing: MASpacing.sm) {
-                HStack(alignment: .top, spacing: MASpacing.sm) {
+                HStack(alignment: .center, spacing: MASpacing.sm) {
                     VStack(alignment: .leading, spacing: MASpacing.xs) {
-                        Text(event.title)
-                            .font(.system(.headline, design: .rounded))
-                            .foregroundColor(MAColorPalette.textPrimary)
+                        HStack(spacing: MASpacing.xs) {
+                            Text(event.title)
+                                .font(.system(.headline, design: .rounded))
+                                .foregroundColor(MAColorPalette.textPrimary)
+                            if let recurrence = event.recurrence, recurrence.isRecurring {
+                                Image(systemName: "arrow.triangle.2.circlepath")
+                                    .font(.system(.caption, design: .rounded).bold())
+                                    .foregroundColor(MAColorPalette.accent)
+                                    .accessibilityLabel("Evento recurrente")
+                            }
+                        }
                         Text("\(formatter.string(from: event.start)) – \(formatter.string(from: event.end))")
                             .font(.system(.subheadline, design: .rounded))
                             .foregroundColor(MAColorPalette.textSecondary)
@@ -1278,6 +1641,16 @@ private struct AgendaEventCard: View {
                         .accessibilityLabel("Categoría \(event.category.title)")
                 }
 
+                if let summary = event.recurrenceSummary {
+                    Label(summary, systemImage: "repeat")
+                        .font(.system(.caption, design: .rounded))
+                        .foregroundColor(MAColorPalette.accent)
+                }
+                if event.isOverride {
+                    Text("Instancia personalizada")
+                        .font(.system(.caption2, design: .rounded))
+                        .foregroundColor(MAColorPalette.textSecondary)
+                }
                 if let training = event.trainingType, !training.isEmpty {
                     Label("Tipo de entreno: \(training)", systemImage: "figure.run")
                         .font(.system(.footnote, design: .rounded))
@@ -1299,6 +1672,7 @@ private struct AgendaEventCard: View {
                             Text(isExpanded ? "Ocultar notas" : "Mostrar notas")
                         }
                         .font(.system(.footnote, design: .rounded).bold())
+                        .foregroundColor(MAColorPalette.accent)
                     }
                     .buttonStyle(.plain)
 
@@ -1342,10 +1716,17 @@ private struct AgendaWeekEventRow: View {
                 .fill(color.backgroundColor.opacity(0.9))
                 .frame(width: 10, height: 10)
             VStack(alignment: .leading, spacing: 2) {
-                Text(event.title)
-                    .font(.system(.subheadline, design: .rounded))
-                    .foregroundColor(MAColorPalette.textPrimary)
-                    .lineLimit(1)
+                HStack(spacing: MASpacing.xs) {
+                    Text(event.title)
+                        .font(.system(.subheadline, design: .rounded))
+                        .foregroundColor(MAColorPalette.textPrimary)
+                        .lineLimit(1)
+                    if let recurrence = event.recurrence, recurrence.isRecurring {
+                        Image(systemName: "arrow.triangle.2.circlepath")
+                            .font(.system(.caption2, design: .rounded))
+                            .foregroundColor(MAColorPalette.accent)
+                    }
+                }
                 Text("\(formatter.string(from: event.start)) – \(formatter.string(from: event.end))")
                     .font(.system(.caption2, design: .rounded))
                     .foregroundColor(MAColorPalette.textSecondary)
@@ -1379,13 +1760,31 @@ private struct AgendaSuggestionCard: View {
                     Text(rationale)
                         .font(.system(.footnote, design: .rounded))
                         .foregroundColor(MAColorPalette.textSecondary)
+                    Text("¿Por qué esta sugerencia?")
+                        .font(.system(.caption, design: .rounded).bold())
+                        .foregroundColor(MAColorPalette.accent)
+                        .padding(.top, MASpacing.xs)
                 }
-                MAButton(
-                    suggestion.actionTitle,
-                    style: suggestion.style == .primary ? .primary : .secondary,
-                    action: onAction
-                )
-                .accessibilityLabel("\(suggestion.actionTitle) para \(suggestion.detail)")
+                if suggestion.style == .primary {
+                    MAButton(suggestion.actionTitle, style: .primary, action: onAction)
+                        .accessibilityLabel("\(suggestion.actionTitle) para \(suggestion.detail)")
+                } else {
+                    Button(action: onAction) {
+                        Text(suggestion.actionTitle)
+                            .font(.system(.headline, design: .rounded))
+                            .fontWeight(.semibold)
+                            .frame(maxWidth: .infinity, minHeight: 52)
+                            .background(MAColorPalette.accent.opacity(0.12))
+                            .foregroundColor(MAColorPalette.accent)
+                            .cornerRadius(24)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 24)
+                                    .stroke(MAColorPalette.accent, lineWidth: 1)
+                            )
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("\(suggestion.actionTitle) para \(suggestion.detail)")
+                }
             }
         }
     }
@@ -1418,6 +1817,7 @@ private struct AgendaEventBuilderView: View {
                 quickActionsSection
                 categorySection
                 scheduleSection
+                recurrenceSection
                 metadataSection
                 notesSection
             }
@@ -1440,6 +1840,26 @@ private struct AgendaEventBuilderView: View {
                     }
                 }
                 .disabled(!draft.isValid || isSaving)
+            }
+        }
+        .onChange(of: draft.recurrenceEnabled) { enabled in
+            if enabled && draft.recurrenceFrequency == .none {
+                draft.recurrenceFrequency = .weekly
+            }
+        }
+        .onChange(of: draft.recurrenceFrequency) { newValue in
+            if newValue != .weekly && newValue != .biweekly {
+                draft.repeatDays.removeAll()
+            }
+        }
+        .onChange(of: draft.start) { newValue in
+            if draft.recurrenceEndDate < newValue {
+                draft.recurrenceEndDate = newValue
+            }
+        }
+        .onChange(of: draft.recurrenceHasEndDate) { hasEnd in
+            if !hasEnd {
+                draft.recurrenceEndDate = draft.end
             }
         }
     }
@@ -1522,6 +1942,59 @@ private struct AgendaEventBuilderView: View {
         }
     }
 
+    private var recurrenceSection: some View {
+        MACard(title: "Repetición") {
+            Toggle("Repetir evento", isOn: $draft.recurrenceEnabled.animation())
+                .tint(MAColorPalette.accent)
+
+            if draft.recurrenceEnabled {
+                Picker("Frecuencia", selection: $draft.recurrenceFrequency) {
+                    Text("Sin repetición").tag(AgendaRecurrenceFrequency.none)
+                    Text("Diaria").tag(AgendaRecurrenceFrequency.daily)
+                    Text("Semanal").tag(AgendaRecurrenceFrequency.weekly)
+                    Text("Bi-semanal").tag(AgendaRecurrenceFrequency.biweekly)
+                    Text("Mensual").tag(AgendaRecurrenceFrequency.monthly)
+                }
+                .pickerStyle(.segmented)
+                .tint(MAColorPalette.primary)
+                .padding(.top, MASpacing.xs)
+
+                if draft.recurrenceFrequency == .weekly || draft.recurrenceFrequency == .biweekly {
+                    VStack(alignment: .leading, spacing: MASpacing.xs) {
+                        Text("Días de repetición")
+                            .font(.system(.caption, design: .rounded))
+                            .foregroundColor(MAColorPalette.textSecondary)
+                        let columns = Array(repeating: GridItem(.flexible(), spacing: MASpacing.sm), count: 4)
+                        LazyVGrid(columns: columns, spacing: MASpacing.sm) {
+                            ForEach(AgendaWeekday.allCases) { day in
+                                repeatDayChip(for: day)
+                            }
+                        }
+                    }
+                    .padding(.top, MASpacing.sm)
+                }
+
+                Toggle("Definir fecha de finalización", isOn: $draft.recurrenceHasEndDate.animation())
+                    .tint(MAColorPalette.accent)
+                    .padding(.top, MASpacing.sm)
+
+                if draft.recurrenceHasEndDate {
+                    DatePicker("Termina", selection: $draft.recurrenceEndDate, in: draft.start..., displayedComponents: .date)
+                        .datePickerStyle(.compact)
+                } else {
+                    Text("Sin fecha de término")
+                        .font(.system(.caption, design: .rounded))
+                        .foregroundColor(MAColorPalette.textSecondary)
+                }
+
+                Text(draft.recurrenceSummary)
+                    .font(.system(.caption, design: .rounded))
+                    .foregroundColor(MAColorPalette.textSecondary)
+                    .padding(.top, MASpacing.sm)
+            }
+        }
+    }
+
     private var metadataSection: some View {
         MACard(title: "Detalles adicionales") {
             VStack(alignment: .leading, spacing: MASpacing.md) {
@@ -1537,6 +2010,27 @@ private struct AgendaEventBuilderView: View {
                 }
             }
         }
+    }
+
+    private func repeatDayChip(for day: AgendaWeekday) -> some View {
+        let isSelected = draft.repeatDays.contains(day)
+        return Button {
+            draft.toggleRepeatDay(day)
+        } label: {
+            Text(day.displayName)
+                .font(.system(.footnote, design: .rounded).bold())
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, MASpacing.xs)
+                .background(isSelected ? MAColorPalette.accent : MAColorPalette.surfaceAlt)
+                .foregroundColor(isSelected ? .white : MAColorPalette.textSecondary)
+                .clipShape(Capsule())
+                .overlay(
+                    Capsule()
+                        .stroke(MAColorPalette.accent.opacity(isSelected ? 0 : 0.5), lineWidth: isSelected ? 0 : 1)
+                )
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Repetir el \(day.displayName)")
     }
 
     private var notesSection: some View {
@@ -1629,6 +2123,7 @@ private struct PreviewCalendarService: CalendarService {
     func linkNotionAccount() async throws {}
     func syncExternalCalendars() async throws {}
     func createLocalEvent(_ event: AgendaEvent) async throws -> AgendaEvent { event }
+    func createEventOccurrences(for masterId: UUID, occurrences: [AgendaEvent]) async throws -> [AgendaEvent] { occurrences }
     func listEvents(from: Date, to: Date) async throws -> [AgendaEvent] { [] }
     func computeAvailability(from: Date, to: Date, minBlock: TimeInterval) async throws -> [TimeIntervalBlock] { [] }
 }
@@ -1641,6 +2136,38 @@ private struct PreviewAIService: AIServiceProtocol {
             rationale: "Mock",
             modelVersion: "preview"
         )
+    }
+
+    func dailyRecommendation(for userId: String, date: Date) async throws -> DailyRecommendationResponseDTO {
+        DailyRecommendationResponseDTO(
+            recommendations: ["Reserva 5 minutos para respirar antes de tu bloque libre de la tarde."],
+            rationale: "Mock preview",
+            eventContext: [],
+            escalate: false,
+            modelVersion: "preview"
+        )
+    }
+
+    func chatStream(userId: String, chatId: UUID?, messages: [ChatMessagePayload], tone: String?, targetGoal: String?) -> AsyncThrowingStream<ChatStreamEvent, Error> {
+        AsyncThrowingStream { continuation in
+            let id = chatId ?? UUID()
+            continuation.yield(ChatStreamEvent(chatId: id, delta: "Hola desde el preview 👋", finished: false, escalate: false, habitHint: nil, bookingURL: nil, model: "preview"))
+            continuation.yield(ChatStreamEvent(chatId: id, delta: nil, finished: true, escalate: false, habitHint: nil, bookingURL: nil, model: "preview"))
+            continuation.finish()
+        }
+    }
+
+    func generateHabitPlan(for userId: String, timeframe: String?, context: [String: String]?) async throws -> HabitPlanResponseDTO {
+        HabitPlanResponseDTO(
+            habits: [
+                HabitPlanItemDTO(title: "Respiración matutina", recommendedStartDate: Date(), frequency: "daily", rationale: "Comienza el día centrado.")
+            ],
+            summary: "Mock preview plan"
+        )
+    }
+
+    func escalate(for userId: String, context: [String: String]?, reason: String?) async throws -> EscalationResponseDTO {
+        EscalationResponseDTO(escalate: false, bookingURL: nil, message: "Preview no escala.")
     }
 }
 

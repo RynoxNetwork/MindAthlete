@@ -10,7 +10,7 @@ Backend API for MindAthlete iOS app - A mental wellness platform for college ath
 - **Diary System**: Daily mood, energy, and stress tracking
 - **Habits Tracking**: Create and track mental wellness habits
 - **Guided Sessions**: Session types and completion tracking
-- **AI Coach**: Personalized recommendations using OpenAI GPT-4o
+- **AI Coach**: Daily suggestions, chat coaching, habit plans and escalation routing
 - **Analytics**: Event tracking and user insights
 
 ## 🛠 Tech Stack
@@ -46,6 +46,9 @@ SUPABASE_ANON_KEY=your_anon_key
 OPENAI_API_KEY=your_openai_key
 BACKEND_PORT=8001
 ENVIRONMENT=development
+CHAT_ENCRYPTION_KEY=base64_generated_key
+CHAT_DAILY_FREE_LIMIT=10
+HABIT_PLAN_FREE_COOLDOWN_DAYS=21
 ```
 
 ### 3. Setup Supabase Database
@@ -151,8 +154,10 @@ curl -X GET http://localhost:8001/api/auth/me \
 - `GET /api/sessions/history` - Get session history
 
 ### AI Coach
-- `POST /api/ai/recommendations` - Generate personalized recommendation
-- `GET /api/ai/recommendations/latest` - Get latest recommendation
+- `POST /api/recommendations/daily` - Contextual daily suggestion based on agenda
+- `POST /api/coach/chat` - Streamed chat coaching session (requires Supabase JWT)
+- `POST /api/coach/habit-plan` - Generate multi-day habit plan
+- `POST /api/escalate` - Trigger escalation workflows for human specialists
 
 ### Analytics
 - `POST /api/analytics/events` - Track event

@@ -34,6 +34,11 @@ struct EventRow: Codable {
   let starts_at: Date
   let ends_at: Date?
   let notes: String?
+  let frequency: String?
+  let repeat_days: [String]?
+  let end_date: Date?
+  let override_parent_id: UUID?
+  let is_override: Bool?
   let created_at: Date?
 }
 
@@ -63,6 +68,27 @@ struct AvailabilityBlockRow: Codable {
   let end_at: Date
   let source: String
   let created_at: Date?
+}
+
+struct ChatRow: Codable {
+  let id: UUID
+  let user_id: UUID
+  let title: String?
+  let last_message_at: Date?
+  let message_count: Int?
+  let is_active: Bool?
+  let created_at: Date?
+  let updated_at: Date?
+}
+
+struct ChatMessageRow: Codable {
+  let id: UUID
+  let chat_id: UUID
+  let user_id: UUID
+  let role: String
+  let content: String
+  let metadata: [String: AnyCodable]?
+  let created_at: Date
 }
 
 struct SleepPrefsRow: Codable {
@@ -229,9 +255,32 @@ final class SupabaseDatabaseService {
       .execute()
   }
 
-  func createEvent(title: String, kind: String?, startsAt: Date, endsAt: Date?, notes: String?) async throws -> EventRow {
+  func createEvent(
+    title: String,
+    kind: String?,
+    startsAt: Date,
+    endsAt: Date?,
+    notes: String?,
+    frequency: String?,
+    repeatDays: [String]?,
+    endDate: Date?,
+    overrideParentId: UUID?,
+    isOverride: Bool
+  ) async throws -> EventRow {
     let session = try await client.auth.session
-    let payload = EventInsert(user_id: session.user.id, title: title, kind: kind, starts_at: startsAt, ends_at: endsAt, notes: notes)
+    let payload = EventInsert(
+      user_id: session.user.id,
+      title: title,
+      kind: kind,
+      starts_at: startsAt,
+      ends_at: endsAt,
+      notes: notes,
+      frequency: frequency ?? "none",
+      repeat_days: repeatDays,
+      end_date: endDate,
+      override_parent_id: overrideParentId,
+      is_override: isOverride
+    )
     let response: PostgrestResponse<[EventRow]> = try await client.database
       .from("events")
       .insert(payload)
@@ -248,6 +297,16 @@ final class SupabaseDatabaseService {
       .from("events")
       .select()
       .order("starts_at", ascending: true)
+      .execute()
+    return response.value
+  }
+
+  func createEvents(_ inserts: [EventInsert]) async throws -> [EventRow] {
+    guard !inserts.isEmpty else { return [] }
+    let response: PostgrestResponse<[EventRow]> = try await client.database
+      .from("events")
+      .insert(inserts)
+      .select()
       .execute()
     return response.value
   }
@@ -404,6 +463,27 @@ final class SupabaseDatabaseService {
       .from("recommendations")
       .select()
       .order("created_at", ascending: false)
+      .execute()
+    return response.value
+  }
+
+  func latestChat() async throws -> ChatRow? {
+    let response: PostgrestResponse<[ChatRow]> = try await client.database
+      .from("chats")
+      .select()
+      .order("updated_at", ascending: false)
+      .limit(1)
+      .execute()
+    return response.value.first
+  }
+
+  func listChatMessages(chatId: UUID, limit: Int = 100) async throws -> [ChatMessageRow] {
+    let response: PostgrestResponse<[ChatMessageRow]> = try await client.database
+      .from("chat_messages")
+      .select()
+      .eq("chat_id", value: chatId)
+      .order("created_at", ascending: true)
+      .limit(limit)
       .execute()
     return response.value
   }
@@ -592,6 +672,11 @@ struct EventInsert: Encodable {
   let starts_at: Date
   let ends_at: Date?
   let notes: String?
+  let frequency: String?
+  let repeat_days: [String]?
+  let end_date: Date?
+  let override_parent_id: UUID?
+  let is_override: Bool?
 }
 
 struct HabitInsert: Encodable {

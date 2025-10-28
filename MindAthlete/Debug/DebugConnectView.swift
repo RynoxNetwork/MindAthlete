@@ -136,7 +136,18 @@ struct DebugConnectView: View {
         Button("Create Event") {
           Task {
             do {
-              let event = try await db.createEvent(title: "Entrenamiento", kind: "entreno", startsAt: Date(), endsAt: Date().addingTimeInterval(3600), notes: "Gimnasio")
+              let event = try await db.createEvent(
+                title: "Entrenamiento",
+                kind: "entreno",
+                startsAt: Date(),
+                endsAt: Date().addingTimeInterval(3600),
+                notes: "Gimnasio",
+                frequency: "none",
+                repeatDays: [],
+                endDate: nil,
+                overrideParentId: nil,
+                isOverride: false
+              )
               status = "Event \(event.title) ✅"
             } catch { status = "Event error: \(error.localizedDescription)" }
           }

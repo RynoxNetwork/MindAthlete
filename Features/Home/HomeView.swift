@@ -1,12 +1,19 @@
 import Foundation
 import SwiftUI
 
+private struct EscalationAlert: Identifiable {
+    let id = UUID()
+    let response: EscalationResponseDTO
+}
+
 struct HomeView: View {
     @StateObject var viewModel: HomeViewModel
     @State private var didAppear = false
     @State private var checkInBounceTrigger = 0
     @State private var showTestsOverview = false
     @State private var testsCtaTrigger = 0
+    @State private var escalationAlert: EscalationAlert?
+    @Environment(\.openURL) private var openURL
 
     // MARK: - Brand Colors (local helpers)
     private let brandTurquoise = Color(red: 27/255, green: 166/255, blue: 166/255) // #1BA6A6
@@ -128,6 +135,13 @@ struct HomeView: View {
                         .opacity(0.6), alignment: .bottom
                 )
                 .transition(.opacity)
+            }
+            .alert(item: $escalationAlert) { alert in
+                Alert(
+                    title: Text("Acompañamiento profesional"),
+                    message: Text(alert.response.message ?? "Nuestro equipo te contactará en breve."),
+                    dismissButton: .default(Text("Entendido"))
+                )
             }
             .task {
                 await viewModel.load()
@@ -364,13 +378,11 @@ struct HomeView: View {
     }
 
     private var recommendationCard: some View {
-        MACard(title: "Recomendación de hoy") {
+        MACard(title: "Kai te sugiere") {
             if let recommendation = viewModel.recommendation {
                 VStack(alignment: .leading, spacing: MASpacing.md) {
-                    HStack(spacing: MASpacing.xs) {
-                        Image(systemName: "lightbulb.fill")
-                            .foregroundStyle(brandOrange)
-                        Text("Para hoy a las \(Self.agendaTimeFormatter.string(from: recommendation.scheduledAt))")
+                    if let scheduledAt = recommendation.scheduledAt {
+                        Label("Ideal a las \(Self.agendaTimeFormatter.string(from: scheduledAt))", systemImage: "clock")
                             .font(.system(.subheadline, design: .rounded))
                             .foregroundStyle(neutral500)
                     }
@@ -378,10 +390,44 @@ struct HomeView: View {
                     Text(recommendation.title)
                         .font(.system(.headline, design: .rounded))
                         .foregroundStyle(neutral900)
+
                     MATypography.body(recommendation.body)
 
-                    MAButton(recommendation.actionTitle, style: .secondary) {
-                        viewModel.trackRecommendationTap()
+                    if let rationale = recommendation.rationale, !rationale.isEmpty {
+                        Divider().padding(.vertical, MASpacing.xs)
+                        Text(rationale)
+                            .font(.footnote)
+                            .foregroundStyle(neutral500)
+                    }
+
+                    if let event = recommendation.events.first {
+                        HStack(spacing: MASpacing.xs) {
+                            Image(systemName: "calendar")
+                                .foregroundStyle(brandTurquoise)
+                            Text("\(event.title) • \(Self.agendaTimeFormatter.string(from: event.start))")
+                                .font(.caption)
+                                .foregroundStyle(neutral500)
+                        }
+                    }
+
+                    HStack(spacing: MASpacing.sm) {
+                        MAButton(recommendation.actionTitle, style: .secondary) {
+                            viewModel.trackRecommendationTap()
+                        }
+
+                        if recommendation.escalate {
+                            MAButton("Necesito apoyo", style: .primary) {
+                                Task {
+                                    if let response = await viewModel.escalateFromDailyTip() {
+                                        if response.escalate, let url = response.bookingURL {
+                                            openURL(url)
+                                        } else {
+                                            escalationAlert = EscalationAlert(response: response)
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             } else if viewModel.isLoading {

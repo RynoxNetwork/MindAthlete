@@ -29,8 +29,14 @@ final class HomeViewModel: ObservableObject {
     struct DailyRecommendationViewData {
         let title: String
         let body: String
-        let scheduledAt: Date
+        let rationale: String?
+        let scheduledAt: Date?
         let actionTitle: String
+        let escalate: Bool
+        let bookingURL: URL?
+        let modelVersion: String
+        let events: [DailyRecommendationEventContextDTO]
+        let raw: DailyRecommendationResponseDTO
     }
 
     struct HabitsProgressViewData {
@@ -60,16 +66,19 @@ final class HomeViewModel: ObservableObject {
     private let databaseService: SupabaseDatabaseService
     private let calendarService: SupabaseCalendarService
     private let quoteService: QuoteService
+    private let aiService: AIServiceProtocol
 
     init(userId: String,
          userName: String?,
          analytics: AnalyticsServiceProtocol,
+         aiService: AIServiceProtocol? = nil,
          databaseService: SupabaseDatabaseService? = nil,
          calendarService: SupabaseCalendarService? = nil,
          quoteService: QuoteService? = nil) {
         self.userId = userId
         self.userName = userName
         self.analytics = analytics
+        self.aiService = aiService ?? AIService()
         self.databaseService = databaseService ?? SupabaseDatabaseService()
         self.calendarService = calendarService ?? SupabaseCalendarService()
         self.quoteService = quoteService ?? QuoteService()
@@ -115,28 +124,31 @@ final class HomeViewModel: ObservableObject {
             agendaPreview = buildAgendaPreview(events: sortedEvents, freeSlots: freeSlotsRaw)
             analytics.track(event: AnalyticsEvent(name: "agenda_preview_shown", parameters: ["events": sortedEvents.count, "free_slots": freeSlotsRaw.count]))
 
-            let context = CoachContext(
-                todayEvents: sortedEvents,
-                freeBlocks: freeSlotsRaw.map { TimeIntervalBlock(start: $0.start, end: $0.end) },
-                latestPOMS: (nil as POMSResult?),
-                idep: (nil as IDEPResult?),
-                sleepPrefs: sleepPrefs.map { row in
-                    SleepPrefs(
-                        targetWakeTime: row.target_wake_time.flatMap { parseTimeComponents($0) },
-                        cycles: row.cycles ?? 5,
-                        bufferMinutes: row.buffer_minutes ?? 15
+            do {
+                let dailyTip = try await aiService.dailyRecommendation(for: userId, date: today)
+                let viewData = makeDailyRecommendationViewData(from: dailyTip)
+                recommendation = viewData
+                analytics.track(
+                    event: AnalyticsEvent(
+                        name: "daily_tip_requested",
+                        parameters: [
+                            "model": dailyTip.modelVersion,
+                            "tier": subscriptionTier.rawValue,
+                            "escalate": dailyTip.escalate
+                        ]
                     )
-                },
-                energy: latestMood(moods: moods)?.energy,
-                stress: latestMood(moods: moods)?.stress,
-                upcomingGoal: (nil as Goal?)
-            )
-
-            if let reco = buildDailyRecommendation(context: context, slots: freeSlotsRaw) {
-                recommendation = reco
-                analytics.track(event: AnalyticsEvent(name: "daily_reco_shown", parameters: ["time": reco.scheduledAt.timeIntervalSince1970]))
-            } else {
+                )
+            } catch {
                 recommendation = nil
+                analytics.track(
+                    event: AnalyticsEvent(
+                        name: "daily_tip_failed",
+                        parameters: [
+                            "error": error.localizedDescription,
+                            "tier": subscriptionTier.rawValue
+                        ]
+                    )
+                )
             }
 
             habitsProgress = buildHabitsProgress(habits: habits, logs: habitLogs, calendar: calendar)
@@ -265,62 +277,24 @@ final class HomeViewModel: ObservableObject {
         return AgendaPreview(items: Array(eventItems), freeSlots: Array(freeSlotItems))
     }
 
-    private func buildDailyRecommendation(context: CoachContext, slots: [FreeSlotRaw]) -> DailyRecommendationViewData? {
-        let calendar = Calendar.current
-        let timeFormatter = DateFormatter()
-        timeFormatter.timeStyle = .short
-
-        // Regla 1: Competencia próxima
-        if let competition = context.todayEvents.first(where: { $0.kind == "competencia" }) {
-            let target = competition.start.addingTimeInterval(-20 * 60)
-            if let slot = slots.first(where: { slotContains($0, target: target, duration: 180) }) {
-                return DailyRecommendationViewData(
-                    title: "Respiración box 3 min",
-                    body: "Prepárate antes de la competencia. Toma 3 minutos a las \(timeFormatter.string(from: target)).",
-                    scheduledAt: target,
-                    actionTitle: "Iniciar respiración"
-                )
-            }
-        }
-
-        // Regla 2: Energía baja
-        if let energy = context.energy, energy <= 4 {
-            if let slot = slots.first(where: { slot in
-                slot.minutes >= 15 && isBetweenNoon(slot.start, calendar: calendar)
-            }) {
-                let start = slot.start.addingTimeInterval(5 * 60)
-                return DailyRecommendationViewData(
-                    title: "Respiración 4-7-8",
-                    body: "Recarga energía en tu hueco de \(slotLabel(slot)). Dedica 3 minutos a calmar tu sistema." ,
-                    scheduledAt: start,
-                    actionTitle: "Respirar 3 min"
-                )
-            }
-        }
-
-        if let slot = slots.first(where: { $0.minutes >= 20 }) {
-            return DailyRecommendationViewData(
-                title: "Journaling 5 min",
-                body: "Tienes un espacio de \(slotLabel(slot)). Aprovecha para escribir cómo te sientes y qué harás hoy.",
-                scheduledAt: slot.start.addingTimeInterval(5 * 60),
-                actionTitle: "Escribir ahora"
-            )
-        }
-
-        if let slot = slots.first {
-            return DailyRecommendationViewData(
-                title: "Micro reset 90 s",
-                body: "Haz un reset rápido en tu hueco de \(slotLabel(slot)). 10 respiraciones profundas bastan.",
-                scheduledAt: slot.start.addingTimeInterval(2 * 60),
-                actionTitle: "Iniciar micro reset"
-            )
-        }
+    private func makeDailyRecommendationViewData(from response: DailyRecommendationResponseDTO) -> DailyRecommendationViewData {
+        let fallback = "Kai está disponible en el chat si necesitas ajustar tu plan hoy."
+        let body = response.recommendations.first ?? fallback
+        let scheduledAt = response.eventContext.first?.start
+        let title = response.escalate ? "Kai detectó señales importantes" : "Recomendación de hoy"
+        let actionTitle = response.escalate ? "Solicitar apoyo profesional" : "Abrir chat con Kai"
 
         return DailyRecommendationViewData(
-            title: "Micro reset 90 s",
-            body: "Aunque tu agenda esté llena, tómate 90 segundos ahora para centrarte.",
-            scheduledAt: Date(),
-            actionTitle: "Respirar ahora"
+            title: title,
+            body: body,
+            rationale: response.rationale,
+            scheduledAt: scheduledAt,
+            actionTitle: actionTitle,
+            escalate: response.escalate,
+            bookingURL: nil,
+            modelVersion: response.modelVersion,
+            events: response.eventContext,
+            raw: response
         )
     }
 
@@ -401,23 +375,47 @@ final class HomeViewModel: ObservableObject {
         return DateComponents(hour: hour, minute: minute)
     }
 
-    private func slotContains(_ slot: FreeSlotRaw, target: Date, duration: TimeInterval) -> Bool {
-        target >= slot.start && target.addingTimeInterval(duration) <= slot.end
-    }
-
-    private func isBetweenNoon(_ date: Date, calendar: Calendar) -> Bool {
-        let hour = calendar.component(.hour, from: date)
-        return hour >= 12 && hour < 15
-    }
-
-    private func slotLabel(_ slot: FreeSlotRaw) -> String {
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        return "\(formatter.string(from: slot.start))–\(formatter.string(from: slot.end))"
-    }
-
     func trackRecommendationTap() {
-        analytics.track(event: AnalyticsEvent(name: "daily_reco_clicked", parameters: ["user_id": userId]))
+        var parameters: [String: Any] = ["user_id": userId]
+        if let recommendation {
+            parameters["model"] = recommendation.modelVersion
+            parameters["escalate"] = recommendation.escalate
+        }
+        analytics.track(event: AnalyticsEvent(name: "daily_tip_card_tapped", parameters: parameters))
+    }
+
+    func escalateFromDailyTip() async -> EscalationResponseDTO? {
+        guard let recommendation else { return nil }
+        let context: [String: String] = [
+            "source": "daily_tip",
+            "model": recommendation.modelVersion,
+            "recommendation": recommendation.body
+        ]
+        do {
+            let response = try await aiService.escalate(for: userId, context: context, reason: "daily_tip_escalation")
+            analytics.track(
+                event: AnalyticsEvent(
+                    name: "escalation_triggered",
+                    parameters: [
+                        "source": "daily_tip",
+                        "escalate": response.escalate,
+                        "booking_url": response.bookingURL?.absoluteString ?? "none"
+                    ]
+                )
+            )
+            return response
+        } catch {
+            analytics.track(
+                event: AnalyticsEvent(
+                    name: "escalation_failed",
+                    parameters: [
+                        "source": "daily_tip",
+                        "error": error.localizedDescription
+                    ]
+                )
+            )
+            return nil
+        }
     }
 
     private func determineTier(from entitlements: [EntitlementRow]) -> SubscriptionTier {

@@ -51,6 +51,24 @@ struct DailyAction: Identifiable {
   var isChecked: Bool
 }
 
+enum AgendaRecurrenceFrequency: String, Codable, CaseIterable {
+  case none
+  case daily
+  case weekly
+  case biweekly
+  case monthly
+}
+
+struct AgendaRecurrence: Equatable, Codable {
+  let frequency: AgendaRecurrenceFrequency
+  let repeatDays: [String]
+  let endDate: Date?
+
+  var isRecurring: Bool {
+    frequency != .none
+  }
+}
+
 struct AgendaEvent {
   let id: UUID
   let title: String
@@ -59,6 +77,33 @@ struct AgendaEvent {
   let kind: String?
   let notes: String?
   let source: String
+  let recurrence: AgendaRecurrence?
+  let overrideParentId: UUID?
+  let isOverride: Bool
+
+  init(
+    id: UUID,
+    title: String,
+    start: Date,
+    end: Date,
+    kind: String?,
+    notes: String?,
+    source: String,
+    recurrence: AgendaRecurrence? = nil,
+    overrideParentId: UUID? = nil,
+    isOverride: Bool = false
+  ) {
+    self.id = id
+    self.title = title
+    self.start = start
+    self.end = end
+    self.kind = kind
+    self.notes = notes
+    self.source = source
+    self.recurrence = recurrence
+    self.overrideParentId = overrideParentId
+    self.isOverride = isOverride
+  }
 }
 
 struct POMSResult {
@@ -95,6 +140,7 @@ protocol CalendarService {
   func linkNotionAccount() async throws
   func syncExternalCalendars() async throws
   func createLocalEvent(_ event: AgendaEvent) async throws -> AgendaEvent
+  func createEventOccurrences(for masterId: UUID, occurrences: [AgendaEvent]) async throws -> [AgendaEvent]
   func listEvents(from: Date, to: Date) async throws -> [AgendaEvent]
   func computeAvailability(from: Date, to: Date, minBlock: TimeInterval) async throws -> [TimeIntervalBlock]
 }

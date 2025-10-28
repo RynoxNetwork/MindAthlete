@@ -16,14 +16,15 @@ struct AppEnvironment {
     let analyticsService: AnalyticsServiceProtocol
     let notificationService: NotificationServiceProtocol
 
-    static func live() -> AppEnvironment {
-        AppEnvironment(
-            authService: AuthService(),
-            databaseService: DatabaseService(),
-            aiService: AIService(),
-            purchaseService: PurchaseService(),
-            analyticsService: AnalyticsService(),
-            notificationService: NotificationService()
-        )
-    }
+   static func live() -> AppEnvironment {
+    AppEnvironment(
+        authService: AuthService(),
+        databaseService: DatabaseService(),
+        aiService: AIService(baseURL: URL(string: "http://127.0.0.1:8001")),
+        purchaseService: PurchaseService(),
+        analyticsService: AnalyticsService(),
+        notificationService: NotificationService()
+    )
+}
+
 }

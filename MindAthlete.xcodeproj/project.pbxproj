@@ -42,6 +42,7 @@
 		994ECFF72E9BE74A001C73C3 /* RecommendationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECFF62E9BE740001C73C3 /* RecommendationResponse.swift */; };
 		994ED0122E9BFCEA001C73C3 /* AuthServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ED00E2E9BFCEA001C73C3 /* AuthServiceTests.swift */; };
 		994ED0132E9BFCEA001C73C3 /* AIServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ED00F2E9BFCEA001C73C3 /* AIServiceTests.swift */; };
+		99C5EAC22FAB567800000003 /* AgendaRecurrenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C5EAC12FAB567800000002 /* AgendaRecurrenceTests.swift */; };
 		994ED0142E9BFCEA001C73C3 /* DatabaseServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ED0102E9BFCEA001C73C3 /* DatabaseServiceTests.swift */; };
 		994ED0152E9BFCEA001C73C3 /* SnaphotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ED0112E9BFCEA001C73C3 /* SnaphotTests.swift */; };
 		994ED02C2E9C116F001C73C3 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994ECF4E2E9B7027001C73C3 /* CalendarView.swift */; };
@@ -202,6 +203,7 @@
 		994ECFF62E9BE740001C73C3 /* RecommendationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationResponse.swift; sourceTree = "<group>"; };
 		994ED00E2E9BFCEA001C73C3 /* AuthServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceTests.swift; sourceTree = "<group>"; };
 		994ED00F2E9BFCEA001C73C3 /* AIServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIServiceTests.swift; sourceTree = "<group>"; };
+		99C5EAC12FAB567800000002 /* AgendaRecurrenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgendaRecurrenceTests.swift; sourceTree = "<group>"; };
 		994ED0102E9BFCEA001C73C3 /* DatabaseServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseServiceTests.swift; sourceTree = "<group>"; };
 		994ED0112E9BFCEA001C73C3 /* SnaphotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnaphotTests.swift; sourceTree = "<group>"; };
 		994ED0202E9C080F001C73C3 /* MindAthleteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MindAthleteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -312,6 +314,7 @@
 			isa = PBXGroup;
 			children = (
 				994ED00F2E9BFCEA001C73C3 /* AIServiceTests.swift */,
+				99C5EAC12FAB567800000002 /* AgendaRecurrenceTests.swift */,
 				994ED00E2E9BFCEA001C73C3 /* AuthServiceTests.swift */,
 				994ED0102E9BFCEA001C73C3 /* DatabaseServiceTests.swift */,
 				994ED0112E9BFCEA001C73C3 /* SnaphotTests.swift */,
@@ -781,6 +784,7 @@
 				994ED0512E9C116F001C73C3 /* SessionTimerView.swift in Sources */,
 				994ED0122E9BFCEA001C73C3 /* AuthServiceTests.swift in Sources */,
 				994ED0132E9BFCEA001C73C3 /* AIServiceTests.swift in Sources */,
+				99C5EAC22FAB567800000003 /* AgendaRecurrenceTests.swift in Sources */,
 				994ED0142E9BFCEA001C73C3 /* DatabaseServiceTests.swift in Sources */,
 				99A8781C2EA7D15100AA3A76 /* HabitDetailDemoView.swift in Sources */,
 				994ED0152E9BFCEA001C73C3 /* SnaphotTests.swift in Sources */,
